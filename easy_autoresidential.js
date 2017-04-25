@@ -34,13 +34,16 @@ function ccw(p1, p2, p3)
 
 function graham_scan(coords)
 {
-    n_min = {index: 0, lat: 0};
+    n_min = coords[0], n_min_i = 0;
     border = new Array();
 
     for (n in coords) {
         if (coords[n]["lat"] < n_min["lat"]) {
-            n_min["index"] = n;
-            n_min["lat"] = coords[n]["lat"];
+            n_min = coords[n];
+            n_min_i = n;
         }
     }
+
+    coords[n_min_i] = coords[0];
+    coords[0] = n_min;
 }
