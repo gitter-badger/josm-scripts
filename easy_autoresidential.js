@@ -129,6 +129,7 @@ var auto_rarea = new JSAction({
     name: "Easy Autoresidential",
     tooltip: "Automatically create residential area around selection",
     onExecute: function() {
+        var cmd = require("josm/command");
         var active_layer = josm.layers.activeLayer;
         var ds = active_layer.data;
         var wb = ds.wayBuilder;
@@ -151,4 +152,9 @@ var auto_rarea = new JSAction({
         }
         ds.selection.add(wb.withNodes(border[border.length - 1], border[0]).create());
         org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+
+        active_layer.apply(
+                cmd.change(
+                    ds.selection.objects,
+                    {tags: {"landuse" : "residential"}}));
 }});
