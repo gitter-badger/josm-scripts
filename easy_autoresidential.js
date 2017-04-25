@@ -79,8 +79,6 @@ function graham_scan(coords)
         coords[i] = n_min;
     }
 
-    con.println("m = "+m);
-
     return coords.slice(0, m+1);
 }
 
@@ -141,10 +139,6 @@ for (n in b_orig) {
 }
 
 expand(border, 0.00006);
-
-for (n in border) {
-    con.println(n+": "+border[n]);
-}
 
 ds.selection.add(wb.withNodes(border[0], border[1]).create());
 for (i = 2; i < border.length; i++) {
