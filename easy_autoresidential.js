@@ -46,4 +46,14 @@ function graham_scan(coords)
 
     coords[n_min_i] = coords[0];
     coords[0] = n_min;
+
+    coords.sort(function(a, b){
+        d_alat = a["lat"] - coords[0]["lat"];
+        d_alon = a["lon"] - coords[0]["lon"];
+
+        d_blat = b["lat"] - coords[0]["lat"];
+        d_blon = b["lon"] - coords[0]["lon"];
+
+        return Math.atan2(d_alat, d_alon) - Math.atan2(d_blat, d_blon);
+    });
 }
