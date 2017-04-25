@@ -125,25 +125,30 @@ function expand(coords, by)
     return 0;
 }
 
-var active_layer = josm.layers.activeLayer;
-var ds = active_layer.data;
-var wb = ds.wayBuilder;
-var nb = ds.nodeBuilder;
+var auto_rarea = new JSAction({
+    name: "Easy Autoresidential",
+    tooltip: "Automatically create residential area around selection",
+    onExecute: function() {
+        var active_layer = josm.layers.activeLayer;
+        var ds = active_layer.data;
+        var wb = ds.wayBuilder;
+        var nb = ds.nodeBuilder;
 
-var border = new Array();
-var b_orig = graham_scan(ds.selection.nodes);
-ds.selection.clearAll();
+        var border = new Array();
+        var b_orig = graham_scan(ds.selection.nodes);
+        ds.selection.clearAll();
 
-for (n in b_orig) {
-    border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
-}
+        for (n in b_orig) {
+            border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
+        }
 
-expand(border, 0.00006);
+        expand(border, 0.00006);
 
-ds.selection.add(wb.withNodes(border[0], border[1]).create());
-for (i = 2; i < border.length; i++) {
-    ds.selection.add(wb.withNodes(border[i-1], border[i]).create());
-    org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
-}
-ds.selection.add(wb.withNodes(border[border.length - 1], border[0]).create());
-org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+        ds.selection.add(wb.withNodes(border[0], border[1]).create());
+        for (i = 2; i < border.length; i++) {
+            ds.selection.add(wb.withNodes(border[i-1], border[i]).create());
+            org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+        }
+        ds.selection.add(wb.withNodes(border[border.length - 1], border[0]).create());
+        org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+}});
