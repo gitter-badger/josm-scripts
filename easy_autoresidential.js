@@ -34,7 +34,8 @@ function ccw(p1, p2, p3)
 
 function graham_scan(coords)
 {
-    n_min = coords[0], n_min_i = 0;
+    n_min = coords[0], n_min_i=0;
+    m = 0;
     border = new Array();
 
     for (n in coords) {
@@ -56,4 +57,28 @@ function graham_scan(coords)
 
         return Math.atan2(d_alat, d_alon) - Math.atan2(d_blat, d_blon);
     });
+
+    coords[-1] = coords[coords.length - 1];
+
+    for (i = 1; i < coords.length - 1; i++) {
+        while (ccw(coords[m - 1], coords[m], coords[i]) <= 0) {
+            if (m>1) {
+                m -= 1;
+                continue;
+            } else if (i == coords.length - 1) {
+                break;
+            } else {
+                i += 1;
+            }
+        }
+
+        m += 1;
+        n_min = coords[m];
+        coords[m] = coords[i];
+        coords[i] = n_min;
+    }
+
+    con.println("m = "+m);
+
+    return coords.slice(0, m);
 }
