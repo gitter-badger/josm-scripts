@@ -83,3 +83,47 @@ function graham_scan(coords)
 
     return coords.slice(0, m+1);
 }
+
+function expand(coords, by)
+{
+    var lat_min = 0;
+    var lat_max = 0;
+    var lon_min = 0;
+    var lon_max = 0;
+
+    var lat_middle;
+    var lon_middle;
+
+    var n;
+    var r, phi;
+
+    for (n in coords) {
+        if (coords[n]["lat"] < coords[lat_min]["lat"]) lat_min = n;
+        if (coords[n]["lat"] > coords[lat_max]["lat"]) lat_max = n;
+        if (coords[n]["lon"] < coords[lon_min]["lon"]) lon_min = n;
+        if (coords[n]["lon"] > coords[lon_max]["lon"]) lon_max = n;
+    }
+
+    lat_middle = (coords[lat_max]["lat"] + coords[lat_min]["lat"])/2;
+    lon_middle = (coords[lon_max]["lon"] + coords[lon_min]["lon"])/2;
+
+    con.println("lat m: "+lat_middle+", lon m: "+lon_middle);
+
+    for (n in coords) {
+        // @see https://en.wikipedia.org/wiki/Polar_coordinate_system
+        r = Math.sqrt(
+                (coords[n]["lat"] - lat_middle)*
+                (coords[n]["lat"] - lat_middle) +
+                (coords[n]["lon"] - lon_middle)*
+                (coords[n]["lon"] - lon_middle));
+        phi = Math.atan2(
+                (coords[n]["lat"] - lat_middle),
+                (coords[n]["lon"] - lon_middle));
+
+        r += by;
+        coords[n]["lat"] = r * Math.sin(phi);
+        coords[n]["lon"] = r * Math.cos(phi);
+    }
+
+    return coords;
+}
