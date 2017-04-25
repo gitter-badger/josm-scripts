@@ -157,4 +157,6 @@ var auto_rarea = new JSAction({
                 cmd.change(
                     ds.selection.objects,
                     {tags: {"landuse" : "residential"}}));
+
+        ds.selection.clearAll();
 }});
