@@ -55,12 +55,13 @@ function graham_scan(coords)
         d_blat = b["lat"] - coords[0]["lat"];
         d_blon = b["lon"] - coords[0]["lon"];
 
+        // @see https://en.wikipedia.org/wiki/Polar_coordinate_system
         return Math.atan2(d_alat, d_alon) - Math.atan2(d_blat, d_blon);
     });
 
     coords[-1] = coords[coords.length - 1];
 
-    for (i = 1; i < coords.length - 1; i++) {
+    for (i = 1; i < coords.length; i++) {
         while (ccw(coords[m - 1], coords[m], coords[i]) <= 0) {
             if (m>1) {
                 m -= 1;
@@ -80,5 +81,5 @@ function graham_scan(coords)
 
     con.println("m = "+m);
 
-    return coords.slice(0, m);
+    return coords.slice(0, m+1);
 }
