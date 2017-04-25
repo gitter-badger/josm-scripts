@@ -107,25 +107,24 @@ function expand(coords, by)
     lat_middle = (coords[lat_max]["lat"] + coords[lat_min]["lat"])/2;
     lon_middle = (coords[lon_max]["lon"] + coords[lon_min]["lon"])/2;
 
-    con.println("lat m: "+lat_middle+", lon m: "+lon_middle);
-
     for (n in coords) {
         // @see https://en.wikipedia.org/wiki/Polar_coordinate_system
-        r = Math.sqrt(
-                (coords[n]["lat"] - lat_middle)*
+        var r = Math.sqrt(
+                (coords[n]["lat"] - lat_middle) *
                 (coords[n]["lat"] - lat_middle) +
-                (coords[n]["lon"] - lon_middle)*
+                (coords[n]["lon"] - lon_middle) *
                 (coords[n]["lon"] - lon_middle));
-        phi = Math.atan2(
+        var phi = Math.atan2(
                 (coords[n]["lat"] - lat_middle),
                 (coords[n]["lon"] - lon_middle));
 
         r += by;
-        coords[n]["lat"] = r * Math.sin(phi);
-        coords[n]["lon"] = r * Math.cos(phi);
+        coords[n].pos = {
+            lat: r * Math.sin(phi) + lat_middle,
+            lon: r * Math.cos(phi) + lon_middle};
     }
 
-    return coords;
+    return 0;
 }
 
 var active_layer = josm.layers.activeLayer;
@@ -140,6 +139,8 @@ ds.selection.clearAll();
 for (n in b_orig) {
     border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
 }
+
+expand(border, 0.00006);
 
 for (n in border) {
     con.println(n+": "+border[n]);
