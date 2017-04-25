@@ -127,3 +127,23 @@ function expand(coords, by)
 
     return coords;
 }
+
+var active_layer = josm.layers.activeLayer;
+var ds = active_layer.data;
+var wb = ds.wayBuilder;
+var nb = ds.nodeBuilder;
+
+border = graham_scan(ds.selection.nodes);
+ds.selection.clearAll();
+
+for (n in border) {
+    con.println(n+": "+border[n]);
+}
+
+ds.selection.add(wb.withNodes(border[0], border[1]).create());
+for (i = 2; i < border.length; i++) {
+    ds.selection.add(wb.withNodes(border[i-1], border[i]).create());
+    org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+}
+ds.selection.add(wb.withNodes(border[border.length - 1], border[0]).create());
+org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
