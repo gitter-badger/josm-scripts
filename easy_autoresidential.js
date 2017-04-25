@@ -133,8 +133,13 @@ var ds = active_layer.data;
 var wb = ds.wayBuilder;
 var nb = ds.nodeBuilder;
 
-border = graham_scan(ds.selection.nodes);
+var border = new Array();
+var b_orig = graham_scan(ds.selection.nodes);
 ds.selection.clearAll();
+
+for (n in b_orig) {
+    border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
+}
 
 for (n in border) {
     con.println(n+": "+border[n]);
