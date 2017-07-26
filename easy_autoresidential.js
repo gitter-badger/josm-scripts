@@ -15,6 +15,14 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Credits: @Piskvor
+
+    We discussed `easy_buildings` that was not usable for @Piskvor because it
+    does not fit to his workflow. However, he proposed some script that would
+    make residential area around buildings on the screen. Not exactly what he
+    wanted (buildings have to be selected before script run) but better than
+    nothing.
 */
 
 // for debug purposes
