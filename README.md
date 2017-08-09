@@ -1,14 +1,11 @@
-JOSM scripts
-============
-Some useful scripts for [JOSM Scripting
-Plugin](http://gubaer.github.io/josm-scripting-plugin/)
-([source code](https://github.com/Gubaer/josm-scripting-plugin)).
+# JOSM scripts
+Some useful scripts for [JOSM Scripting Plugin]. For installation of JOSM
+Scripting Plugin see [installation].
 
-For installation of scripting plugin, please see [JOSM scripting plugin
-installation](https://github.com/Gubaer/josm-scripting-plugin#for-josm-users).
+[JOSM Scripting Plugin]: http://gubaer.github.io/josm-scripting-plugin/
+[installation]: https://github.com/Gubaer/josm-scripting-plugin#for-josm-users
 
-Easy autoresidential
-====================
+# Easy autoresidential
 This script can be run as follows:
 
 1. Download the script.
@@ -29,8 +26,7 @@ follows:
 Note: Recommendation is to use shortcuts accessible by no-mouse hand.
 Note: Shortcuts assignment persist the restart of JOSM.
 
-Easy Autoresidential
---------------------
+## Easy Autoresidential
 * The user needs to be in *Select, move, scale and rotate objects (S)* mode.
 * Select buildings of residential area.
 * Run shortcut.
@@ -39,8 +35,7 @@ It has the following effect:
 * Residential area around buildings is created.
 * Next mode is *Select, move, scale and rotate objects (S)*.
 
-Easy buildings
-==============
+# Easy buildings
 This script can be run as follows:
 
 1. Download the script.
@@ -61,8 +56,7 @@ shortcuts as follows:
 Note: Recommendation is to use shortcuts accessible by no-mouse hand.
 Note: Shortcuts assignment persist the restart of JOSM.
 
-Easy Circle Building
---------------------
+## Easy Circle Building
 * The user needs to be in *Draw nodes (A)* mode.
 * Select two nodes on a building diameter.
 * Run shortcut.
@@ -72,8 +66,7 @@ It has the following effect:
 * Nodes are tagged as `building : yes`.
 * Next mode is *Draw nodes (A)*
 
-Easy Orthogonal Building
-------------------------
+## Easy Orthogonal Building
 * The user needs to be in *Draw nodes (A)* mode.
 * Select three (four) nodes on building corners.
 * Run shortcut.
@@ -83,8 +76,7 @@ It has the following effect:
 * Nodes are tagged as `building : yes`.
 * Next mode is *Draw nodes (A)*
 
-Easy Residential Area
----------------------
+## Easy Residential Area
 * The user needs to be in *Draw nodes (A)* mode.
 * Select multiple nodes bordering a residential area.
 * Run shortcut.

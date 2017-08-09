@@ -9,4 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
   areas.
 - Script for automatically creating residential area around selected buildings.
 
+### Changed
+- Reformat readme file to correspond to changelog file.
+
 [Unreleased]:
