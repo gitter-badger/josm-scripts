@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased]
 ### Added
 - Credits information to scripts.
+- Auxiliary python script for building dimensions histogram generation.
 
 ## [0.0.1] - 2017-08-09
 ### Added
