@@ -58,11 +58,36 @@ con.print(ts);
 con.print("\n");
 con.print(josm.layers.get(1).class);
 con.print("\n");
+// row 21
 con.print(josm.layers.length);
 
-// Tile: https://josm.openstreetmap.de/doc/org/openstreetmap/gui/jmapviewer/Tile.html
-tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, 271098, 247050, 19);
 con.print("\n");
 
-// BufferedImage: http://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImage.html
-con.print(tile.image);
+var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
+tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
+//tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
+con.print("\ntile key: "+tile.getKey());
+//con.print("\ntile2 key: "+tile2.getKey());
+con.print("\ntile url: "+tile.getUrl());
+con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
+//con.print("\ntile2 lat, lon: "+ts.tileXYToLatLon(tile2));
+//con.print("\nlon diff: "+(ts.tileXYToLatLon(tile2).lon - ts.tileXYToLatLon(tile).lon));
+con.print("\n");
+
+// Tile width (lon): 0.0006866455078125
+// Tile width (lon): -0.0006866455078125
+// Tile height (lat): -0.0006755634657054088
+// Tile height (lat): 0.0006755620169709431
+// http://wiki.openstreetmap.org/wiki/Zoom_levels
+
+var p = ts.latLonToXY(n.lat, n.lon, 19);
+con.print("\nlat:"+n.lat+", lon:"+n.lon);
+con.print("\n");
+con.print("x:"+p.x+", y:"+p.y);
+con.print("\n");
+//con.print(tile.image.getSubimage(0, 0, 100, 100));
+//con.print(tile.image.getData());
+//con.print(tile.image);
+con.print("getRGB: "+tile.getImage().getRGB(p.x - 256*tail_xy.x, p.y - 256*tail_xy.y));
+
+// TODO where in tile (pixels) is node (wgs84)?
