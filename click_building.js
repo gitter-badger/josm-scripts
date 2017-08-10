@@ -37,3 +37,32 @@ var click_building = new JSAction({
         // source code here
         // ...
 }});*/
+
+var con = require("josm/scriptingconsole");
+con.clear();
+
+var active_layer = josm.layers.activeLayer;
+var ds = active_layer.data;
+var n = ds.selection.nodes[0];
+
+var il = org.openstreetmap.josm.gui.layer.ImageryLayer;
+var tmsl = org.openstreetmap.josm.gui.layer.TMSLayer;
+
+if (josm.layers.get(1) instanceof tmsl) {
+  //con.print(josm.layers.get(1).img);
+  con.print("yes\n");
+}
+
+var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
+con.print(ts);
+con.print("\n");
+con.print(josm.layers.get(1).class);
+con.print("\n");
+con.print(josm.layers.length);
+
+// Tile: https://josm.openstreetmap.de/doc/org/openstreetmap/gui/jmapviewer/Tile.html
+tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, 271098, 247050, 19);
+con.print("\n");
+
+// BufferedImage: http://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImage.html
+con.print(tile.image);
