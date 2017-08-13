@@ -27,6 +27,7 @@ from math import sqrt
 from building_coordinates import building_coordinates as bc
 
 HISTOGRAM_BINS = 10
+PRINT_GRAPHS = False
 
 def dist(a, b):
     """Return distance of two points.
@@ -131,27 +132,28 @@ if __name__ == "__main__":
     print(square_height_hist_normed)
     print(circle_diameter_hist_normed)
 
-    #plt.hist(square_width_hist)
-    plt.hist(square_wlen, bins = HISTOGRAM_BINS, normed = True, stacked = True)
-    plt.title("Square building width histogram")
-    plt.show()
+    if PRINT_GRAPHS:
+        #plt.hist(square_width_hist)
+        plt.hist(square_wlen, bins = HISTOGRAM_BINS, normed = True, stacked = True)
+        plt.title("Square building width histogram")
+        plt.show()
 
-    #plt.hist(square_height_hist)
-    plt.hist(square_hlen, bins = HISTOGRAM_BINS, normed = True, stacked = True)
-    plt.title("Square building height histogram")
-    plt.show()
+        #plt.hist(square_height_hist)
+        plt.hist(square_hlen, bins = HISTOGRAM_BINS, normed = True, stacked = True)
+        plt.title("Square building height histogram")
+        plt.show()
 
-    #plt.hist(circle_diameter_hist)
-    plt.hist(circle_len, bins = HISTOGRAM_BINS, normed = True, stacked = True)
-    plt.title("Circle building diameter histogram")
-    plt.show()
+        #plt.hist(circle_diameter_hist)
+        plt.hist(circle_len, bins = HISTOGRAM_BINS, normed = True, stacked = True)
+        plt.title("Circle building diameter histogram")
+        plt.show()
 
-#    #plt.hist(square_width_hist)
-#    plt.hist2d(square_wlen, square_hlen, HISTOGRAM_BINS)
-#    plt.title("Square building histogram")
-#    plt.show()
-#
-#    #plt.hist(circle_diameter_hist)
-#    plt.hist2d(circle_len, circle_len, HISTOGRAM_BINS)
-#    plt.title("Circle building histogram")
-#    plt.show()
+        #plt.hist(square_width_hist)
+        plt.hist2d(square_wlen, square_hlen, HISTOGRAM_BINS)
+        plt.title("Square building histogram")
+        plt.show()
+
+        #plt.hist(circle_diameter_hist)
+        plt.hist2d(circle_len, circle_len, HISTOGRAM_BINS)
+        plt.title("Circle building histogram")
+        plt.show()
