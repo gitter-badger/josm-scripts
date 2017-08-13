@@ -87,17 +87,30 @@ if __name__ == "__main__":
     square_avg = [x/len(square_avg) for x in square_avg]
     circle_avg = sum(circle_len) / len(circle_len)
 
-    square_width_hist = numpy.histogram(square_wlen, HISTOGRAM_BINS)
-    square_height_hist = numpy.histogram(square_hlen, HISTOGRAM_BINS)
-    circle_diameter_hist = numpy.histogram(circle_len, HISTOGRAM_BINS)
+    square_width_hist = numpy.histogram(square_wlen, bins = HISTOGRAM_BINS,
+            density = True)
+    square_width_hist_normed = [x/sum(square_width_hist[0]) for x in
+            square_width_hist[0]]
+
+    square_height_hist = numpy.histogram(square_hlen, bins = HISTOGRAM_BINS,
+            density = True)
+    square_height_hist_normed = [x/sum(square_height_hist[0]) for x in
+            square_height_hist[0]]
+
+    circle_diameter_hist = numpy.histogram(circle_len, bins = HISTOGRAM_BINS,
+            density = True)
+    circle_diameter_hist_normed = [x/sum(circle_diameter_hist[0]) for x in
+            circle_diameter_hist[0]]
 
     print("bc size: {}".format(len(bc)))
     print("square buildings: {}".format(square_sum))
     print("  average dimensions: {}, {}".format(*square_avg))
     print("  width min: {}, width max: {}".format(min(square_wlen),
         max(square_wlen)))
+    print("  sum hist normed: {}".format(sum(square_width_hist_normed)))
     print("  height min: {}, height max: {}".format(min(square_hlen),
         max(square_hlen)))
+    print("  sum hist normed: {}".format(sum(square_height_hist_normed)))
     #square_avg2 = [x*1.1 for x in square_avg2]
     #print("  average dimensions in meters: {}, {}".format(*square_avg2))
 
@@ -106,24 +119,30 @@ if __name__ == "__main__":
     print("  diameter min: {}, max: {}".format(min(circle_len),
         max(circle_len)))
     #print("  average diameter in meters: {}".format(circle_avg*1.1))
+    print("  sum hist normed: {}".format(sum(circle_diameter_hist_normed)))
 
-    print("histograms")
+    print("histograms:")
     print(square_width_hist[0])
     print(square_height_hist[0])
     print(circle_diameter_hist[0])
 
+    print("normed histograms:")
+    print(square_width_hist_normed)
+    print(square_height_hist_normed)
+    print(circle_diameter_hist_normed)
+
     #plt.hist(square_width_hist)
-    plt.hist(square_wlen, HISTOGRAM_BINS)
+    plt.hist(square_wlen, bins = HISTOGRAM_BINS, normed = True, stacked = True)
     plt.title("Square building width histogram")
     plt.show()
 
     #plt.hist(square_height_hist)
-    plt.hist(square_hlen, HISTOGRAM_BINS)
+    plt.hist(square_hlen, bins = HISTOGRAM_BINS, normed = True, stacked = True)
     plt.title("Square building height histogram")
     plt.show()
 
     #plt.hist(circle_diameter_hist)
-    plt.hist(circle_len, HISTOGRAM_BINS)
+    plt.hist(circle_len, bins = HISTOGRAM_BINS, normed = True, stacked = True)
     plt.title("Circle building diameter histogram")
     plt.show()
 
