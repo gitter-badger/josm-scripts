@@ -26,7 +26,14 @@ from math import sqrt
 #from building_coordinates_test import building_coordinates as bc
 from building_coordinates import building_coordinates as bc
 
-HISTOGRAM_BINS = 10
+"""The number of histogram bins is selected as follow.
+
+For circle building, max diameter :math:`diameter_{max} = 14.481429280591383 *
+1.1 * 10**5 = 16.12594351524166 (m)`. One pixel has width of :math:`1.1 *
+0.0006866455078125 / 256 / 1e-5 = 0.2950429916381836 (m)`. Therefore, number of
+bins :math:`55 ~ 16.12594351524166 / 0.2950429916381836` is enough.
+"""
+HISTOGRAM_BINS = 55
 PRINT_GRAPHS = False
 
 def dist(a, b):
