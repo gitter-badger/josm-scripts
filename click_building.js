@@ -65,20 +65,41 @@ con.print("\n");
 
 var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
 tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
-//tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
+tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
 con.print("\ntile key: "+tile.getKey());
-//con.print("\ntile2 key: "+tile2.getKey());
+con.print("\ntile2 key: "+tile2.getKey());
 con.print("\ntile url: "+tile.getUrl());
 con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
-//con.print("\ntile2 lat, lon: "+ts.tileXYToLatLon(tile2));
-//con.print("\nlon diff: "+(ts.tileXYToLatLon(tile2).lon - ts.tileXYToLatLon(tile).lon));
+con.print("\ntile2 lat, lon: "+ts.tileXYToLatLon(tile2));
+con.print("\nlat: "+(ts.tileXYToLatLon(tile2).lon - ts.tileXYToLatLon(tile).lon));
 con.print("\n");
+
+con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
+con.print("\ntile2 lat, lon: "+ts.tileXYToLatLon(tile2));
+con.print("\nnode lat, lon: "+n.lat+", "+n.lon);
+con.print("\n");
+
+tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
+var pw = (ts.tileXYToLatLon(tile2).getLon() - ts.tileXYToLatLon(tile).getLon()) / 256;
+tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y+1, 19);
+var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) / 256;
+
+var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
+var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
+con.print("x: " + x + ", y: " + y);
+//con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
+con.print("\ngetRGB: "+tile.getImage().getType());
+con.print("\n");
+
+var tmp_img = new java.awt.image.BufferedImage(55, 55, 6); // TYPE_4BYTE_ABGR
 
 // Tile width (lon): 0.0006866455078125
 // Tile width (lon): -0.0006866455078125
 // Tile height (lat): -0.0006755634657054088
 // Tile height (lat): 0.0006755620169709431
 // http://wiki.openstreetmap.org/wiki/Zoom_levels
+
+// 1px should be 0.2950429916381836m
 
 var p = ts.latLonToXY(n.lat, n.lon, 19);
 con.print("\nlat:"+n.lat+", lon:"+n.lon);
@@ -88,6 +109,6 @@ con.print("\n");
 //con.print(tile.image.getSubimage(0, 0, 100, 100));
 //con.print(tile.image.getData());
 //con.print(tile.image);
-con.print("getRGB: "+tile.getImage().getRGB(p.x - 256*tail_xy.x, p.y - 256*tail_xy.y));
+//con.print("getRGB: "+tile.getImage().getRGB(p.x - 256*tail_xy.x, p.y - 256*tail_xy.y));
 
 // TODO where in tile (pixels) is node (wgs84)?
