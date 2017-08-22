@@ -88,10 +88,23 @@ var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
 var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
 con.print("x: " + x + ", y: " + y);
 //con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
-con.print("\ngetRGB: "+tile.getImage().getType());
+con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
 con.print("\n");
 
+var tile_img = tile.getImage();
 var tmp_img = new java.awt.image.BufferedImage(55, 55, 6); // TYPE_4BYTE_ABGR
+con.print("\ntile_img: "+tile_img.getRaster());
+con.print("\ntile_img RGB: "+tile_img.getRGB(x, y));
+con.print("\ntmp_img: "+tile_img.getHeight());
+con.print("\n");
+// row 60
+
+var c = new java.awt.Color(tile_img.getRGB(x, y));
+//var c = new java.awt.image.Color;
+con.print("\nR: "+c.getRed());
+con.print("\nG: "+c.getGreen());
+con.print("\nB: "+c.getBlue());
+con.print("\nA: "+c.getAlpha());
 
 // Tile width (lon): 0.0006866455078125
 // Tile width (lon): -0.0006866455078125
