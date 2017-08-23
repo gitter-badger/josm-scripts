@@ -138,14 +138,15 @@ con.print("\ntile img part array follows:\n");
 //  con.print("\n");
 //}
 // row 100
-for (i = 0; i < 56; i++) {
-  for (j = 0; j < 56; j++) {
-    tile_img_part.push(tile_img.getRGB(x-27+i, y-27+j));
-  }
-}
-for (i = 0; i < 56; i++) {
-  for (j = 0; j < 56; j++) {
-    con.print(tile_img_part[i*56 + j]+" ");
+//for (i = 0; i < 55; i++) {
+//  for (j = 0; j < 55; j++) {
+//    tile_img_part.push(new java.awt.Color(tile_img.getRGB(x-27+i, y-27+j)));
+//  }
+//}
+tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+for (i = 0; i < 55; i++) {
+  for (j = 0; j < 55; j++) {
+    con.print(tile_img_part[i*55 + j]+" ");
   }
   con.print("\n");
 }
