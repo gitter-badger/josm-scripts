@@ -122,6 +122,30 @@ con.print("\n");
 //con.print(tile.image.getSubimage(0, 0, 100, 100));
 //con.print(tile.image.getData());
 //con.print(tile.image);
-//con.print("getRGB: "+tile.getImage().getRGB(p.x - 256*tail_xy.x, p.y - 256*tail_xy.y));
-
+con.print("\ntile getImage(): "+tile.getImage());
+con.print("\n");
 // TODO where in tile (pixels) is node (wgs84)?
+
+
+// row 90
+var tile_img_part = [];
+con.print("\ntile img part: "+tile_img_part);
+con.print("\ntile img part array follows:\n");
+//for (i = 0; i < tile_img.getWidth(); i++) {
+//  for (j = 0; j < tile_img.getHeight(); j++) {
+//    con.print(tile_img.getRGB(i, j)+" ");
+//  }
+//  con.print("\n");
+//}
+// row 100
+for (i = 0; i < 56; i++) {
+  for (j = 0; j < 56; j++) {
+    tile_img_part.push(tile_img.getRGB(x-27+i, y-27+j));
+  }
+}
+for (i = 0; i < 56; i++) {
+  for (j = 0; j < 56; j++) {
+    con.print(tile_img_part[i*56 + j]+" ");
+  }
+  con.print("\n");
+}
