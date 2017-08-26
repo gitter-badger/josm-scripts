@@ -184,7 +184,7 @@ for (i = x-27; i < x-27+55; i++) {
   for (j = y-27; j < y-27+55; j++) {
     //con.print(url_tile_img.getRGB(i, j)+" ");
     c = new java.awt.Color(url_tile_img.getRGB(i, j));
-    con.print("R:"+c.getRed()+",G:"+c.getGreen()+",B:"+c.getBlue()+" ");
+    //con.print("R:"+c.getRed()+",G:"+c.getGreen()+",B:"+c.getBlue()+" ");
     //wimg.push(url_tile_img.getRGB(i, j));
     wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
   }
@@ -197,9 +197,63 @@ con.print("\n\n---\n\n");
 //  con.print(color + " ");
 //}
 
-for (i = 0; i < 55; i++) {
-  for (j = 0; j < 55; j++) {
-    con.print(wimg[i*55 + j]+" ");
+//for (i = 0; i < 55; i++) {
+//  for (j = 0; j < 55; j++) {
+//    con.print(wimg[i*55 + j]+" ");
+//  }
+//  con.print("\n");
+//}
+
+// inspired by https://github.com/miguelmota/sobel/blob/master/sobel.js
+
+var kernelX = [
+  [-1,0,1],
+  [-2,0,2],
+  [-1,0,1]
+];
+var kernelY = [
+  [-1,-2,-1],
+  [0,0,0],
+  [1,2,1]
+];
+
+var sobelData = [];
+
+for (y = 1; y < 54; y++) {
+  for (x = 1; x < 54; x++) {
+    var pixelX = (
+    (kernelX[0][0] * wimg[(x - 1)*55 + (y - 1)]) +
+    (kernelX[0][1] * wimg[(x)*55 + (y - 1)]) +
+    (kernelX[0][2] * wimg[(x + 1)*55 + (y - 1)]) +
+    (kernelX[1][0] * wimg[(x - 1)*55 + (y)]) +
+    (kernelX[1][1] * wimg[(x)*55 + (y)]) +
+    (kernelX[1][2] * wimg[(x + 1)*55 + (y)]) +
+    (kernelX[2][0] * wimg[(x - 1)*55 + (y + 1)]) +
+    (kernelX[2][1] * wimg[(x)*55 + (y + 1)]) +
+    (kernelX[2][2] * wimg[(x + 1)*55 + (y + 1)])
+    );
+
+    var pixelY = (
+    (kernelY[0][0] * wimg[(x - 1)*55 + (y - 1)]) +
+    (kernelY[0][1] * wimg[(x)*55 + (y - 1)]) +
+    (kernelY[0][2] * wimg[(x + 1)*55 + (y - 1)]) +
+    (kernelY[1][0] * wimg[(x - 1)*55 + (y)]) +
+    (kernelY[1][1] * wimg[(x)*55 + (y)]) +
+    (kernelY[1][2] * wimg[(x + 1)*55 + (y)]) +
+    (kernelY[2][0] * wimg[(x - 1)*55 + (y + 1)]) +
+    (kernelY[2][1] * wimg[(x)*55 + (y + 1)]) +
+    (kernelY[2][2] * wimg[(x + 1)*55 + (y + 1)])
+    );
+
+    var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
+
+    sobelData.push(magnitude);
+  }
+}
+
+for (i = 0; i < 53; i++) {
+  for (j = 0; j < 53; j++) {
+    con.print(sobelData[i*53 + j]+" ");
   }
   con.print("\n");
 }
