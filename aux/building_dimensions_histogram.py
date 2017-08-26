@@ -105,10 +105,11 @@ if __name__ == "__main__":
     square_height_hist_normed = [x/sum(square_height_hist[0]) for x in
             square_height_hist[0]]
 
-    circle_diameter_hist = numpy.histogram(circle_len, bins = HISTOGRAM_BINS,
-            density = True)
-    circle_diameter_hist_normed = [x/sum(circle_diameter_hist[0]) for x in
-            circle_diameter_hist[0]]
+    circle_diameter_hist, circle_diameter_hist_edges = numpy.histogram(
+            circle_len, bins = HISTOGRAM_BINS, density = True)
+    circle_diameter_hist_normed = [x/sum(circle_diameter_hist) for x in
+            circle_diameter_hist]
+    circle_diameter_hist_edges_list = [x for x in circle_diameter_hist_edges]
 
     print("bc size: {}".format(len(bc)))
     print("square buildings: {}".format(square_sum))
@@ -138,6 +139,9 @@ if __name__ == "__main__":
     print(square_width_hist_normed)
     print(square_height_hist_normed)
     print(circle_diameter_hist_normed)
+
+    print("edges:")
+    print(circle_diameter_hist_edges_list)
 
     if PRINT_GRAPHS:
         #plt.hist(square_width_hist)
