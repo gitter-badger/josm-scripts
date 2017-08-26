@@ -154,16 +154,16 @@ con.print("\nurl tile img: "+url_tile_img);
 con.print("\n");
 
 //tile_img_part = url_tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
-tile_img_part = url_tile_img.getRGB(0, 0, 55, 55, null, 0, tile_img.getWidth());
+tile_img_part = url_tile_img.getRGB(0, 0, 57, 57, null, 0, tile_img.getWidth());
 con.print("\nurl tile img part: "+tile_img_part);
 //con.print("\n");
 
 con.print("\ntile img part length: "+tile_img_part.length);
 con.print("\n");
 //tile_img_part = tile_img.getRGB(0, 0, tmp_img.getWidth(), tmp_img.getHeight(), null, 0, tile_img.getWidth());
-for (i = 0; i < 55; i++) {
-  for (j = 0; j < 55; j++) {
-    //con.print(tile_img_part[i*55 + j]+" ");
+for (i = 0; i < 57; i++) {
+  for (j = 0; j < 57; j++) {
+    //con.print(tile_img_part[i*57 + j]+" ");
     //con.print(tmp_img.getRGB(i, j)+" ");
     //con.print(tile_img.getRaster().getDataElements(i, j, null)+" ");
     //con.print(tile_img.getRaster().getSample(i, j, 0)+" ");
@@ -179,9 +179,9 @@ for (i = 0; i < 55; i++) {
 //}
 
 var wimg = [];
-// for url tile img, limit to 55
-for (i = x-27; i < x-27+55; i++) {
-  for (j = y-27; j < y-27+55; j++) {
+// for url tile img, limit to 57
+for (i = x-28; i < x-28+57; i++) {
+  for (j = y-28; j < y-28+57; j++) {
     //con.print(url_tile_img.getRGB(i, j)+" ");
     c = new java.awt.Color(url_tile_img.getRGB(i, j));
     //con.print("R:"+c.getRed()+",G:"+c.getGreen()+",B:"+c.getBlue()+" ");
@@ -197,9 +197,9 @@ con.print("\n\n---\n\n");
 //  con.print(color + " ");
 //}
 
-//for (i = 0; i < 55; i++) {
-//  for (j = 0; j < 55; j++) {
-//    con.print(wimg[i*55 + j]+" ");
+//for (i = 0; i < 57; i++) {
+//  for (j = 0; j < 57; j++) {
+//    con.print(wimg[i*57 + j]+" ");
 //  }
 //  con.print("\n");
 //}
@@ -219,30 +219,30 @@ var kernelY = [
 
 var sobelData = [];
 
-for (y = 1; y < 54; y++) {
-  for (x = 1; x < 54; x++) {
+for (y = 1; y < 56; y++) {
+  for (x = 1; x < 56; x++) {
     var pixelX = (
-    (kernelX[0][0] * wimg[(x - 1)*55 + (y - 1)]) +
-    (kernelX[0][1] * wimg[(x)*55 + (y - 1)]) +
-    (kernelX[0][2] * wimg[(x + 1)*55 + (y - 1)]) +
-    (kernelX[1][0] * wimg[(x - 1)*55 + (y)]) +
-    (kernelX[1][1] * wimg[(x)*55 + (y)]) +
-    (kernelX[1][2] * wimg[(x + 1)*55 + (y)]) +
-    (kernelX[2][0] * wimg[(x - 1)*55 + (y + 1)]) +
-    (kernelX[2][1] * wimg[(x)*55 + (y + 1)]) +
-    (kernelX[2][2] * wimg[(x + 1)*55 + (y + 1)])
+    (kernelX[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+    (kernelX[0][1] * wimg[(x)*57 + (y - 1)]) +
+    (kernelX[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+    (kernelX[1][0] * wimg[(x - 1)*57 + (y)]) +
+    (kernelX[1][1] * wimg[(x)*57 + (y)]) +
+    (kernelX[1][2] * wimg[(x + 1)*57 + (y)]) +
+    (kernelX[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+    (kernelX[2][1] * wimg[(x)*57 + (y + 1)]) +
+    (kernelX[2][2] * wimg[(x + 1)*57 + (y + 1)])
     );
 
     var pixelY = (
-    (kernelY[0][0] * wimg[(x - 1)*55 + (y - 1)]) +
-    (kernelY[0][1] * wimg[(x)*55 + (y - 1)]) +
-    (kernelY[0][2] * wimg[(x + 1)*55 + (y - 1)]) +
-    (kernelY[1][0] * wimg[(x - 1)*55 + (y)]) +
-    (kernelY[1][1] * wimg[(x)*55 + (y)]) +
-    (kernelY[1][2] * wimg[(x + 1)*55 + (y)]) +
-    (kernelY[2][0] * wimg[(x - 1)*55 + (y + 1)]) +
-    (kernelY[2][1] * wimg[(x)*55 + (y + 1)]) +
-    (kernelY[2][2] * wimg[(x + 1)*55 + (y + 1)])
+    (kernelY[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+    (kernelY[0][1] * wimg[(x)*57 + (y - 1)]) +
+    (kernelY[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+    (kernelY[1][0] * wimg[(x - 1)*57 + (y)]) +
+    (kernelY[1][1] * wimg[(x)*57 + (y)]) +
+    (kernelY[1][2] * wimg[(x + 1)*57 + (y)]) +
+    (kernelY[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+    (kernelY[2][1] * wimg[(x)*57 + (y + 1)]) +
+    (kernelY[2][2] * wimg[(x + 1)*57 + (y + 1)])
     );
 
     var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
@@ -251,9 +251,9 @@ for (y = 1; y < 54; y++) {
   }
 }
 
-for (i = 0; i < 53; i++) {
-  for (j = 0; j < 53; j++) {
-    con.print(sobelData[i*53 + j]+" ");
+for (i = 0; i < 55; i++) {
+  for (j = 0; j < 55; j++) {
+    con.print(sobelData[i*55 + j]+" ");
   }
   con.print("\n");
 }
