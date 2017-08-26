@@ -268,3 +268,6 @@ cbuilding_hist_edges = [1.495012940591158e-05, 1.7343754080389494e-05, 1.9737378
 con.print("\n");
 con.print("\ncircle building min diameter px (pw): "+cbuilding_hist_edges[0]/pw);
 con.print("\ncircle building min diameter px (ph): "+cbuilding_hist_edges[0]/ph);
+
+var min_cbulding_diameter_px = Math.ceil(cbuilding_hist_edges[0]/pw);
+con.print("\ncircle building min diameter px: "+min_cbulding_diameter_px);
