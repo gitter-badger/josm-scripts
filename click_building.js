@@ -80,12 +80,12 @@ con.print("\nnode lat, lon: "+n.lat+", "+n.lon);
 con.print("\n");
 
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
-var pw = Math.abs(ts.tileXYToLatLon(tile2).getLon() - ts.tileXYToLatLon(tile).getLon()) / 256;
+var pw = (ts.tileXYToLatLon(tile2).getLon() - ts.tileXYToLatLon(tile).getLon()) / 256;
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y+1, 19);
-var ph = Math.abs(ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) / 256;
+var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) / 256;
 
-var x = Math.floor(Math.abs(n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
-var y = Math.floor(Math.abs(n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
+var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
+var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
 con.print("x: " + x + ", y: " + y);
 //con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
 con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
@@ -313,7 +313,7 @@ for (i = 0; i < sobel_data.length; i++) {
 for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
   for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
     r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
-    //aacon.print("\nr: "+r);
+    //con.print("\nr: "+r);
     ri = get_ri(r);
 
     //con.print("\nget ri: "+ri);
@@ -345,8 +345,17 @@ con.print("\n"+ds.selection.nodes[ds.selection.nodes.length - 1]);
 var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
 con.print("\nid: "+wnode.id);
 ds.remove(wnode.id, "node");
-//ds.selection.add(ds.nodeBuilder.withPosition(wnode.lon - pw*maximum_voted[1], wnode.lat-).create(), ds.nodeBuilder.withPosition(wnode.lon + pw*maximum_voted[1], wnode.lat).create());
 con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 con.print("\na: "+maximum_voted[1]+", b: "+maximum_voted[2]);
 
-ds.selection.add(ds.nodeBuilder.withPosition(wimg_start_lat + maximum_voted[1]*ph, wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(), ds.nodeBuilder.withPosition(wimg_start_lat + maximum_voted[1]*ph, wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create());
+ds.selection.add(
+    ds.nodeBuilder.withPosition(
+      wimg_start_lat + maximum_voted[1]*ph,
+      wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
+    ds.nodeBuilder.withPosition(
+      wimg_start_lat + maximum_voted[1]*ph,
+      wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create());
+
+ds.selection.add(
+    ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create(),
+    ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create());
