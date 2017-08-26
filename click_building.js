@@ -217,7 +217,7 @@ var kernelY = [
   [1,2,1]
 ];
 
-var sobelData = [];
+var sobel_data = [];
 
 for (y = 1; y < 56; y++) {
   for (x = 1; x < 56; x++) {
@@ -247,16 +247,16 @@ for (y = 1; y < 56; y++) {
 
     var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
 
-    sobelData.push(magnitude);
+    sobel_data.push(magnitude);
   }
 }
 
-for (i = 0; i < 55; i++) {
-  for (j = 0; j < 55; j++) {
-    con.print(sobelData[i*55 + j]+" ");
-  }
-  con.print("\n");
-}
+//for (i = 0; i < 55; i++) {
+//  for (j = 0; j < 55; j++) {
+//    con.print(sobel_data[i*55 + j]+" ");
+//  }
+//  con.print("\n");
+//}
 
 // Circle Hough Transform (CHT)
 // see https://en.wikipedia.org/wiki/Circle_Hough_Transform
@@ -271,3 +271,11 @@ con.print("\ncircle building min diameter px (ph): "+cbuilding_hist_edges[0]/ph)
 
 var min_cbulding_diameter_px = Math.ceil(cbuilding_hist_edges[0]/pw);
 con.print("\ncircle building min diameter px: "+min_cbulding_diameter_px);
+con.print("\n");
+
+var EDGE_THRESHOLD = 127;
+for (i = 0; i < sobel_data.length; i++) {
+  if (sobel_data[i] > EDGE_THRESHOLD) {
+    con.print(sobel_data[i]+" ");
+  }
+}
