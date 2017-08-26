@@ -153,7 +153,8 @@ var tile_img_part = [];
 con.print("\nurl tile img: "+url_tile_img);
 con.print("\n");
 
-tile_img_part = url_tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+//tile_img_part = url_tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+tile_img_part = url_tile_img.getRGB(0, 0, 55, 55, null, 0, tile_img.getWidth());
 con.print("\nurl tile img part: "+tile_img_part);
 //con.print("\n");
 
@@ -170,8 +171,32 @@ for (i = 0; i < 55; i++) {
   //con.print("\n");
 }
 
-for (i = 0; i < url_tile_img.getWidth(); i++) {
-  for (j = 0; j < url_tile_img.getHeight(); j++) {
-    con.print(url_tile_img.getRGB(i, j)+" ");
+// for url tile img, looks great
+//for (i = 0; i < url_tile_img.getWidth(); i++) {
+//  for (j = 0; j < url_tile_img.getHeight(); j++) {
+//    con.print(url_tile_img.getRGB(i, j)+" ");
+//  }
+//}
+
+var wimg = [];
+// for url tile img, limit to 55
+for (i = x-27; i < x-27+55; i++) {
+  for (j = y-27; j < y-27+55; j++) {
+    //con.print(url_tile_img.getRGB(i, j)+" ");
+    wimg.push(url_tile_img.getRGB(i, j));
   }
+}
+
+con.print("\n\n---\n\n");
+
+//for (i = 0; i < tile_img_part.length; i+=4) {
+//  color = tile_img_part[i+0] << 24 | tile_img_part[i+1] << 16 | tile_img_part[i+2] << 8 | tile_img_part[i+3] << 0;
+//  con.print(color + " ");
+//}
+
+for (i = 0; i < 55; i++) {
+  for (j = 0; j < 55; j++) {
+    con.print(wimg[i*55 + j]+" ");
+  }
+  con.print("\n");
 }
