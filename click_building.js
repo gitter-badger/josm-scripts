@@ -315,3 +315,18 @@ for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) 
     //con.print("["+x+", "+y+"]: "+sobel_data[i]+", ");
   }
 }
+
+var maximum_voted = [0, 0, 0, 0];
+
+for (a = 0; a < 55; a++) {
+  for (b = 0; b < 55; b++) {
+    for (ri = 0; ri < 55; ri++) {
+      if (accumulator_matrix[a][b][ri] > maximum_voted[0]) {
+        maximum_voted[0] = accumulator_matrix[a][b][ri];
+        maximum_voted[1] = a;
+        maximum_voted[2] = b;
+        maximum_voted[3] = ri;
+      }
+    }
+  }
+}
