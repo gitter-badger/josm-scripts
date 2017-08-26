@@ -300,13 +300,18 @@ for (i = 0; i < sobel_data.length; i++) {
     var x = i % 55;
     var y = Math.floor(i / 55);
     var r = 0;
+    var ri = 0;
 
     // vote
 for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
   for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
     r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b));
+    ri = get_ri(r);
+    //accumulator_matrix[a][b][ri] += cbuilding_hist[ri] * sobel_data[i];
+    accumulator_matrix[a][b][ri] += 1;
   }
 }
-    con.print("["+x+", "+y+"]: "+sobel_data[i]+", ");
+
+    //con.print("["+x+", "+y+"]: "+sobel_data[i]+", ");
   }
 }
