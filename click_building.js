@@ -273,9 +273,40 @@ var min_cbulding_diameter_px = Math.ceil(cbuilding_hist_edges[0]/pw);
 con.print("\ncircle building min diameter px: "+min_cbulding_diameter_px);
 con.print("\n");
 
+function get_ri(r) {
+  var i;
+  for (i = 0; i < 55; i++) {
+    if (r > min_cbulding_diameter_px[i]) {
+      return i;
+    }
+  }
+}
+
 var EDGE_THRESHOLD = 127;
+var accumulator_matrix = [];
+
+for (a = 0; a < 55; a++) {
+  accumulator_matrix[a] = [];
+  for (b = 0; b < 55; b++) {
+    accumulator_matrix[a][b] = [];
+    for (ri = 0; ri < 55; ri++) {
+      accumulator_matrix[a][b][ri] = 0;
+    }
+  }
+}
+
 for (i = 0; i < sobel_data.length; i++) {
   if (sobel_data[i] > EDGE_THRESHOLD) {
-    con.print(sobel_data[i]+" ");
+    var x = i % 55;
+    var y = Math.floor(i / 55);
+    var r = 0;
+
+    // vote
+for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
+  for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
+    r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b));
+  }
+}
+    con.print("["+x+", "+y+"]: "+sobel_data[i]+", ");
   }
 }
