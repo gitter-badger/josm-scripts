@@ -180,6 +180,9 @@ for (i = 0; i < 57; i++) {
 
 var wimg_start_x = x-28;
 var wimg_start_y = y-28;
+var wimg_start_lat = ts.tileXYToLatLon(tile).getLat() + (y-28)*ph;
+var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (x-28)*pw;
+
 con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 var wimg = [];
 // for url tile img, limit to 57
@@ -310,7 +313,7 @@ for (i = 0; i < sobel_data.length; i++) {
 for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
   for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
     r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
-    con.print("\nr: "+r);
+    //aacon.print("\nr: "+r);
     ri = get_ri(r);
 
     //con.print("\nget ri: "+ri);
@@ -345,3 +348,5 @@ ds.remove(wnode.id, "node");
 //ds.selection.add(ds.nodeBuilder.withPosition(wnode.lon - pw*maximum_voted[1], wnode.lat-).create(), ds.nodeBuilder.withPosition(wnode.lon + pw*maximum_voted[1], wnode.lat).create());
 con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 con.print("\na: "+maximum_voted[1]+", b: "+maximum_voted[2]);
+
+ds.selection.add(ds.nodeBuilder.withPosition(wimg_start_lat + maximum_voted[1]*ph, wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(), ds.nodeBuilder.withPosition(wimg_start_lat + maximum_voted[1]*ph, wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create());
