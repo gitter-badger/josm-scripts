@@ -43,8 +43,8 @@ con.clear();
 
 var active_layer = josm.layers.activeLayer;
 var ds = active_layer.data;
-var n = ds.selection.nodes[0];
-
+var n = ds.selection.nodes[ds.selection.nodes.length - 1];
+con.print(ds.selection.nodes);
 var il = org.openstreetmap.josm.gui.layer.ImageryLayer;
 var tmsl = org.openstreetmap.josm.gui.layer.TMSLayer;
 
@@ -178,6 +178,9 @@ for (i = 0; i < 57; i++) {
 //  }
 //}
 
+var wimg_start_x = x-28;
+var wimg_start_y = y-28;
+con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 var wimg = [];
 // for url tile img, limit to 57
 for (i = x-28; i < x-28+57; i++) {
@@ -275,8 +278,9 @@ con.print("\n");
 
 function get_ri(r) {
   var i;
-  for (i = 0; i < 55; i++) {
-    if (r > min_cbulding_diameter_px[i]) {
+  for (i = 0; i < 55-1; i++) {
+    if (r > cbuilding_hist_edges[i] && r < cbuilding_hist_edges[i+1]) {
+      //con.print("\n"+cbuilding_hist_edges[i]+" < "+r+" < "+cbuilding_hist_edges[i+1]);
       return i;
     }
   }
@@ -305,8 +309,11 @@ for (i = 0; i < sobel_data.length; i++) {
     // vote
 for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
   for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
-    r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b));
+    r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
+    con.print("\nr: "+r);
     ri = get_ri(r);
+
+    //con.print("\nget ri: "+ri);
     //accumulator_matrix[a][b][ri] += cbuilding_hist[ri] * sobel_data[i];
     accumulator_matrix[a][b][ri] += 1;
   }
@@ -330,3 +337,11 @@ for (a = 0; a < 55; a++) {
     }
   }
 }
+
+con.print("\n"+ds.selection.nodes[ds.selection.nodes.length - 1]);
+var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+con.print("\nid: "+wnode.id);
+ds.remove(wnode.id, "node");
+//ds.selection.add(ds.nodeBuilder.withPosition(wnode.lon - pw*maximum_voted[1], wnode.lat-).create(), ds.nodeBuilder.withPosition(wnode.lon + pw*maximum_voted[1], wnode.lat).create());
+con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
+con.print("\na: "+maximum_voted[1]+", b: "+maximum_voted[2]);
