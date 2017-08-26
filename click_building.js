@@ -49,8 +49,8 @@ var il = org.openstreetmap.josm.gui.layer.ImageryLayer;
 var tmsl = org.openstreetmap.josm.gui.layer.TMSLayer;
 
 if (josm.layers.get(1) instanceof tmsl) {
-  //con.print(josm.layers.get(1).img);
-  con.print("yes\n");
+  con.print(josm.layers.get(1));
+  con.print("\nyes\n");
 }
 
 var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
@@ -94,7 +94,7 @@ con.print("\n");
 var tile_img = tile.getImage();
 var tmp_img = new java.awt.image.BufferedImage(55, 55, 2); // TYPE_INT_ARGB
 con.print("\ntile_img: "+tile_img);
-con.print("\ntile_img RGB: "+tile_img.getRGB(x, y));
+con.print("\ntile_img RGB: "+tile_img.getRGB(0,0));
 con.print("\ntmp_img: "+tmp_img);
 con.print("\n");
 // row 60
@@ -129,9 +129,10 @@ con.print("\n");
 
 
 // row 90
+var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(tile.getUrl()));
 var tile_img_part = [];
-con.print("\ntile img part: "+tile_img_part);
-con.print("\ntile img part array follows:\n");
+//con.print("\ntile img: "+tile_img);
+//con.print("\ntile img array follows:\n");
 //for (i = 0; i < tile_img.getWidth(); i++) {
 //  for (j = 0; j < tile_img.getHeight(); j++) {
 //    con.print(tile_img.getRGB(i, j)+" ");
@@ -144,13 +145,33 @@ con.print("\ntile img part array follows:\n");
 //    tile_img_part.push(new java.awt.Color(tile_img.getRGB(x-27+i, y-27+j)));
 //  }
 //}
-tmp_img.getGraphics().drawImage(tile_img, x-27, y-27, null);
+//tmp_img.getGraphics().drawImage(tile_img, x-27, y-27, null);
+//tmp_img.getGraphics().dispose();
 //tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+//tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+
+con.print("\nurl tile img: "+url_tile_img);
+con.print("\n");
+
+tile_img_part = url_tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+con.print("\nurl tile img part: "+tile_img_part);
+//con.print("\n");
+
+con.print("\ntile img part length: "+tile_img_part.length);
+con.print("\n");
 //tile_img_part = tile_img.getRGB(0, 0, tmp_img.getWidth(), tmp_img.getHeight(), null, 0, tile_img.getWidth());
 for (i = 0; i < 55; i++) {
   for (j = 0; j < 55; j++) {
     //con.print(tile_img_part[i*55 + j]+" ");
-    con.print(tmp_img.getRGB(i, j)+" ");
+    //con.print(tmp_img.getRGB(i, j)+" ");
+    //con.print(tile_img.getRaster().getDataElements(i, j, null)+" ");
+    //con.print(tile_img.getRaster().getSample(i, j, 0)+" ");
   }
-  con.print("\n");
+  //con.print("\n");
+}
+
+for (i = 0; i < url_tile_img.getWidth(); i++) {
+  for (j = 0; j < url_tile_img.getHeight(); j++) {
+    con.print(url_tile_img.getRGB(i, j)+" ");
+  }
 }
