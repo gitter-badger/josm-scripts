@@ -183,7 +183,10 @@ var wimg = [];
 for (i = x-27; i < x-27+55; i++) {
   for (j = y-27; j < y-27+55; j++) {
     //con.print(url_tile_img.getRGB(i, j)+" ");
-    wimg.push(url_tile_img.getRGB(i, j));
+    c = new java.awt.Color(url_tile_img.getRGB(i, j));
+    con.print("R:"+c.getRed()+",G:"+c.getGreen()+",B:"+c.getBlue()+" ");
+    //wimg.push(url_tile_img.getRGB(i, j));
+    wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
   }
 }
 
