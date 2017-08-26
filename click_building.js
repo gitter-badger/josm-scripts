@@ -67,10 +67,10 @@ var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
 tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
 con.print("\ntile key: "+tile.getKey());
-con.print("\ntile2 key: "+tile2.getKey());
+con.print("\ntile to string: "+tile.toString());
 con.print("\ntile url: "+tile.getUrl());
 con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
-con.print("\ntile2 lat, lon: "+ts.tileXYToLatLon(tile2));
+con.print("\ntile image: "+tile.getImage());
 con.print("\nlat: "+(ts.tileXYToLatLon(tile2).lon - ts.tileXYToLatLon(tile).lon));
 con.print("\n");
 
@@ -92,10 +92,10 @@ con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
 con.print("\n");
 
 var tile_img = tile.getImage();
-var tmp_img = new java.awt.image.BufferedImage(55, 55, 6); // TYPE_4BYTE_ABGR
-con.print("\ntile_img: "+tile_img.getRaster());
+var tmp_img = new java.awt.image.BufferedImage(55, 55, 2); // TYPE_INT_ARGB
+con.print("\ntile_img: "+tile_img);
 con.print("\ntile_img RGB: "+tile_img.getRGB(x, y));
-con.print("\ntmp_img: "+tile_img.getHeight());
+con.print("\ntmp_img: "+tmp_img);
 con.print("\n");
 // row 60
 
@@ -105,6 +105,7 @@ con.print("\nR: "+c.getRed());
 con.print("\nG: "+c.getGreen());
 con.print("\nB: "+c.getBlue());
 con.print("\nA: "+c.getAlpha());
+
 
 // Tile width (lon): 0.0006866455078125
 // Tile width (lon): -0.0006866455078125
@@ -143,10 +144,13 @@ con.print("\ntile img part array follows:\n");
 //    tile_img_part.push(new java.awt.Color(tile_img.getRGB(x-27+i, y-27+j)));
 //  }
 //}
-tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+tmp_img.getGraphics().drawImage(tile_img, x-27, y-27, null);
+//tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
+//tile_img_part = tile_img.getRGB(0, 0, tmp_img.getWidth(), tmp_img.getHeight(), null, 0, tile_img.getWidth());
 for (i = 0; i < 55; i++) {
   for (j = 0; j < 55; j++) {
-    con.print(tile_img_part[i*55 + j]+" ");
+    //con.print(tile_img_part[i*55 + j]+" ");
+    con.print(tmp_img.getRGB(i, j)+" ");
   }
   con.print("\n");
 }
