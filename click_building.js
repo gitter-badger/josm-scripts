@@ -57,8 +57,6 @@ var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph
 
 var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(act_tile.getUrl()));
 
-var wimg_start_x = lnode_x-28;
-var wimg_start_y = lnode_y-28;
 var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode-y-28)*ph;
 var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
 
