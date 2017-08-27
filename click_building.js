@@ -44,17 +44,6 @@ var n = ds.selection.nodes[ds.selection.nodes.length - 1];
 var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
 var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
 tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
-con.print("\ntile to string: "+tile.toString());
-con.print("\ntile url: "+tile.getUrl());
-con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
-con.print("\ntile image: "+tile.getImage());
-con.print("\n");
-
-con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
-con.print("\ntile2 lat, lon: "+ts.tileXYToLatLon(tile2));
-con.print("\nnode lat, lon: "+n.lat+", "+n.lon);
-con.print("\n");
-
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
 var pw = (ts.tileXYToLatLon(tile2).getLon() - ts.tileXYToLatLon(tile).getLon()) / 256;
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y+1, 19);
@@ -62,27 +51,14 @@ var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) 
 
 var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
 var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
-con.print("x: " + x + ", y: " + y);
-con.print("\n");
-
-// Tile width (lon): 0.0006866455078125
-// Tile width (lon): -0.0006866455078125
-// Tile height (lat): -0.0006755634657054088
-// Tile height (lat): 0.0006755620169709431
-// http://wiki.openstreetmap.org/wiki/Zoom_levels
-
-// 1px should be 0.2950429916381836m
 
 var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(tile.getUrl()));
-con.print("\nurl tile img: "+url_tile_img);
-con.print("\n");
 
 var wimg_start_x = x-28;
 var wimg_start_y = y-28;
 var wimg_start_lat = ts.tileXYToLatLon(tile).getLat() + (y-28)*ph;
 var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (x-28)*pw;
 
-con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 var wimg = [];
 var c;
 for (i = x-28; i < x-28+57; i++) {
@@ -146,13 +122,7 @@ cbuilding_hist = [0.00035950532067874634, 0.0014380212827149843, 0.0105694564279
 
 cbuilding_hist_edges = [1.495012940591158e-05, 1.7343754080389494e-05, 1.9737378754867409e-05, 2.2131003429345324e-05, 2.452462810382324e-05, 2.6918252778301155e-05, 2.9311877452779067e-05, 3.1705502127256985e-05, 3.4099126801734897e-05, 3.6492751476212816e-05, 3.8886376150690728e-05, 4.1280000825168646e-05, 4.3673625499646558e-05, 4.6067250174124477e-05, 4.8460874848602389e-05, 5.0854499523080307e-05, 5.3248124197558219e-05, 5.5641748872036131e-05, 5.8035373546514049e-05, 6.0428998220991961e-05, 6.282262289546988e-05, 6.5216247569947785e-05, 6.7609872244425704e-05, 7.0003496918903622e-05, 7.2397121593381527e-05, 7.4790746267859446e-05, 7.7184370942337365e-05, 7.957799561681527e-05, 8.1971620291293188e-05, 8.4365244965771107e-05, 8.6758869640249026e-05, 8.9152494314726931e-05, 9.1546118989204849e-05, 9.3939743663682768e-05, 9.6333368338160673e-05, 9.8726993012638592e-05, 0.00010112061768711651, 0.00010351424236159443, 0.00010590786703607233, 0.00010830149171055025, 0.00011069511638502817, 0.00011308874105950608, 0.00011548236573398399, 0.00011787599040846191, 0.00012026961508293983, 0.00012266323975741774, 0.00012505686443189566, 0.00012745048910637357, 0.00012984411378085149, 0.00013223773845532941, 0.00013463136312980733, 0.00013702498780428525, 0.00013941861247876317, 0.00014181223715324109, 0.00014420586182771898, 0.0001465994865021969]
 
-con.print("\n");
-con.print("\ncircle building min diameter px (pw): "+cbuilding_hist_edges[0]/pw);
-con.print("\ncircle building min diameter px (ph): "+cbuilding_hist_edges[0]/ph);
-
 var min_cbulding_diameter_px = Math.ceil(cbuilding_hist_edges[0]/pw);
-con.print("\ncircle building min diameter px: "+min_cbulding_diameter_px);
-con.print("\n");
 
 function get_ri(r) {
   var i;
@@ -211,12 +181,8 @@ for (a = 0; a < 55; a++) {
   }
 }
 
-con.print("\n"+ds.selection.nodes[ds.selection.nodes.length - 1]);
 var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
-con.print("\nid: "+wnode.id);
 ds.remove(wnode.id, "node");
-con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
-con.print("\na: "+maximum_voted[1]+", b: "+maximum_voted[2]);
 
 ds.selection.add(
     ds.nodeBuilder.withPosition(
