@@ -58,9 +58,7 @@ con.print(ts);
 con.print("\n");
 con.print(josm.layers.get(1).class);
 con.print("\n");
-// row 21
 con.print(josm.layers.length);
-
 con.print("\n");
 
 var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
@@ -87,7 +85,6 @@ var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) 
 var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
 var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
 con.print("x: " + x + ", y: " + y);
-//con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
 con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
 con.print("\n");
 
@@ -97,15 +94,12 @@ con.print("\ntile_img: "+tile_img);
 con.print("\ntile_img RGB: "+tile_img.getRGB(0,0));
 con.print("\ntmp_img: "+tmp_img);
 con.print("\n");
-// row 60
 
 var c = new java.awt.Color(tile_img.getRGB(x, y));
-//var c = new java.awt.image.Color;
 con.print("\nR: "+c.getRed());
 con.print("\nG: "+c.getGreen());
 con.print("\nB: "+c.getBlue());
 con.print("\nA: "+c.getAlpha());
-
 
 // Tile width (lon): 0.0006866455078125
 // Tile width (lon): -0.0006866455078125
@@ -120,63 +114,24 @@ con.print("\nlat:"+n.lat+", lon:"+n.lon);
 con.print("\n");
 con.print("x:"+p.x+", y:"+p.y);
 con.print("\n");
-//con.print(tile.image.getSubimage(0, 0, 100, 100));
-//con.print(tile.image.getData());
-//con.print(tile.image);
 con.print("\ntile getImage(): "+tile.getImage());
 con.print("\n");
-// TODO where in tile (pixels) is node (wgs84)?
 
-
-// row 90
 var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(tile.getUrl()));
 var tile_img_part = [];
-//con.print("\ntile img: "+tile_img);
-//con.print("\ntile img array follows:\n");
-//for (i = 0; i < tile_img.getWidth(); i++) {
-//  for (j = 0; j < tile_img.getHeight(); j++) {
-//    con.print(tile_img.getRGB(i, j)+" ");
-//  }
-//  con.print("\n");
-//}
-// row 100
-//for (i = 0; i < 55; i++) {
-//  for (j = 0; j < 55; j++) {
-//    tile_img_part.push(new java.awt.Color(tile_img.getRGB(x-27+i, y-27+j)));
-//  }
-//}
-//tmp_img.getGraphics().drawImage(tile_img, x-27, y-27, null);
-//tmp_img.getGraphics().dispose();
-//tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
-//tile_img_part = tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
 
 con.print("\nurl tile img: "+url_tile_img);
 con.print("\n");
 
-//tile_img_part = url_tile_img.getRGB(x-27, y-27, 55, 55, null, 0, tile_img.getWidth());
 tile_img_part = url_tile_img.getRGB(0, 0, 57, 57, null, 0, tile_img.getWidth());
 con.print("\nurl tile img part: "+tile_img_part);
-//con.print("\n");
 
 con.print("\ntile img part length: "+tile_img_part.length);
 con.print("\n");
-//tile_img_part = tile_img.getRGB(0, 0, tmp_img.getWidth(), tmp_img.getHeight(), null, 0, tile_img.getWidth());
 for (i = 0; i < 57; i++) {
   for (j = 0; j < 57; j++) {
-    //con.print(tile_img_part[i*57 + j]+" ");
-    //con.print(tmp_img.getRGB(i, j)+" ");
-    //con.print(tile_img.getRaster().getDataElements(i, j, null)+" ");
-    //con.print(tile_img.getRaster().getSample(i, j, 0)+" ");
   }
-  //con.print("\n");
 }
-
-// for url tile img, looks great
-//for (i = 0; i < url_tile_img.getWidth(); i++) {
-//  for (j = 0; j < url_tile_img.getHeight(); j++) {
-//    con.print(url_tile_img.getRGB(i, j)+" ");
-//  }
-//}
 
 var wimg_start_x = x-28;
 var wimg_start_y = y-28;
@@ -185,30 +140,14 @@ var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (x-28)*pw;
 
 con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 var wimg = [];
-// for url tile img, limit to 57
 for (i = x-28; i < x-28+57; i++) {
   for (j = y-28; j < y-28+57; j++) {
-    //con.print(url_tile_img.getRGB(i, j)+" ");
     c = new java.awt.Color(url_tile_img.getRGB(i, j));
-    //con.print("R:"+c.getRed()+",G:"+c.getGreen()+",B:"+c.getBlue()+" ");
-    //wimg.push(url_tile_img.getRGB(i, j));
     wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
   }
 }
 
 con.print("\n\n---\n\n");
-
-//for (i = 0; i < tile_img_part.length; i+=4) {
-//  color = tile_img_part[i+0] << 24 | tile_img_part[i+1] << 16 | tile_img_part[i+2] << 8 | tile_img_part[i+3] << 0;
-//  con.print(color + " ");
-//}
-
-//for (i = 0; i < 57; i++) {
-//  for (j = 0; j < 57; j++) {
-//    con.print(wimg[i*57 + j]+" ");
-//  }
-//  con.print("\n");
-//}
 
 // inspired by https://github.com/miguelmota/sobel/blob/master/sobel.js
 
@@ -257,13 +196,6 @@ for (y = 1; y < 56; y++) {
   }
 }
 
-//for (i = 0; i < 55; i++) {
-//  for (j = 0; j < 55; j++) {
-//    con.print(sobel_data[i*55 + j]+" ");
-//  }
-//  con.print("\n");
-//}
-
 // Circle Hough Transform (CHT)
 // see https://en.wikipedia.org/wiki/Circle_Hough_Transform
 
@@ -283,7 +215,6 @@ function get_ri(r) {
   var i;
   for (i = 0; i < 55-1; i++) {
     if (r > cbuilding_hist_edges[i] && r < cbuilding_hist_edges[i+1]) {
-      //con.print("\n"+cbuilding_hist_edges[i]+" < "+r+" < "+cbuilding_hist_edges[i+1]);
       return i;
     }
   }
@@ -313,16 +244,12 @@ for (i = 0; i < sobel_data.length; i++) {
 for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
   for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
     r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
-    //con.print("\nr: "+r);
     ri = get_ri(r);
 
-    //con.print("\nget ri: "+ri);
-    //accumulator_matrix[a][b][ri] += cbuilding_hist[ri] * sobel_data[i];
     accumulator_matrix[a][b][ri] += 1;
   }
 }
 
-    //con.print("["+x+", "+y+"]: "+sobel_data[i]+", ");
   }
 }
 
