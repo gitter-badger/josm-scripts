@@ -56,7 +56,7 @@ var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw
 var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
 
 var act_tile_url = new java.net.URL(act_tile.getUrl());
-var url_tile_img = javax.imageio.ImageIO.read(act_tile_url);
+var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
 
 var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-28)*ph;
 var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
@@ -65,7 +65,7 @@ var wimg = [];
 var c;
 for (i = lnode_x-28; i < lnode_x-28+57; i++) {
   for (j = lnode_y-28; j < lnode_y-28+57; j++) {
-    c = new java.awt.Color(url_tile_img.getRGB(i, j));
+    c = new java.awt.Color(act_tile_img.getRGB(i, j));
     wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
   }
 }
