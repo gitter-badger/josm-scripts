@@ -40,24 +40,27 @@ var click_building = new JSAction({
 
 var active_layer = josm.layers.activeLayer;
 var ds = active_layer.data;
+
 var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+
 var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
-var tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
-tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
-tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
-var pw = (ts.tileXYToLatLon(tile2).getLon() - ts.tileXYToLatLon(tile).getLon()) / 256;
-tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y+1, 19);
-var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) / 256;
+var act_tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
 
-var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
-var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
+act_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
+tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x+1, act_tile_xy.y, 19);
+var pw = (ts.tileXYToLatLon(tmp_tile).getLon() - ts.tileXYToLatLon(act_tile).getLon()) / 256;
+tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y+1, 19);
+var ph = (ts.tileXYToLatLon(tmp_tile).getLat() - ts.tileXYToLatLon(act_tile).getLat()) / 256;
 
-var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(tile.getUrl()));
+var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw);
+var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
+
+var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(act_tile.getUrl()));
 
 var wimg_start_x = lnode_x-28;
 var wimg_start_y = lnode_y-28;
-var wimg_start_lat = ts.tileXYToLatLon(tile).getLat() + (lnode-y-28)*ph;
-var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (lnode_x-28)*pw;
+var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode-y-28)*ph;
+var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
 
 var wimg = [];
 var c;
