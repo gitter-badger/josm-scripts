@@ -40,29 +40,29 @@ var click_building = new JSAction({
 
 var active_layer = josm.layers.activeLayer;
 var ds = active_layer.data;
-var n = ds.selection.nodes[ds.selection.nodes.length - 1];
+var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
 var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
-var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
+var tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
 tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
 var pw = (ts.tileXYToLatLon(tile2).getLon() - ts.tileXYToLatLon(tile).getLon()) / 256;
 tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y+1, 19);
 var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) / 256;
 
-var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
-var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
+var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
+var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
 
 var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(tile.getUrl()));
 
-var wimg_start_x = x-28;
-var wimg_start_y = y-28;
-var wimg_start_lat = ts.tileXYToLatLon(tile).getLat() + (y-28)*ph;
-var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (x-28)*pw;
+var wimg_start_x = lnode_x-28;
+var wimg_start_y = lnode_y-28;
+var wimg_start_lat = ts.tileXYToLatLon(tile).getLat() + (lnode-y-28)*ph;
+var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (lnode_x-28)*pw;
 
 var wimg = [];
 var c;
-for (i = x-28; i < x-28+57; i++) {
-  for (j = y-28; j < y-28+57; j++) {
+for (i = lnode_x-28; i < lnode_x-28+57; i++) {
+  for (j = lnode_y-28; j < lnode_y-28+57; j++) {
     c = new java.awt.Color(url_tile_img.getRGB(i, j));
     wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
   }
