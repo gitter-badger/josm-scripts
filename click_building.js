@@ -55,7 +55,8 @@ var ph = (ts.tileXYToLatLon(tmp_tile).getLat() - ts.tileXYToLatLon(act_tile).get
 var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw);
 var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
 
-var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(act_tile.getUrl()));
+var act_tile_url = new java.net.URL(act_tile.getUrl());
+var url_tile_img = javax.imageio.ImageIO.read(act_tile_url);
 
 var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-28)*ph;
 var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
