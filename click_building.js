@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 // for debug purposes
-//var con = require("josm/scriptingconsole");
-//con.clear();
+var con = require("josm/scriptingconsole");
+con.clear();
 
 /*// general includes
 var JSAction = require("josm/ui/menu").JSAction;
@@ -38,38 +38,16 @@ var click_building = new JSAction({
         // ...
 }});*/
 
-var con = require("josm/scriptingconsole");
-con.clear();
-
 var active_layer = josm.layers.activeLayer;
 var ds = active_layer.data;
 var n = ds.selection.nodes[ds.selection.nodes.length - 1];
-con.print(ds.selection.nodes);
-var il = org.openstreetmap.josm.gui.layer.ImageryLayer;
-var tmsl = org.openstreetmap.josm.gui.layer.TMSLayer;
-
-if (josm.layers.get(1) instanceof tmsl) {
-  con.print(josm.layers.get(1));
-  con.print("\nyes\n");
-}
-
 var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
-con.print(ts);
-con.print("\n");
-con.print(josm.layers.get(1).class);
-con.print("\n");
-con.print(josm.layers.length);
-con.print("\n");
-
 var tile_xy = ts.latLonToTileXY(n.lat, n.lon, 19);
 tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x, tile_xy.y, 19);
-tile2 = new org.openstreetmap.gui.jmapviewer.Tile(ts, tile_xy.x+1, tile_xy.y, 19);
-con.print("\ntile key: "+tile.getKey());
 con.print("\ntile to string: "+tile.toString());
 con.print("\ntile url: "+tile.getUrl());
 con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
 con.print("\ntile image: "+tile.getImage());
-con.print("\nlat: "+(ts.tileXYToLatLon(tile2).lon - ts.tileXYToLatLon(tile).lon));
 con.print("\n");
 
 con.print("\ntile lat, lon: "+ts.tileXYToLatLon(tile));
@@ -85,21 +63,7 @@ var ph = (ts.tileXYToLatLon(tile2).getLat() - ts.tileXYToLatLon(tile).getLat()) 
 var x = Math.floor((n.lon - ts.tileXYToLatLon(tile).getLon()) / pw);
 var y = Math.floor((n.lat - ts.tileXYToLatLon(tile).getLat()) / ph);
 con.print("x: " + x + ", y: " + y);
-con.print("\ngetRGB: "+tile.getImage().getRGB(x, y));
 con.print("\n");
-
-var tile_img = tile.getImage();
-var tmp_img = new java.awt.image.BufferedImage(55, 55, 2); // TYPE_INT_ARGB
-con.print("\ntile_img: "+tile_img);
-con.print("\ntile_img RGB: "+tile_img.getRGB(0,0));
-con.print("\ntmp_img: "+tmp_img);
-con.print("\n");
-
-var c = new java.awt.Color(tile_img.getRGB(x, y));
-con.print("\nR: "+c.getRed());
-con.print("\nG: "+c.getGreen());
-con.print("\nB: "+c.getBlue());
-con.print("\nA: "+c.getAlpha());
 
 // Tile width (lon): 0.0006866455078125
 // Tile width (lon): -0.0006866455078125
@@ -109,29 +73,9 @@ con.print("\nA: "+c.getAlpha());
 
 // 1px should be 0.2950429916381836m
 
-var p = ts.latLonToXY(n.lat, n.lon, 19);
-con.print("\nlat:"+n.lat+", lon:"+n.lon);
-con.print("\n");
-con.print("x:"+p.x+", y:"+p.y);
-con.print("\n");
-con.print("\ntile getImage(): "+tile.getImage());
-con.print("\n");
-
 var url_tile_img = javax.imageio.ImageIO.read(new java.net.URL(tile.getUrl()));
-var tile_img_part = [];
-
 con.print("\nurl tile img: "+url_tile_img);
 con.print("\n");
-
-tile_img_part = url_tile_img.getRGB(0, 0, 57, 57, null, 0, tile_img.getWidth());
-con.print("\nurl tile img part: "+tile_img_part);
-
-con.print("\ntile img part length: "+tile_img_part.length);
-con.print("\n");
-for (i = 0; i < 57; i++) {
-  for (j = 0; j < 57; j++) {
-  }
-}
 
 var wimg_start_x = x-28;
 var wimg_start_y = y-28;
@@ -140,14 +84,13 @@ var wimg_start_lon = ts.tileXYToLatLon(tile).getLon() + (x-28)*pw;
 
 con.print("\nwimg start: ["+wimg_start_x+", "+wimg_start_y+"]");
 var wimg = [];
+var c;
 for (i = x-28; i < x-28+57; i++) {
   for (j = y-28; j < y-28+57; j++) {
     c = new java.awt.Color(url_tile_img.getRGB(i, j));
     wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
   }
 }
-
-con.print("\n\n---\n\n");
 
 // inspired by https://github.com/miguelmota/sobel/blob/master/sobel.js
 
