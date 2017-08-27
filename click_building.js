@@ -72,12 +72,12 @@ for (i = lnode_x-28; i < lnode_x-28+57; i++) {
 
 // inspired by https://github.com/miguelmota/sobel/blob/master/sobel.js
 
-var kernelX = [
+var KERNEL_X = [
   [-1,0,1],
   [-2,0,2],
   [-1,0,1]
 ];
-var kernelY = [
+var KERNEL_Y = [
   [-1,-2,-1],
   [0,0,0],
   [1,2,1]
@@ -88,27 +88,27 @@ var sobel_data = [];
 for (y = 1; y < 56; y++) {
   for (x = 1; x < 56; x++) {
     var pixelX = (
-    (kernelX[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-    (kernelX[0][1] * wimg[(x)*57 + (y - 1)]) +
-    (kernelX[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-    (kernelX[1][0] * wimg[(x - 1)*57 + (y)]) +
-    (kernelX[1][1] * wimg[(x)*57 + (y)]) +
-    (kernelX[1][2] * wimg[(x + 1)*57 + (y)]) +
-    (kernelX[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-    (kernelX[2][1] * wimg[(x)*57 + (y + 1)]) +
-    (kernelX[2][2] * wimg[(x + 1)*57 + (y + 1)])
+    (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+    (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
+    (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+    (KERNEL_X[1][0] * wimg[(x - 1)*57 + (y)]) +
+    (KERNEL_X[1][1] * wimg[(x)*57 + (y)]) +
+    (KERNEL_X[1][2] * wimg[(x + 1)*57 + (y)]) +
+    (KERNEL_X[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+    (KERNEL_X[2][1] * wimg[(x)*57 + (y + 1)]) +
+    (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
     );
 
     var pixelY = (
-    (kernelY[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-    (kernelY[0][1] * wimg[(x)*57 + (y - 1)]) +
-    (kernelY[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-    (kernelY[1][0] * wimg[(x - 1)*57 + (y)]) +
-    (kernelY[1][1] * wimg[(x)*57 + (y)]) +
-    (kernelY[1][2] * wimg[(x + 1)*57 + (y)]) +
-    (kernelY[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-    (kernelY[2][1] * wimg[(x)*57 + (y + 1)]) +
-    (kernelY[2][2] * wimg[(x + 1)*57 + (y + 1)])
+    (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+    (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
+    (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+    (KERNEL_Y[1][0] * wimg[(x - 1)*57 + (y)]) +
+    (KERNEL_Y[1][1] * wimg[(x)*57 + (y)]) +
+    (KERNEL_Y[1][2] * wimg[(x + 1)*57 + (y)]) +
+    (KERNEL_Y[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+    (KERNEL_Y[2][1] * wimg[(x)*57 + (y + 1)]) +
+    (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
     );
 
     var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
