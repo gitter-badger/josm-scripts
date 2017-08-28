@@ -87,7 +87,9 @@ for (i = lnode_x-28; i < lnode_x-28+57; i++) {
   }
 }
 
-// inspired by https://github.com/miguelmota/sobel/blob/master/sobel.js
+// Sobel filter
+// see https://en.wikipedia.org/wiki/Sobel_operator
+// see https://github.com/miguelmota/sobel
 
 var sobel_data = [];
 
