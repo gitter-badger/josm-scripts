@@ -74,6 +74,71 @@ function sobel_filter(wimg) {
   return sobel_data;
 }
 
+// Circle Hough Transform (CHT)
+// @see https://en.wikipedia.org/wiki/Circle_Hough_Transform
+function get_ri(r) {
+  var i;
+  for (i = 0; i < 55-1; i++) {
+    if (r > CBUILDING_HIST_EDGES[i] && r < CBUILDING_HIST_EDGES[i+1]) {
+      return i;
+    }
+  }
+}
+
+function circle_hough_transform(sobel_data, CBUILDING_MIND) {
+  var accumulator_matrix = [];
+
+  for (a = 0; a < 55; a++) {
+    accumulator_matrix[a] = [];
+    for (b = 0; b < 55; b++) {
+      accumulator_matrix[a][b] = [];
+      for (ri = 0; ri < 55; ri++) {
+        accumulator_matrix[a][b][ri] = 0;
+      }
+    }
+  }
+
+  for (i = 0; i < sobel_data.length; i++) {
+    if (sobel_data[i] > EDGE_THRESHOLD) {
+      var x = i % 55;
+      var y = Math.floor(i / 55);
+      var r = 0;
+      var ri = 0;
+
+      // vote
+for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
+  for (b = 27 - CBUILDING_MIND; b < 27 + CBUILDING_MIND; b++) {
+    r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
+    ri = get_ri(r);
+
+    accumulator_matrix[a][b][ri] += 1;
+  }
+}
+
+    }
+  }
+  return accumulator_matrix;
+}
+
+function find_max_voted(accumulator_matrix) {
+  var maximum_voted = [0, 0, 0, 0];
+
+  for (a = 0; a < 55; a++) {
+    for (b = 0; b < 55; b++) {
+      for (ri = 0; ri < 55; ri++) {
+        if (accumulator_matrix[a][b][ri] > maximum_voted[0]) {
+          maximum_voted[0] = accumulator_matrix[a][b][ri];
+          maximum_voted[1] = a;
+          maximum_voted[2] = b;
+          maximum_voted[3] = ri;
+        }
+      }
+    }
+  }
+
+  return maximum_voted;
+}
+
 // for debug purposes
 var con = require("josm/scriptingconsole");
 con.clear();
@@ -129,67 +194,12 @@ for (i = lnode_x-28; i < lnode_x-28+57; i++) {
 }
 
 var sobel_data = sobel_filter(wimg);
+var accumulator_matrix = circle_hough_transform(sobel_data,
+    Math.ceil(CBUILDING_HIST_EDGES[0]/pw));
+var maximum_voted = find_max_voted(accumulator_matrix);
 
-// Circle Hough Transform (CHT)
-// see https://en.wikipedia.org/wiki/Circle_Hough_Transform
 
-var min_cbulding_diameter_px = Math.ceil(CBUILDING_HIST_EDGES[0]/pw);
 
-function get_ri(r) {
-  var i;
-  for (i = 0; i < 55-1; i++) {
-    if (r > CBUILDING_HIST_EDGES[i] && r < CBUILDING_HIST_EDGES[i+1]) {
-      return i;
-    }
-  }
-}
-
-var accumulator_matrix = [];
-
-for (a = 0; a < 55; a++) {
-  accumulator_matrix[a] = [];
-  for (b = 0; b < 55; b++) {
-    accumulator_matrix[a][b] = [];
-    for (ri = 0; ri < 55; ri++) {
-      accumulator_matrix[a][b][ri] = 0;
-    }
-  }
-}
-
-for (i = 0; i < sobel_data.length; i++) {
-  if (sobel_data[i] > EDGE_THRESHOLD) {
-    var x = i % 55;
-    var y = Math.floor(i / 55);
-    var r = 0;
-    var ri = 0;
-
-    // vote
-for (a = 27 - min_cbulding_diameter_px; a < 27 + min_cbulding_diameter_px; a++) {
-  for (b = 27 - min_cbulding_diameter_px; b < 27 + min_cbulding_diameter_px; b++) {
-    r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
-    ri = get_ri(r);
-
-    accumulator_matrix[a][b][ri] += 1;
-  }
-}
-
-  }
-}
-
-var maximum_voted = [0, 0, 0, 0];
-
-for (a = 0; a < 55; a++) {
-  for (b = 0; b < 55; b++) {
-    for (ri = 0; ri < 55; ri++) {
-      if (accumulator_matrix[a][b][ri] > maximum_voted[0]) {
-        maximum_voted[0] = accumulator_matrix[a][b][ri];
-        maximum_voted[1] = a;
-        maximum_voted[2] = b;
-        maximum_voted[3] = ri;
-      }
-    }
-  }
-}
 
 var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
 ds.remove(wnode.id, "node");
