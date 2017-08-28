@@ -85,7 +85,7 @@ function get_ri(r) {
     }
 }
 
-function circle_hough_transform(sobel_data, CBUILDING_MIND) {
+function circle_hough_transform(sobel_data, CBUILDING_MIND, PW) {
     var accumulator_matrix = [];
 
     for (a = 0; a < 55; a++) {
@@ -108,7 +108,7 @@ function circle_hough_transform(sobel_data, CBUILDING_MIND) {
             // vote
 for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
     for (b = 27 - CBUILDING_MIND; b < 27 + CBUILDING_MIND; b++) {
-        r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
+        r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * PW;
         ri = get_ri(r);
 
         accumulator_matrix[a][b][ri] += CBUILDING_HIST[ri];
@@ -142,6 +142,10 @@ function find_max_voted(accumulator_matrix) {
 
 // click create circle building
 function click_cbuilding() {
+    // for debug purposes
+    //var con = require("josm/scriptingconsole");
+    //con.clear();
+
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
 
@@ -177,7 +181,7 @@ function click_cbuilding() {
 
     var sobel_data = sobel_filter(wimg);
     var accumulator_matrix = circle_hough_transform(sobel_data,
-            Math.ceil(CBUILDING_HIST_EDGES[0]/pw));
+            Math.ceil(CBUILDING_HIST_EDGES[0]/pw), pw);
     var maximum_voted = find_max_voted(accumulator_matrix);
 
 
@@ -194,24 +198,18 @@ function click_cbuilding() {
                 ds.nodeBuilder.withPosition(
                     wimg_start_lat + maximum_voted[1]*ph,
                     wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create()).create());
+
+    // from `easy_buildings.js`
+    cbuilding.onExecute();
 }
 
-/*// general includes
+// general includes
 var JSAction = require("josm/ui/menu").JSAction;
 
 // create click building
-var click_building = new JSAction({
-    name: "Easy Click Building",
-    tooltip: "Create click building",
+var create_click_cbuilding = new JSAction({
+    name: "Click Circle Building",
+    tooltip: "Create click circle building",
     onExecute: function() {
-        // init
-        var cmd = require("josm/command");
-        var active_layer = josm.layers.activeLayer;
-        var ds = active_layer.data;
-        var wb = ds.wayBuilder;
-
-        // source code here
-        // ...
-}});*/
-
-click_cbuilding();
+        click_cbuilding()
+}});
