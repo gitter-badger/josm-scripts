@@ -185,12 +185,13 @@ function click_cbuilding() {
     ds.remove(wnode.id, "node");
 
     ds.selection.add(
-        ds.nodeBuilder.withPosition(
-          wimg_start_lat + maximum_voted[1]*ph,
-          wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
-        ds.nodeBuilder.withPosition(
-          wimg_start_lat + maximum_voted[1]*ph,
-          wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create());
+        ds.wayBuilder.withNodes(
+          ds.nodeBuilder.withPosition(
+            wimg_start_lat + maximum_voted[1]*ph,
+            wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
+          ds.nodeBuilder.withPosition(
+            wimg_start_lat + maximum_voted[1]*ph,
+            wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create()).create());
 
     ds.selection.add(
         ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create(),
