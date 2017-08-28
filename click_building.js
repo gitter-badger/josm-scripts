@@ -33,6 +33,47 @@ var KERNEL_Y = [
 ];
 var EDGE_THRESHOLD = 127;
 
+// Sobel filter
+// @see https://en.wikipedia.org/wiki/Sobel_operator
+// @see https://github.com/miguelmota/sobel
+function sobel_filter(wimg) {
+  var sobel_data = [];
+
+  for (y = 1; y < 56; y++) {
+    for (x = 1; x < 56; x++) {
+      var pixelX = (
+      (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+      (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
+      (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+      (KERNEL_X[1][0] * wimg[(x - 1)*57 + (y)]) +
+      (KERNEL_X[1][1] * wimg[(x)*57 + (y)]) +
+      (KERNEL_X[1][2] * wimg[(x + 1)*57 + (y)]) +
+      (KERNEL_X[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+      (KERNEL_X[2][1] * wimg[(x)*57 + (y + 1)]) +
+      (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
+      );
+
+      var pixelY = (
+      (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+      (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
+      (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+      (KERNEL_Y[1][0] * wimg[(x - 1)*57 + (y)]) +
+      (KERNEL_Y[1][1] * wimg[(x)*57 + (y)]) +
+      (KERNEL_Y[1][2] * wimg[(x + 1)*57 + (y)]) +
+      (KERNEL_Y[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+      (KERNEL_Y[2][1] * wimg[(x)*57 + (y + 1)]) +
+      (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
+      );
+
+      var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
+
+      sobel_data.push(magnitude);
+    }
+  }
+
+  return sobel_data;
+}
+
 // for debug purposes
 var con = require("josm/scriptingconsole");
 con.clear();
@@ -87,43 +128,7 @@ for (i = lnode_x-28; i < lnode_x-28+57; i++) {
   }
 }
 
-// Sobel filter
-// see https://en.wikipedia.org/wiki/Sobel_operator
-// see https://github.com/miguelmota/sobel
-
-var sobel_data = [];
-
-for (y = 1; y < 56; y++) {
-  for (x = 1; x < 56; x++) {
-    var pixelX = (
-    (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-    (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
-    (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-    (KERNEL_X[1][0] * wimg[(x - 1)*57 + (y)]) +
-    (KERNEL_X[1][1] * wimg[(x)*57 + (y)]) +
-    (KERNEL_X[1][2] * wimg[(x + 1)*57 + (y)]) +
-    (KERNEL_X[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-    (KERNEL_X[2][1] * wimg[(x)*57 + (y + 1)]) +
-    (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
-    );
-
-    var pixelY = (
-    (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-    (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
-    (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-    (KERNEL_Y[1][0] * wimg[(x - 1)*57 + (y)]) +
-    (KERNEL_Y[1][1] * wimg[(x)*57 + (y)]) +
-    (KERNEL_Y[1][2] * wimg[(x + 1)*57 + (y)]) +
-    (KERNEL_Y[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-    (KERNEL_Y[2][1] * wimg[(x)*57 + (y + 1)]) +
-    (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
-    );
-
-    var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
-
-    sobel_data.push(magnitude);
-  }
-}
+var sobel_data = sobel_filter(wimg);
 
 // Circle Hough Transform (CHT)
 // see https://en.wikipedia.org/wiki/Circle_Hough_Transform
