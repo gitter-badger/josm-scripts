@@ -139,9 +139,63 @@ function find_max_voted(accumulator_matrix) {
   return maximum_voted;
 }
 
-// for debug purposes
-var con = require("josm/scriptingconsole");
-con.clear();
+// click create circle building
+function click_cbuilding() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+
+    var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+
+    var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
+    var act_tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
+
+    act_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
+    tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x+1, act_tile_xy.y, 19);
+    var pw = (ts.tileXYToLatLon(tmp_tile).getLon() - ts.tileXYToLatLon(act_tile).getLon()) / 256;
+    tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y+1, 19);
+    var ph = (ts.tileXYToLatLon(tmp_tile).getLat() - ts.tileXYToLatLon(act_tile).getLat()) / 256;
+
+    var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw);
+    var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
+
+    var act_tile_url = new java.net.URL(act_tile.getUrl());
+    var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
+
+    var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-28)*ph;
+    var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
+
+    var wimg = [];
+    var c;
+    for (i = lnode_x-28; i < lnode_x-28+57; i++) {
+      for (j = lnode_y-28; j < lnode_y-28+57; j++) {
+        c = new java.awt.Color(act_tile_img.getRGB(i, j));
+        wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
+      }
+    }
+
+    var sobel_data = sobel_filter(wimg);
+    var accumulator_matrix = circle_hough_transform(sobel_data,
+        Math.ceil(CBUILDING_HIST_EDGES[0]/pw));
+    var maximum_voted = find_max_voted(accumulator_matrix);
+
+
+
+
+    var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+    ds.remove(wnode.id, "node");
+
+    ds.selection.add(
+        ds.nodeBuilder.withPosition(
+          wimg_start_lat + maximum_voted[1]*ph,
+          wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
+        ds.nodeBuilder.withPosition(
+          wimg_start_lat + maximum_voted[1]*ph,
+          wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create());
+
+    ds.selection.add(
+        ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create(),
+        ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create());
+}
 
 /*// general includes
 var JSAction = require("josm/ui/menu").JSAction;
@@ -161,57 +215,4 @@ var click_building = new JSAction({
         // ...
 }});*/
 
-var active_layer = josm.layers.activeLayer;
-var ds = active_layer.data;
-
-var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
-
-var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
-var act_tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
-
-act_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
-tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x+1, act_tile_xy.y, 19);
-var pw = (ts.tileXYToLatLon(tmp_tile).getLon() - ts.tileXYToLatLon(act_tile).getLon()) / 256;
-tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y+1, 19);
-var ph = (ts.tileXYToLatLon(tmp_tile).getLat() - ts.tileXYToLatLon(act_tile).getLat()) / 256;
-
-var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw);
-var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
-
-var act_tile_url = new java.net.URL(act_tile.getUrl());
-var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
-
-var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-28)*ph;
-var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
-
-var wimg = [];
-var c;
-for (i = lnode_x-28; i < lnode_x-28+57; i++) {
-  for (j = lnode_y-28; j < lnode_y-28+57; j++) {
-    c = new java.awt.Color(act_tile_img.getRGB(i, j));
-    wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
-  }
-}
-
-var sobel_data = sobel_filter(wimg);
-var accumulator_matrix = circle_hough_transform(sobel_data,
-    Math.ceil(CBUILDING_HIST_EDGES[0]/pw));
-var maximum_voted = find_max_voted(accumulator_matrix);
-
-
-
-
-var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
-ds.remove(wnode.id, "node");
-
-ds.selection.add(
-    ds.nodeBuilder.withPosition(
-      wimg_start_lat + maximum_voted[1]*ph,
-      wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
-    ds.nodeBuilder.withPosition(
-      wimg_start_lat + maximum_voted[1]*ph,
-      wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create());
-
-ds.selection.add(
-    ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create(),
-    ds.nodeBuilder.withPosition(wimg_start_lat, wimg_start_lon).create());
+click_cbuilding();
