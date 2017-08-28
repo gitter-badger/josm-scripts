@@ -111,7 +111,7 @@ for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
     r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
     ri = get_ri(r);
 
-    accumulator_matrix[a][b][ri] += 1;
+    accumulator_matrix[a][b][ri] += CBUILDING_HIST[ri];
   }
 }
 
