@@ -41,7 +41,7 @@ function sobel_filter(wimg) {
 
   for (y = 1; y < 56; y++) {
     for (x = 1; x < 56; x++) {
-      var pixelX = (
+      var pixel_x = (
       (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
       (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
       (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
@@ -53,7 +53,7 @@ function sobel_filter(wimg) {
       (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
       );
 
-      var pixelY = (
+      var pixel_y = (
       (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
       (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
       (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
@@ -65,7 +65,7 @@ function sobel_filter(wimg) {
       (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
       );
 
-      var magnitude = Math.sqrt((pixelX * pixelX) + (pixelY * pixelY));
+      var magnitude = Math.sqrt((pixel_x * pixel_x) + (pixel_y * pixel_y));
 
       sobel_data.push(magnitude);
     }
