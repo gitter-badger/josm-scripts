@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
+
+## [0.0.2] - 2017-08-28
 ### Added
 - Credits information to scripts.
 - Auxiliary python script for building dimensions histogram generation.
@@ -19,5 +21,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 - Reformat readme file to correspond to changelog file.
 
-[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/qeef/josm-scripts/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/qeef/josm-scripts/compare/d72f585...v0.0.1
