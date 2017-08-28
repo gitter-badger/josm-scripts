@@ -22,14 +22,14 @@ CBUILDING_HIST = [0.00035950532067874634, 0.0014380212827149843, 0.0105694564279
 CBUILDING_HIST_EDGES = [1.495012940591158e-05, 1.7343754080389494e-05, 1.9737378754867409e-05, 2.2131003429345324e-05, 2.452462810382324e-05, 2.6918252778301155e-05, 2.9311877452779067e-05, 3.1705502127256985e-05, 3.4099126801734897e-05, 3.6492751476212816e-05, 3.8886376150690728e-05, 4.1280000825168646e-05, 4.3673625499646558e-05, 4.6067250174124477e-05, 4.8460874848602389e-05, 5.0854499523080307e-05, 5.3248124197558219e-05, 5.5641748872036131e-05, 5.8035373546514049e-05, 6.0428998220991961e-05, 6.282262289546988e-05, 6.5216247569947785e-05, 6.7609872244425704e-05, 7.0003496918903622e-05, 7.2397121593381527e-05, 7.4790746267859446e-05, 7.7184370942337365e-05, 7.957799561681527e-05, 8.1971620291293188e-05, 8.4365244965771107e-05, 8.6758869640249026e-05, 8.9152494314726931e-05, 9.1546118989204849e-05, 9.3939743663682768e-05, 9.6333368338160673e-05, 9.8726993012638592e-05, 0.00010112061768711651, 0.00010351424236159443, 0.00010590786703607233, 0.00010830149171055025, 0.00011069511638502817, 0.00011308874105950608, 0.00011548236573398399, 0.00011787599040846191, 0.00012026961508293983, 0.00012266323975741774, 0.00012505686443189566, 0.00012745048910637357, 0.00012984411378085149, 0.00013223773845532941, 0.00013463136312980733, 0.00013702498780428525, 0.00013941861247876317, 0.00014181223715324109, 0.00014420586182771898, 0.0001465994865021969]
 
 var KERNEL_X = [
-  [-1,0,1],
-  [-2,0,2],
-  [-1,0,1]
+    [-1,0,1],
+    [-2,0,2],
+    [-1,0,1]
 ];
 var KERNEL_Y = [
-  [-1,-2,-1],
-  [0,0,0],
-  [1,2,1]
+    [-1,-2,-1],
+    [0,0,0],
+    [1,2,1]
 ];
 var EDGE_THRESHOLD = 127;
 
@@ -37,106 +37,107 @@ var EDGE_THRESHOLD = 127;
 // @see https://en.wikipedia.org/wiki/Sobel_operator
 // @see https://github.com/miguelmota/sobel
 function sobel_filter(wimg) {
-  var sobel_data = [];
+    var sobel_data = [];
 
-  for (y = 1; y < 56; y++) {
-    for (x = 1; x < 56; x++) {
-      var pixel_x = (
-      (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-      (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
-      (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-      (KERNEL_X[1][0] * wimg[(x - 1)*57 + (y)]) +
-      (KERNEL_X[1][1] * wimg[(x)*57 + (y)]) +
-      (KERNEL_X[1][2] * wimg[(x + 1)*57 + (y)]) +
-      (KERNEL_X[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-      (KERNEL_X[2][1] * wimg[(x)*57 + (y + 1)]) +
-      (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
-      );
+    for (y = 1; y < 56; y++) {
+        for (x = 1; x < 56; x++) {
+            var pixel_x = (
+            (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+            (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
+            (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+            (KERNEL_X[1][0] * wimg[(x - 1)*57 + (y)]) +
+            (KERNEL_X[1][1] * wimg[(x)*57 + (y)]) +
+            (KERNEL_X[1][2] * wimg[(x + 1)*57 + (y)]) +
+            (KERNEL_X[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+            (KERNEL_X[2][1] * wimg[(x)*57 + (y + 1)]) +
+            (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
+            );
 
-      var pixel_y = (
-      (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-      (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
-      (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-      (KERNEL_Y[1][0] * wimg[(x - 1)*57 + (y)]) +
-      (KERNEL_Y[1][1] * wimg[(x)*57 + (y)]) +
-      (KERNEL_Y[1][2] * wimg[(x + 1)*57 + (y)]) +
-      (KERNEL_Y[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-      (KERNEL_Y[2][1] * wimg[(x)*57 + (y + 1)]) +
-      (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
-      );
+            var pixel_y = (
+            (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
+            (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
+            (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
+            (KERNEL_Y[1][0] * wimg[(x - 1)*57 + (y)]) +
+            (KERNEL_Y[1][1] * wimg[(x)*57 + (y)]) +
+            (KERNEL_Y[1][2] * wimg[(x + 1)*57 + (y)]) +
+            (KERNEL_Y[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
+            (KERNEL_Y[2][1] * wimg[(x)*57 + (y + 1)]) +
+            (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
+            );
 
-      var magnitude = Math.sqrt((pixel_x * pixel_x) + (pixel_y * pixel_y));
-
-      sobel_data.push(magnitude);
+            var magnitude = Math.sqrt((pixel_x * pixel_x) + (pixel_y * pixel_y));
+            sobel_data.push(magnitude);
+        }
     }
-  }
 
-  return sobel_data;
+    return sobel_data;
 }
 
 // Circle Hough Transform (CHT)
 // @see https://en.wikipedia.org/wiki/Circle_Hough_Transform
 function get_ri(r) {
-  var i;
-  for (i = 0; i < 55-1; i++) {
-    if (r > CBUILDING_HIST_EDGES[i] && r < CBUILDING_HIST_EDGES[i+1]) {
-      return i;
+    var i;
+
+    for (i = 0; i < 55-1; i++) {
+        if (r > CBUILDING_HIST_EDGES[i] && r < CBUILDING_HIST_EDGES[i+1]) {
+            return i;
+        }
     }
-  }
 }
 
 function circle_hough_transform(sobel_data, CBUILDING_MIND) {
-  var accumulator_matrix = [];
+    var accumulator_matrix = [];
 
-  for (a = 0; a < 55; a++) {
-    accumulator_matrix[a] = [];
-    for (b = 0; b < 55; b++) {
-      accumulator_matrix[a][b] = [];
-      for (ri = 0; ri < 55; ri++) {
-        accumulator_matrix[a][b][ri] = 0;
-      }
+    for (a = 0; a < 55; a++) {
+        accumulator_matrix[a] = [];
+        for (b = 0; b < 55; b++) {
+            accumulator_matrix[a][b] = [];
+            for (ri = 0; ri < 55; ri++) {
+                accumulator_matrix[a][b][ri] = 0;
+            }
+        }
     }
-  }
 
-  for (i = 0; i < sobel_data.length; i++) {
-    if (sobel_data[i] > EDGE_THRESHOLD) {
-      var x = i % 55;
-      var y = Math.floor(i / 55);
-      var r = 0;
-      var ri = 0;
+    for (i = 0; i < sobel_data.length; i++) {
+        if (sobel_data[i] > EDGE_THRESHOLD) {
+            var x = i % 55;
+            var y = Math.floor(i / 55);
+            var r = 0;
+            var ri = 0;
 
-      // vote
+            // vote
 for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
-  for (b = 27 - CBUILDING_MIND; b < 27 + CBUILDING_MIND; b++) {
-    r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
-    ri = get_ri(r);
+    for (b = 27 - CBUILDING_MIND; b < 27 + CBUILDING_MIND; b++) {
+        r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * pw;
+        ri = get_ri(r);
 
-    accumulator_matrix[a][b][ri] += CBUILDING_HIST[ri];
-  }
+        accumulator_matrix[a][b][ri] += CBUILDING_HIST[ri];
+    }
 }
 
+        }
     }
-  }
-  return accumulator_matrix;
+
+    return accumulator_matrix;
 }
 
 function find_max_voted(accumulator_matrix) {
-  var maximum_voted = [0, 0, 0, 0];
+    var maximum_voted = [0, 0, 0, 0];
 
-  for (a = 0; a < 55; a++) {
-    for (b = 0; b < 55; b++) {
-      for (ri = 0; ri < 55; ri++) {
-        if (accumulator_matrix[a][b][ri] > maximum_voted[0]) {
-          maximum_voted[0] = accumulator_matrix[a][b][ri];
-          maximum_voted[1] = a;
-          maximum_voted[2] = b;
-          maximum_voted[3] = ri;
+    for (a = 0; a < 55; a++) {
+        for (b = 0; b < 55; b++) {
+            for (ri = 0; ri < 55; ri++) {
+                if (accumulator_matrix[a][b][ri] > maximum_voted[0]) {
+                    maximum_voted[0] = accumulator_matrix[a][b][ri];
+                    maximum_voted[1] = a;
+                    maximum_voted[2] = b;
+                    maximum_voted[3] = ri;
+                }
+            }
         }
-      }
     }
-  }
 
-  return maximum_voted;
+    return maximum_voted;
 }
 
 // click create circle building
@@ -166,16 +167,17 @@ function click_cbuilding() {
 
     var wimg = [];
     var c;
+
     for (i = lnode_x-28; i < lnode_x-28+57; i++) {
-      for (j = lnode_y-28; j < lnode_y-28+57; j++) {
-        c = new java.awt.Color(act_tile_img.getRGB(i, j));
-        wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
-      }
+        for (j = lnode_y-28; j < lnode_y-28+57; j++) {
+            c = new java.awt.Color(act_tile_img.getRGB(i, j));
+            wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
+        }
     }
 
     var sobel_data = sobel_filter(wimg);
     var accumulator_matrix = circle_hough_transform(sobel_data,
-        Math.ceil(CBUILDING_HIST_EDGES[0]/pw));
+            Math.ceil(CBUILDING_HIST_EDGES[0]/pw));
     var maximum_voted = find_max_voted(accumulator_matrix);
 
 
@@ -185,13 +187,13 @@ function click_cbuilding() {
     ds.remove(wnode.id, "node");
 
     ds.selection.add(
-        ds.wayBuilder.withNodes(
-          ds.nodeBuilder.withPosition(
-            wimg_start_lat + maximum_voted[1]*ph,
-            wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
-          ds.nodeBuilder.withPosition(
-            wimg_start_lat + maximum_voted[1]*ph,
-            wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create()).create());
+            ds.wayBuilder.withNodes(
+                ds.nodeBuilder.withPosition(
+                    wimg_start_lat + maximum_voted[1]*ph,
+                    wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
+                ds.nodeBuilder.withPosition(
+                    wimg_start_lat + maximum_voted[1]*ph,
+                    wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create()).create());
 }
 
 /*// general includes
@@ -206,7 +208,7 @@ var click_building = new JSAction({
         var cmd = require("josm/command");
         var active_layer = josm.layers.activeLayer;
         var ds = active_layer.data;
-        var wb =  ds.wayBuilder;
+        var wb = ds.wayBuilder;
 
         // source code here
         // ...
