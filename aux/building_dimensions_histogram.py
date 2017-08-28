@@ -23,8 +23,8 @@ buildings dimensions.
 import numpy
 import matplotlib.pyplot as plt
 from math import sqrt
-#from building_coordinates_test import building_coordinates as bc
-from building_coordinates import building_coordinates as bc
+from building_coordinates_test import building_coordinates as bc
+#from building_coordinates import building_coordinates as bc
 
 """The number of histogram bins is selected as follow.
 
