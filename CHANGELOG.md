@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 - Credits information to scripts.
 - Auxiliary python script for building dimensions histogram generation.
+- Script for creating circle building from middle node.
 
 ## [0.0.1] - 2017-08-09
 ### Added
