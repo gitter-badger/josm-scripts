@@ -42,36 +42,43 @@ var KERNEL_Y = [
 ];
 var EDGE_THRESHOLD = 127;
 
+// working image size constants
+// I -- inner, O -- outer, F -- full, H -- half
+var IFSIZE = 55;
+var IHSIZE = (IFSIZE - 1) / 2;
+var OFSIZE = IFSIZE + 2;
+var OHSIZE = (OFSIZE - 1) / 2;
+
 // Sobel filter
 // @see https://en.wikipedia.org/wiki/Sobel_operator
 // @see https://github.com/miguelmota/sobel
 function sobel_filter(wimg) {
     var sobel_data = [];
 
-    for (y = 1; y < 56; y++) {
-        for (x = 1; x < 56; x++) {
+    for (y = 1; y < OFSIZE-1; y++) {
+        for (x = 1; x < OFSIZE-1; x++) {
             var pixel_x = (
-            (KERNEL_X[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-            (KERNEL_X[0][1] * wimg[(x)*57 + (y - 1)]) +
-            (KERNEL_X[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-            (KERNEL_X[1][0] * wimg[(x - 1)*57 + (y)]) +
-            (KERNEL_X[1][1] * wimg[(x)*57 + (y)]) +
-            (KERNEL_X[1][2] * wimg[(x + 1)*57 + (y)]) +
-            (KERNEL_X[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-            (KERNEL_X[2][1] * wimg[(x)*57 + (y + 1)]) +
-            (KERNEL_X[2][2] * wimg[(x + 1)*57 + (y + 1)])
+            (KERNEL_X[0][0] * wimg[(x - 1)*OFSIZE + (y - 1)]) +
+            (KERNEL_X[0][1] * wimg[(x)*OFSIZE + (y - 1)]) +
+            (KERNEL_X[0][2] * wimg[(x + 1)*OFSIZE + (y - 1)]) +
+            (KERNEL_X[1][0] * wimg[(x - 1)*OFSIZE + (y)]) +
+            (KERNEL_X[1][1] * wimg[(x)*OFSIZE + (y)]) +
+            (KERNEL_X[1][2] * wimg[(x + 1)*OFSIZE + (y)]) +
+            (KERNEL_X[2][0] * wimg[(x - 1)*OFSIZE + (y + 1)]) +
+            (KERNEL_X[2][1] * wimg[(x)*OFSIZE + (y + 1)]) +
+            (KERNEL_X[2][2] * wimg[(x + 1)*OFSIZE + (y + 1)])
             );
 
             var pixel_y = (
-            (KERNEL_Y[0][0] * wimg[(x - 1)*57 + (y - 1)]) +
-            (KERNEL_Y[0][1] * wimg[(x)*57 + (y - 1)]) +
-            (KERNEL_Y[0][2] * wimg[(x + 1)*57 + (y - 1)]) +
-            (KERNEL_Y[1][0] * wimg[(x - 1)*57 + (y)]) +
-            (KERNEL_Y[1][1] * wimg[(x)*57 + (y)]) +
-            (KERNEL_Y[1][2] * wimg[(x + 1)*57 + (y)]) +
-            (KERNEL_Y[2][0] * wimg[(x - 1)*57 + (y + 1)]) +
-            (KERNEL_Y[2][1] * wimg[(x)*57 + (y + 1)]) +
-            (KERNEL_Y[2][2] * wimg[(x + 1)*57 + (y + 1)])
+            (KERNEL_Y[0][0] * wimg[(x - 1)*OFSIZE + (y - 1)]) +
+            (KERNEL_Y[0][1] * wimg[(x)*OFSIZE + (y - 1)]) +
+            (KERNEL_Y[0][2] * wimg[(x + 1)*OFSIZE + (y - 1)]) +
+            (KERNEL_Y[1][0] * wimg[(x - 1)*OFSIZE + (y)]) +
+            (KERNEL_Y[1][1] * wimg[(x)*OFSIZE + (y)]) +
+            (KERNEL_Y[1][2] * wimg[(x + 1)*OFSIZE + (y)]) +
+            (KERNEL_Y[2][0] * wimg[(x - 1)*OFSIZE + (y + 1)]) +
+            (KERNEL_Y[2][1] * wimg[(x)*OFSIZE + (y + 1)]) +
+            (KERNEL_Y[2][2] * wimg[(x + 1)*OFSIZE + (y + 1)])
             );
 
             var magnitude = Math.sqrt((pixel_x * pixel_x) + (pixel_y * pixel_y));
@@ -87,23 +94,23 @@ function sobel_filter(wimg) {
 function get_ri(r) {
     var i;
 
-    for (i = 0; i < 55-1; i++) {
+    for (i = 0; i < IFSIZE-1; i++) {
         if (r < CBUILDING_HIST_EDGES[i+1]) {
             return i;
         }
     }
-    return 54;
+    return IFSIZE-1;
 }
 
 function circle_hough_transform(sobel_data, CBUILDING_MIND, PW) {
     var accumulator_matrix = [];
     var voted = false;
 
-    for (a = 0; a < 55; a++) {
+    for (a = 0; a < IFSIZE; a++) {
         accumulator_matrix[a] = [];
-        for (b = 0; b < 55; b++) {
+        for (b = 0; b < IFSIZE; b++) {
             accumulator_matrix[a][b] = [];
-            for (ri = 0; ri < 55; ri++) {
+            for (ri = 0; ri < IFSIZE; ri++) {
                 accumulator_matrix[a][b][ri] = 0;
             }
         }
@@ -111,14 +118,14 @@ function circle_hough_transform(sobel_data, CBUILDING_MIND, PW) {
 
     for (i = 0; i < sobel_data.length; i++) {
         if (sobel_data[i] > EDGE_THRESHOLD) {
-            var x = i % 55;
-            var y = Math.floor(i / 55);
+            var x = i % IFSIZE;
+            var y = Math.floor(i / IFSIZE);
             var r = 0;
             var ri = 0;
 
             // vote
-for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
-    for (b = 27 - CBUILDING_MIND; b < 27 + CBUILDING_MIND; b++) {
+for (a = IHSIZE - CBUILDING_MIND; a < IHSIZE + CBUILDING_MIND; a++) {
+    for (b = IHSIZE - CBUILDING_MIND; b < IHSIZE + CBUILDING_MIND; b++) {
         r = Math.sqrt((x-a)*(x-a) + (y-b)*(y-b)) * PW;
         ri = get_ri(r);
 
@@ -131,7 +138,7 @@ for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
     }
 
     if (voted == false) {
-        accumulator_matrix[27][27][CBUILDING_MIND] = 1;
+        accumulator_matrix[IHSIZE][IHSIZE][CBUILDING_MIND] = 1;
     }
 
     return accumulator_matrix;
@@ -140,9 +147,9 @@ for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
 function find_max_voted(accumulator_matrix) {
     var maximum_voted = [0, 0, 0, 0];
 
-    for (a = 0; a < 55; a++) {
-        for (b = 0; b < 55; b++) {
-            for (ri = 0; ri < 55; ri++) {
+    for (a = 0; a < IFSIZE; a++) {
+        for (b = 0; b < IFSIZE; b++) {
+            for (ri = 0; ri < IFSIZE; ri++) {
                 if (accumulator_matrix[a][b][ri] > maximum_voted[0]) {
                     maximum_voted[0] = accumulator_matrix[a][b][ri];
                     maximum_voted[1] = a;
@@ -182,14 +189,14 @@ function click_cbuilding() {
     var act_tile_url = new java.net.URL(act_tile.getUrl());
     var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
 
-    var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-28)*ph;
-    var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-28)*pw;
+    var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-OHSIZE)*ph;
+    var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-OHSIZE)*pw;
 
     var wimg = [];
     var c;
 
-    for (i = lnode_x-28; i < lnode_x-28+57; i++) {
-        for (j = lnode_y-28; j < lnode_y-28+57; j++) {
+    for (i = lnode_x-OHSIZE; i < lnode_x-OHSIZE+OFSIZE; i++) {
+        for (j = lnode_y-OHSIZE; j < lnode_y-OHSIZE+OFSIZE; j++) {
             c = new java.awt.Color(act_tile_img.getRGB(i, j));
             wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
         }
