@@ -88,10 +88,11 @@ function get_ri(r) {
     var i;
 
     for (i = 0; i < 55-1; i++) {
-        if (r > CBUILDING_HIST_EDGES[i] && r < CBUILDING_HIST_EDGES[i+1]) {
+        if (r < CBUILDING_HIST_EDGES[i+1]) {
             return i;
         }
     }
+    return 54;
 }
 
 function circle_hough_transform(sobel_data, CBUILDING_MIND, PW) {
