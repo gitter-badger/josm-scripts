@@ -97,6 +97,7 @@ function get_ri(r) {
 
 function circle_hough_transform(sobel_data, CBUILDING_MIND, PW) {
     var accumulator_matrix = [];
+    var voted = false;
 
     for (a = 0; a < 55; a++) {
         accumulator_matrix[a] = [];
@@ -125,7 +126,12 @@ for (a = 27 - CBUILDING_MIND; a < 27 + CBUILDING_MIND; a++) {
     }
 }
 
+        voted = true;
         }
+    }
+
+    if (voted == false) {
+        accumulator_matrix[27][27][CBUILDING_MIND] = 1;
     }
 
     return accumulator_matrix;

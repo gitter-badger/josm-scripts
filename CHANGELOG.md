@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased]
 ### Fixed
 - Function that returns index of circle building dimension.
+- Function that returns matrix containing votes.
 
 ## [0.0.2] - 2017-08-28
 ### Added
