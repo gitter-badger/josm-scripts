@@ -163,6 +163,21 @@ function find_max_voted(accumulator_matrix) {
     return maximum_voted;
 }
 
+function get_node_xy(node, ts) {
+    var act_tile_xy = ts.latLonToTileXY(node.lat, node.lon, 19);
+    var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
+    var tmp_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x+1, act_tile_xy.y, 19);
+    var pw = (ts.tileXYToLatLon(tmp_tile).getLon() - ts.tileXYToLatLon(act_tile).getLon()) / 256;
+
+    tmp_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y+1, 19);
+    var ph = (ts.tileXYToLatLon(tmp_tile).getLat() - ts.tileXYToLatLon(act_tile).getLat()) / 256;
+
+    var x = Math.floor((node.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw);
+    var y = Math.floor((node.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
+
+    return [x, y, pw, ph];
+}
+
 // click create circle building
 function click_cbuilding() {
     // for debug purposes
@@ -173,38 +188,32 @@ function click_cbuilding() {
     var ds = active_layer.data;
 
     var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
-
     var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
     var act_tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
 
     act_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
-    tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x+1, act_tile_xy.y, 19);
-    var pw = (ts.tileXYToLatLon(tmp_tile).getLon() - ts.tileXYToLatLon(act_tile).getLon()) / 256;
-    tmp_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y+1, 19);
-    var ph = (ts.tileXYToLatLon(tmp_tile).getLat() - ts.tileXYToLatLon(act_tile).getLat()) / 256;
-
-    var lnode_x = Math.floor((lnode.lon - ts.tileXYToLatLon(act_tile).getLon()) / pw);
-    var lnode_y = Math.floor((lnode.lat - ts.tileXYToLatLon(act_tile).getLat()) / ph);
 
     var act_tile_url = new java.net.URL(act_tile.getUrl());
     var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
 
-    var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_y-OHSIZE)*ph;
-    var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_x-OHSIZE)*pw;
+    var lnode_xy = get_node_xy(lnode, ts);
+
+    var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_xy[1]-OHSIZE)*lnode_xy[3];
+    var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_xy[0]-OHSIZE)*lnode_xy[2];
 
     var wimg = [];
     var c;
 
-    for (i = lnode_x-OHSIZE; i < lnode_x-OHSIZE+OFSIZE; i++) {
-        for (j = lnode_y-OHSIZE; j < lnode_y-OHSIZE+OFSIZE; j++) {
-            c = new java.awt.Color(act_tile_img.getRGB(i, j));
+    for (i = lnode_xy[0]-OHSIZE; i < lnode_xy[0]-OHSIZE+OFSIZE; i++) {
+        for (j = lnode_xy[1]-OHSIZE; j < lnode_xy[1]-OHSIZE+OFSIZE; j++) {
+            c = java.awt.Color(act_tile_img.getRGB(i, j));
             wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
         }
     }
 
     var sobel_data = sobel_filter(wimg);
     var accumulator_matrix = circle_hough_transform(sobel_data,
-            Math.ceil(CBUILDING_HIST_EDGES[0]/pw), pw);
+            Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
     var maximum_voted = find_max_voted(accumulator_matrix);
 
 
@@ -216,11 +225,11 @@ function click_cbuilding() {
     ds.selection.add(
             ds.wayBuilder.withNodes(
                 ds.nodeBuilder.withPosition(
-                    wimg_start_lat + maximum_voted[1]*ph,
-                    wimg_start_lon + maximum_voted[2]*pw - maximum_voted[3]*pw).create(),
+                    wimg_start_lat + maximum_voted[1]*lnode_xy[3],
+                    wimg_start_lon + maximum_voted[2]*lnode_xy[2] - maximum_voted[3]*lnode_xy[2]).create(),
                 ds.nodeBuilder.withPosition(
-                    wimg_start_lat + maximum_voted[1]*ph,
-                    wimg_start_lon + maximum_voted[2]*pw + maximum_voted[3]*pw).create()).create());
+                    wimg_start_lat + maximum_voted[1]*lnode_xy[3],
+                    wimg_start_lon + maximum_voted[2]*lnode_xy[2] + maximum_voted[3]*lnode_xy[2]).create()).create());
 
     // from `easy_buildings.js`
     cbuilding.onExecute();
