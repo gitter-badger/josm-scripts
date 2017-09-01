@@ -224,9 +224,7 @@ function click_cbuilding() {
             Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
     var maximum_voted = find_max_voted(accumulator_matrix);
 
-    var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
-    ds.remove(wnode.id, "node");
-
+    ds.remove(lnode.id, "node");
     ds.selection.add(
             ds.wayBuilder.withNodes(
                 ds.nodeBuilder.withPosition(
