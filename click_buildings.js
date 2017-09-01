@@ -178,6 +178,26 @@ function get_node_xy(node, ts) {
     return [x, y, pw, ph];
 }
 
+function get_wimg(node, ts) {
+    var act_tile_xy = ts.latLonToTileXY(node.lat, node.lon, 19);
+    var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
+    var act_tile_url = java.net.URL(act_tile.getUrl());
+    var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
+
+    var node_xy = get_node_xy(node, ts);
+    var wimg = [];
+    var c;
+
+    for (i = node_xy[0]-OHSIZE; i < node_xy[0]-OHSIZE+OFSIZE; i++) {
+        for (j = node_xy[1]-OHSIZE; j < node_xy[1]-OHSIZE+OFSIZE; j++) {
+            c = java.awt.Color(act_tile_img.getRGB(i, j));
+            wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
+        }
+    }
+
+    return wimg;
+}
+
 // click create circle building
 function click_cbuilding() {
     // for debug purposes
@@ -193,31 +213,16 @@ function click_cbuilding() {
 
     var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
 
-    var act_tile_url = java.net.URL(act_tile.getUrl());
-    var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
-
     var lnode_xy = get_node_xy(lnode, ts);
 
     var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_xy[1]-OHSIZE)*lnode_xy[3];
     var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_xy[0]-OHSIZE)*lnode_xy[2];
 
-    var wimg = [];
-    var c;
-
-    for (i = lnode_xy[0]-OHSIZE; i < lnode_xy[0]-OHSIZE+OFSIZE; i++) {
-        for (j = lnode_xy[1]-OHSIZE; j < lnode_xy[1]-OHSIZE+OFSIZE; j++) {
-            c = java.awt.Color(act_tile_img.getRGB(i, j));
-            wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3); // make grayscale
-        }
-    }
-
+    var wimg = get_wimg(lnode, ts);
     var sobel_data = sobel_filter(wimg);
     var accumulator_matrix = circle_hough_transform(sobel_data,
             Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
     var maximum_voted = find_max_voted(accumulator_matrix);
-
-
-
 
     var wnode = ds.selection.nodes[ds.selection.nodes.length - 1];
     ds.remove(wnode.id, "node");
