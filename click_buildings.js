@@ -188,11 +188,17 @@ function get_wimg(node, ts) {
     var wimg = [];
     var c;
 
+    for (y = 0; y < OFSIZE; y++) {
+        for (x = 0; x < OFSIZE; x++) {
+            wimg.push(0);
+        }
+    }
+
     for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
         for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
             c = java.awt.Color(act_tile_img.getRGB(x, y));
             // make grayscale
-            wimg.push((c.getRed() + c.getGreen() + c.getBlue()) / 3);
+            wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue()) / 3);
         }
     }
 
