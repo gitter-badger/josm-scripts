@@ -209,14 +209,7 @@ function click_cbuilding() {
 
     var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
     var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
-    var act_tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
-
-    var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
-
     var lnode_xy = get_node_xy(lnode, ts);
-
-    var wimg_start_lat = ts.tileXYToLatLon(act_tile).getLat() + (lnode_xy[1]-OHSIZE)*lnode_xy[3];
-    var wimg_start_lon = ts.tileXYToLatLon(act_tile).getLon() + (lnode_xy[0]-OHSIZE)*lnode_xy[2];
 
     var wimg = get_wimg(lnode, ts);
     var sobel_data = sobel_filter(wimg);
@@ -228,11 +221,11 @@ function click_cbuilding() {
     ds.selection.add(
             ds.wayBuilder.withNodes(
                 ds.nodeBuilder.withPosition(
-                    wimg_start_lat + maximum_voted[1]*lnode_xy[3],
-                    wimg_start_lon + maximum_voted[2]*lnode_xy[2] - maximum_voted[3]*lnode_xy[2]).create(),
+                    lnode.lat + (-IHSIZE+maximum_voted[2])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+maximum_voted[1]-maximum_voted[3])*lnode_xy[2]).create(),
                 ds.nodeBuilder.withPosition(
-                    wimg_start_lat + maximum_voted[1]*lnode_xy[3],
-                    wimg_start_lon + maximum_voted[2]*lnode_xy[2] + maximum_voted[3]*lnode_xy[2]).create()).create());
+                    lnode.lat + (-IHSIZE+maximum_voted[2])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+maximum_voted[1]+maximum_voted[3])*lnode_xy[2]).create()).create());
 
     // from `easy_buildings.js`
     cbuilding.onExecute();
