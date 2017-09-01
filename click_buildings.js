@@ -194,11 +194,14 @@ function get_wimg(node, ts) {
         }
     }
 
-    for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
-        for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
-            c = java.awt.Color(act_tile_img.getRGB(x, y));
-            // make grayscale
-            wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue()) / 3);
+    if (node_xy[0] >= OHSIZE && node_xy[0] + OHSIZE < 256 &&
+            node_xy[1] >= OHSIZE && node_xy[1] + OHSIZE < 256) {
+        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+            for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x, y));
+                // make grayscale
+                wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
+            }
         }
     }
 
