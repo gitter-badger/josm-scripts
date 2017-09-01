@@ -191,9 +191,9 @@ function click_cbuilding() {
     var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
     var act_tile_xy = ts.latLonToTileXY(lnode.lat, lnode.lon, 19);
 
-    act_tile = new org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
+    var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
 
-    var act_tile_url = new java.net.URL(act_tile.getUrl());
+    var act_tile_url = java.net.URL(act_tile.getUrl());
     var act_tile_img = javax.imageio.ImageIO.read(act_tile_url);
 
     var lnode_xy = get_node_xy(lnode, ts);
