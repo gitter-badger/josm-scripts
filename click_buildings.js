@@ -438,9 +438,11 @@ function get_wimg(node, ts) {
             }
         }
     }
-
+    // process tile 4
     if (node_xy[0] >= OHSIZE && node_xy[0] + OHSIZE < 256 &&
             node_xy[1] >= OHSIZE && node_xy[1] + OHSIZE < 256) {
+        // tile 4
+        act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
         for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
             for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
                 c = java.awt.Color(act_tile_img.getRGB(x, y));
