@@ -241,8 +241,25 @@ function get_wimg(node, ts) {
             }
         }
     }
-    if (node_xy[0] < OHSIZE && node_xy[1] >= OHSIZE && node_xy[1] + OHSIZE < 256) { // load tile 3
+    if (node_xy[0] < OHSIZE && node_xy[1] >= OHSIZE && node_xy[1] + OHSIZE < 256) { // process tile 3 & 4
         tiles_url[3] = java.net.URL(org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x-1, act_tile_xy.y, 19).getUrl());
+        var ofleft = OHSIZE - node_xy[0];
+        // tile 3
+        act_tile_img = javax.imageio.ImageIO.read(tiles_url[3]);
+        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+            for (x = 0; x < ofleft; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(256 - ofleft + x, y));
+                wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
+            }
+        }
+        // tile 4
+        act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
+        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+            for (x = ofleft; x < OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x - ofleft, y));
+                wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
+            }
+        }
     }
     if (node_xy[0] < OHSIZE && node_xy[1] + OHSIZE >= 256) { // load tile 3, 6, 7
         tiles_url[3] = java.net.URL(org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x-1, act_tile_xy.y, 19).getUrl());
