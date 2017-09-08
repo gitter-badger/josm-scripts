@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 - Function that returns index of circle building dimension.
 - Function that returns matrix containing votes.
+- Creation of working image `wimg` on tile borders.
 
 ## [0.0.2] - 2017-08-28
 ### Added
