@@ -246,17 +246,17 @@ function get_wimg(node, ts) {
         var ofleft = OHSIZE - node_xy[0];
         // tile 3
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[3]);
-        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+        for (y = 0; y < OFSIZE; y++) {
             for (x = 0; x < ofleft; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(256 - ofleft + x, y));
+                c = java.awt.Color(act_tile_img.getRGB(256 - ofleft + x, y+node_xy[1]-OHSIZE));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
         // tile 4
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
-        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+        for (y = 0; y < OFSIZE; y++) {
             for (x = ofleft; x < OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x - ofleft, y));
+                c = java.awt.Color(act_tile_img.getRGB(x - ofleft, y+node_xy[1]-OHSIZE));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
@@ -306,16 +306,16 @@ function get_wimg(node, ts) {
         // tile 7
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[7]);
         for (y = OFSIZE - ofdown; y < OFSIZE; y++) {
-            for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x, y + ofdown - OFSIZE));
+            for (x = 0; x < OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x+node_xy[0]-OHSIZE, y + ofdown - OFSIZE));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
         // tile 4
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
         for (y = 0; y < OFSIZE - ofdown; y++) {
-            for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x, 256 + ofdown - OFSIZE + y));
+            for (x = 0; x < OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x+node_xy[0]-OHSIZE, 256 + ofdown - OFSIZE + y));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
@@ -364,17 +364,17 @@ function get_wimg(node, ts) {
         var ofright = 256 + OHSIZE - node_xy[0];
         // tile 5
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[5]);
-        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+        for (y = 0; y < OFSIZE; y++) {
             for (x = OFSIZE - ofright; x < OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x + ofright - OFSIZE, y));
+                c = java.awt.Color(act_tile_img.getRGB(x + ofright - OFSIZE, y+node_xy[1]-OHSIZE));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
         // tile 4
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
-        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
+        for (y = 0; y < OFSIZE; y++) {
             for (x = 0; x < OFSIZE - ofright; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(256 + ofright - OFSIZE + x, y));
+                c = java.awt.Color(act_tile_img.getRGB(256 + ofright - OFSIZE + x, y+node_xy[1]-OHSIZE));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
@@ -424,16 +424,16 @@ function get_wimg(node, ts) {
         // tile 1
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[0]);
         for (y = 0; y < oftop; y++) {
-            for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x, 256 - oftop + y));
+            for (x = 0; x < OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x+node_xy[0]-OHSIZE, 256 - oftop + y));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
         // tile 4
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
         for (y = oftop; y < OFSIZE; y++) {
-            for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x, y - oftop));
+            for (x = 0; x < OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x+node_xy[0]-OHSIZE, y - oftop));
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
         }
@@ -443,9 +443,9 @@ function get_wimg(node, ts) {
             node_xy[1] >= OHSIZE && node_xy[1] + OHSIZE < 256) {
         // tile 4
         act_tile_img = javax.imageio.ImageIO.read(tiles_url[4]);
-        for (y = node_xy[1]-OHSIZE; y < node_xy[1]-OHSIZE+OFSIZE; y++) {
-            for (x = node_xy[0]-OHSIZE; x < node_xy[0]-OHSIZE+OFSIZE; x++) {
-                c = java.awt.Color(act_tile_img.getRGB(x, y));
+        for (y = 0; y < OFSIZE; y++) {
+            for (x = 0; x < OFSIZE; x++) {
+                c = java.awt.Color(act_tile_img.getRGB(x+node_xy[0]-OHSIZE, y+node_xy[1]-OHSIZE));
                 // make grayscale
                 wimg[y*OFSIZE + x] = ((c.getRed()+c.getGreen()+c.getBlue())/3);
             }
