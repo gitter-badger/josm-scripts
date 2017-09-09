@@ -1,6 +1,8 @@
 # Credits
 Short notes about the history of ideas that drive the development.
 
+Go back to [README](../README.md).
+
 ## [Click buildings] - 2017-07-25, [MSF Prague office]
 Credits: [@janbohm] and others in pub after Jul 2017 #Prague #Mapathon
 
