@@ -18,9 +18,9 @@ shortcut as follows:
 3. Search: click.
 4. Add shortcut to action.
 
-Note: Recommendation is to use shortcuts accessible by no-mouse hand.
-Note: Shortcuts assignment persist the restart of JOSM.
-IMPORTANT: This script is dependent on *Easy buildings* script.
+Note: Recommendation is to use shortcuts accessible by no-mouse hand.  
+Note: Shortcuts assignment persist the restart of JOSM.  
+**IMPORTANT**: This script is dependent on *Easy buildings* script.  
 
 ## Click Circle Building
 * The user needs to be in *Draw nodes (A)* mode.
