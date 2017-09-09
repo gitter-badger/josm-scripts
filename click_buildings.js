@@ -135,7 +135,7 @@ for (a = IHSIZE - CBUILDING_MIND; a < IHSIZE + CBUILDING_MIND; a++) {
     return accumulator_matrix;
 }
 
-function find_max_voted(accumulator_matrix) {
+function circle_find_max_voted(accumulator_matrix) {
     var maximum_voted = [0, 0, 0, 0];
 
     for (a = 0; a < IFSIZE; a++) {
@@ -462,7 +462,7 @@ function click_cbuilding() {
     var sobel_data = sobel_filter(wimg);
     var accumulator_matrix = circle_hough_transform(sobel_data,
             Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
-    var maximum_voted = find_max_voted(accumulator_matrix);
+    var maximum_voted = circle_find_max_voted(accumulator_matrix);
 
     ds.remove(lnode.id, "node");
     ds.selection.add(

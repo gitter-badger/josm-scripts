@@ -11,7 +11,7 @@ is dependent on *Easy buildings* script.
 - Use Sobel filter [1], [2] for edge detection in image by `sobel_filter`
   function.
 - Use Circle Hough Transform (CHT) [3] to detect circle building parameters by
-  functions `circle_hough_transform`, `find_max_voted`.
+  functions `circle_hough_transform`, `circle_find_max_voted`.
 
 ## `get_wimg(node, ts)`
 - `node` -- Coordinates of clicked node.
@@ -37,7 +37,7 @@ is dependent on *Easy buildings* script.
 - Increase `a`, `b`, `r` parameters combination in `accumulator_matrix` by
   probability value from histogram.
 
-## `find_max_voted(accumulator_matrix)`
+## `circle_find_max_voted(accumulator_matrix)`
 - `accumulator_matrix` -- 3D array with probability evaluated arguments.
 - Return array containig maximum voted parameters.
 
