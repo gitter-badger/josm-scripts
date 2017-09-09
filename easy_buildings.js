@@ -15,13 +15,6 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    Credits: It's me.
-
-    This was the first attempt to deal with my laziness. More than a few
-    clicks and one shortcut keypress is no way. BuildingsTools make the job
-    for square buildings but not for circle (and I do not copy + resize them
-    because for me it's too heavy too) nor for residential areas.
 */
 
 // for debug purposes

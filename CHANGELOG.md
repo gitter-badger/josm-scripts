@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Changed
+- [Credits](./doc/credits.md) to separate file in `doc` folder.
+- User documentation to separate folder.
+
 ### Fixed
 - Function that returns index of circle building dimension.
 - Function that returns matrix containing votes.

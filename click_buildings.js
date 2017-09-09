@@ -1,5 +1,5 @@
 /*
-    Click building - create building by one click.
+    Click buildings - create building by one click.
     Copyright (C) 2017  Jiri Hubacek
     Contact: Jiri Hubacek <jiri.hubacek@gmail.com>
 
@@ -15,15 +15,6 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    Credits: @janbohm and others in pub after Jul 2017 #Prague #Mapathon
-
-    After `easy_buildings`, `easy_autoresidential` demonstration and few beers
-    (overall sum) discussion went to mapping (more exactly cartographying) of
-    buildings by only making one node. First thought was it's too much for me.
-
-    Some credits also to @Piskvor who proposed auto building rotation before
-    `easy_autoresidential` script.
 */
 // constants
 CBUILDING_HIST = [0.00035950532067874634, 0.0014380212827149843, 0.010569456427955135, 0.0071901064135749216, 0.01754385964912281, 0.026243888409548503, 0.031205061834915115, 0.046016681046879566, 0.048605119355766405, 0.055435720448662719, 0.060828300258843747, 0.063129134311187898, 0.066939890710382421, 0.066867989646246864, 0.06600517687661768, 0.060253091745757922, 0.058311763014092688, 0.053566292781133097, 0.046160483175151062, 0.040983606557376998, 0.033793500143802273, 0.026747195858498669, 0.024518262870290446, 0.01775956284153013, 0.01553062985332181, 0.01121656600517686, 0.0085562266321541919, 0.0070463042853034126, 0.0060396893874029257, 0.0049611734253666882, 0.004601668104687969, 0.002516537244751219, 0.0013661202185792332, 0.0022289329882082352, 0.0017975266033937276, 0.0010066148979004875, 0.00086281276962898936, 7.1901064135749515e-05, 0.00028760425654299643, 0.00035950532067874558, 0.00028760425654299806, 0.00014380212827149822, 7.1901064135749108e-05, 0.00014380212827149822, 7.1901064135749515e-05, 0.00014380212827149822, 0.0, 7.1901064135749108e-05, 0.0, 0.0, 7.1901064135749108e-05, 0.0, 0.0, 0.0, 7.1901064135749108e-05]
@@ -491,10 +482,10 @@ function click_cbuilding() {
 // general includes
 var JSAction = require("josm/ui/menu").JSAction;
 
-// create click building
+// create click cbuilding
 var create_click_cbuilding = new JSAction({
     name: "Click Circle Building",
-    tooltip: "Create click circle building",
+    tooltip: "Create circle building by one click",
     onExecute: function() {
         click_cbuilding()
 }});
