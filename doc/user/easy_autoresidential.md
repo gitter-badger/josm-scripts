@@ -1,4 +1,4 @@
-# Easy autoresidential
+# Easy autoresidential user documentation
 Go back to [README](../../README.md).
 
 This script can be run as follows:
