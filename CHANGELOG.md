@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
+
+## [0.0.3] - 2017-09-09
 ### Changed
 - [Credits](./doc/credits.md) to separate file in `doc` folder.
 - User documentation to separate folder.
@@ -29,6 +31,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 - Reformat readme file to correspond to changelog file.
 
-[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/qeef/josm-scripts/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/qeef/josm-scripts/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/qeef/josm-scripts/compare/d72f585...v0.0.1
