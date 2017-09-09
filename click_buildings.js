@@ -1,5 +1,5 @@
 /*
-    Click building - create building by one click.
+    Click buildings - create building by one click.
     Copyright (C) 2017  Jiri Hubacek
     Contact: Jiri Hubacek <jiri.hubacek@gmail.com>
 
@@ -482,10 +482,10 @@ function click_cbuilding() {
 // general includes
 var JSAction = require("josm/ui/menu").JSAction;
 
-// create click building
+// create click cbuilding
 var create_click_cbuilding = new JSAction({
     name: "Click Circle Building",
-    tooltip: "Create click circle building",
+    tooltip: "Create circle building by one click",
     onExecute: function() {
         click_cbuilding()
 }});
