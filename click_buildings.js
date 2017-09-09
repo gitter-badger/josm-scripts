@@ -208,7 +208,7 @@ function get_wimg(node, ts) {
             }
         }
         // tile 1
-        act_tile_img = javax.imageio.ImageIO.read(tiles_url[0]);
+        act_tile_img = javax.imageio.ImageIO.read(tiles_url[1]);
         for (y = 0; y < oftop; y++) {
             for (x = ofleft; x < OFSIZE; x++) {
                 c = java.awt.Color(act_tile_img.getRGB(x - ofleft, 256 - oftop + y));
@@ -377,7 +377,7 @@ function get_wimg(node, ts) {
         var oftop = OHSIZE - node_xy[1];
         var ofright = 256 + OHSIZE - node_xy[0];
         // tile 1
-        act_tile_img = javax.imageio.ImageIO.read(tiles_url[0]);
+        act_tile_img = javax.imageio.ImageIO.read(tiles_url[1]);
         for (y = 0; y < oftop; y++) {
             for (x = 0; x < OFSIZE - ofright; x++) {
                 c = java.awt.Color(act_tile_img.getRGB(256 + ofright - OFSIZE + x, 256 - oftop + y));
@@ -413,7 +413,7 @@ function get_wimg(node, ts) {
         tiles_url[1] = java.net.URL(org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y-1, 19).getUrl());
         var oftop = OHSIZE - node_xy[1];
         // tile 1
-        act_tile_img = javax.imageio.ImageIO.read(tiles_url[0]);
+        act_tile_img = javax.imageio.ImageIO.read(tiles_url[1]);
         for (y = 0; y < oftop; y++) {
             for (x = 0; x < OFSIZE; x++) {
                 c = java.awt.Color(act_tile_img.getRGB(x+node_xy[0]-OHSIZE, 256 - oftop + y));

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Fixed
+- Tile 1 url.
 
 ## [0.0.3] - 2017-09-09
 ### Changed
