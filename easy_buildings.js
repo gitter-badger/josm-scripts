@@ -20,32 +20,36 @@
 // for debug purposes
 //var con = require("josm/scriptingconsole");
 
+function easy_cbuilding() {
+    // init
+    var cmd = require("josm/command");
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var wb =  ds.wayBuilder;
+
+    // create circle
+    org.openstreetmap.josm.actions.CreateCircleAction().actionPerformed(null);
+
+    // make it a building
+    active_layer.apply(
+        cmd.change(ds.selection.objects, {tags: {"building" : "yes"}})
+    );
+
+    // finish way, nothing selected
+    ds.selection.clearAll();
+
+    //con.println("Circle building created.");
+}
+
 // general includes
 var JSAction = require("josm/ui/menu").JSAction;
 
-// create circle building
-var cbuilding = new JSAction({
+// create easy circle building menu entry
+var create_easy_cbuilding = new JSAction({
     name: "Easy Circle Building",
-    tooltip: "Create easy circle building",
+    tooltip: "Create circle building by two clicks",
     onExecute: function() {
-        // init
-        var cmd = require("josm/command");
-        var active_layer = josm.layers.activeLayer;
-        var ds = active_layer.data;
-        var wb =  ds.wayBuilder;
-
-        // create circle
-        org.openstreetmap.josm.actions.CreateCircleAction().actionPerformed(null);
-
-        // make it a building
-        active_layer.apply(
-            cmd.change(ds.selection.objects, {tags: {"building" : "yes"}})
-        );
-
-        // finish way, nothing selected
-        ds.selection.clearAll();
-
-        //con.println("Circle building created.");
+        easy_cbuilding();
 }});
 
 // create orthogonal building

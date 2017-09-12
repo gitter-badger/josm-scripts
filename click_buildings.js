@@ -476,7 +476,7 @@ function click_cbuilding() {
                     lnode.lon + (-IHSIZE+maximum_voted[1]+maximum_voted[3])*lnode_xy[2]).create()).create());
 
     // from `easy_buildings.js`
-    cbuilding.onExecute();
+    easy_cbuilding();
 }
 
 // general includes
