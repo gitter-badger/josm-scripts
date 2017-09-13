@@ -13,3 +13,6 @@ For short notes about history of ideas see [credits].
 - [Click buildings](./doc/user/click_buildings.md)
 - [Easy autoresidential](./doc/user/easy_autoresidential.md)
 - [Easy buildings](./doc/user/easy_buildings.md)
+
+# API documentation
+- [Easy buildings](./doc/api/easy_buildings.md)
