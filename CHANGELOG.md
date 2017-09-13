@@ -4,8 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [Unreleased]
+### Added
+- API documentation.
+
+### Changed
+- API in scripts.
+- Function names in scripts.
+- Rename `easy_autoresidential` to `pick_residential`.
+
 ### Fixed
-- Tile 1 url.
+- Tile border overflow, [issue #1].
 
 ## [0.0.3] - 2017-09-09
 ### Changed
@@ -37,3 +45,5 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 [0.0.3]: https://github.com/qeef/josm-scripts/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/qeef/josm-scripts/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/qeef/josm-scripts/compare/d72f585...v0.0.1
+
+[issue #1]: https://github.com/qeef/josm-scripts/issues/1
