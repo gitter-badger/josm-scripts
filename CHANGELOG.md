@@ -1,11 +1,23 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/).
+The format is based on [Keep a Changelog] and this project adheres to [Semantic
+Versioning].
 
 ## [Unreleased]
+
+## [0.1.0] - 2017-09-13
+### Added
+- API documentation.
+
+### Changed
+- Follow [Semantic Versioning].
+- API in scripts.
+- Function names in scripts.
+- Rename `easy_autoresidential` to `pick_residential`.
+
 ### Fixed
-- Tile 1 url.
+- Tile border overflow, [issue #1].
 
 ## [0.0.3] - 2017-09-09
 ### Changed
@@ -33,7 +45,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 - Reformat readme file to correspond to changelog file.
 
-[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/qeef/josm-scripts/compare/v0.0.3...v0.1.0
 [0.0.3]: https://github.com/qeef/josm-scripts/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/qeef/josm-scripts/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/qeef/josm-scripts/compare/d72f585...v0.0.1
+
+[issue #1]: https://github.com/qeef/josm-scripts/issues/1
+
+[Semantic Versioning]: http://semver.org/
+[Keep a Changelog]: http://keepachangelog.com/
