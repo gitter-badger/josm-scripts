@@ -11,7 +11,7 @@ For short notes about history of ideas see [credits].
 
 # User documentation
 - [Click buildings](./doc/user/click_buildings.md)
-- [Easy autoresidential](./doc/user/easy_autoresidential.md)
+- [Pick residential](./doc/user/pick_residential.md)
 - [Easy buildings](./doc/user/easy_buildings.md)
 
 # API documentation
