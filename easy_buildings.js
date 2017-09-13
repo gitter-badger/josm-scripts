@@ -41,6 +41,51 @@ function easy_cbuilding() {
     //con.println("Circle building created.");
 }
 
+function easy_obuilding() {
+    // init
+    var cmd = require("josm/command");
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var wb =  ds.wayBuilder;
+    var nb =  ds.nodeBuilder;
+
+    var b = ds.selection.ways[0].firstNode();
+    var e = ds.selection.ways[0].lastNode();
+
+    if ((b.lat == e.lat) && (e.lon == b.lon)) {  // the way is finished
+        // just orthogonalize
+    } else if (ds.selection.ways[0].nodes.length == 4) { // four nodes
+        // finish the way
+        ds.selection.add(wb.withNodes(e, b).create());
+        org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+    } else if (ds.selection.ways[0].nodes.length == 3) { // three nodes
+        var m = ds.selection.ways[0].nodes[1];
+        var zx = (b.lat + e.lat) / 2;
+        var zy = (b.lon + e.lon) / 2;
+        var xx = 2*zx - m.lat;
+        var xy = 2*zy - m.lon;
+
+        var x = nb.withPosition(xx, xy).create();
+        ds.selection.add(wb.withNodes(e, x).create());
+        ds.selection.add(wb.withNodes(x, b).create());
+        org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+    } else {
+      // TODO alert
+    }
+
+    org.openstreetmap.josm.actions.OrthogonalizeAction().actionPerformed(null);
+
+    // tag as building
+    active_layer.apply(
+        cmd.change(ds.selection.objects, {tags: {"building" : "yes"}})
+    );
+
+    // clear selection
+    ds.selection.clearAll();
+
+    //con.println("Orthogonal building created.");
+}
+
 // general includes
 var JSAction = require("josm/ui/menu").JSAction;
 
@@ -52,53 +97,12 @@ var create_easy_cbuilding = new JSAction({
         easy_cbuilding();
 }});
 
-// create orthogonal building
-var obuilding = new JSAction({
+// create easy orthogonal building menu entry
+var create_easy_obuilding = new JSAction({
     name: "Easy Orthogonal Building",
-    tooltip: "Create easy orthogonal building",
+    tooltip: "Create orthogonal building by three clicks",
     onExecute: function() {
-        // init
-        var cmd = require("josm/command");
-        var active_layer = josm.layers.activeLayer;
-        var ds = active_layer.data;
-        var wb =  ds.wayBuilder;
-        var nb =  ds.nodeBuilder;
-
-        var b = ds.selection.ways[0].firstNode();
-        var e = ds.selection.ways[0].lastNode();
-
-        if ((b.lat == e.lat) && (e.lon == b.lon)) {  // the way is finished
-            // just orthogonalize
-        } else if (ds.selection.ways[0].nodes.length == 4) { // four nodes
-            // finish the way
-            ds.selection.add(wb.withNodes(e, b).create());
-            org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
-        } else if (ds.selection.ways[0].nodes.length == 3) { // three nodes
-            var m = ds.selection.ways[0].nodes[1];
-            var zx = (b.lat + e.lat) / 2;
-            var zy = (b.lon + e.lon) / 2;
-            var xx = 2*zx - m.lat;
-            var xy = 2*zy - m.lon;
-
-            var x = nb.withPosition(xx, xy).create();
-            ds.selection.add(wb.withNodes(e, x).create());
-            ds.selection.add(wb.withNodes(x, b).create());
-            org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
-        } else {
-          // TODO alert
-        }
-
-        org.openstreetmap.josm.actions.OrthogonalizeAction().actionPerformed(null);
-
-        // tag as building
-        active_layer.apply(
-            cmd.change(ds.selection.objects, {tags: {"building" : "yes"}})
-        );
-
-        // clear selection
-        ds.selection.clearAll();
-
-        //con.println("Orthogonal building created.");
+        easy_obuilding();
 }});
 
 // create residential area
