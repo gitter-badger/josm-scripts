@@ -1,5 +1,5 @@
 /*
-    Easy autoresidential - create residential area around selected buildings.
+    Pick residential - create residential area around selected buildings.
     Copyright (C) 2017  Jiri Hubacek
     Contact: Jiri Hubacek <jiri.hubacek@gmail.com>
 
@@ -20,9 +20,6 @@
 // for debug purposes
 //var con = require("josm/scriptingconsole");
 //con.clear();
-
-// general includes
-var JSAction = require("josm/ui/menu").JSAction;
 
 // Graham scan implementation
 // @see https://en.wikipedia.org/wiki/Graham_scan
@@ -125,38 +122,46 @@ function expand(coords, by)
     return 0;
 }
 
-var auto_rarea = new JSAction({
-    name: "Easy Autoresidential",
+function pick_rarea() {
+    var cmd = require("josm/command");
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var wb = ds.wayBuilder;
+    var nb = ds.nodeBuilder;
+
+    var border = new Array();
+    var b_orig = graham_scan(ds.selection.nodes);
+    ds.selection.clearAll();
+
+    for (n in b_orig) {
+        border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
+    }
+
+    expand(border, 0.00006);
+
+    ds.selection.add(wb.withNodes(border[0], border[1]).create());
+    for (i = 2; i < border.length; i++) {
+        ds.selection.add(wb.withNodes(border[i-1], border[i]).create());
+        org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+    }
+    ds.selection.add(wb.withNodes(border[border.length - 1], border[0]).create());
+    org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+
+    active_layer.apply(
+            cmd.change(
+                ds.selection.objects,
+                {tags: {"landuse" : "residential"}}));
+
+    ds.selection.clearAll();
+}
+
+// create menu entries
+var JSAction = require("josm/ui/menu").JSAction;
+
+// create pick residential area menu entry
+var create_pick_rarea = new JSAction({
+    name: "Pick Residential",
     tooltip: "Automatically create residential area around selection",
     onExecute: function() {
-        var cmd = require("josm/command");
-        var active_layer = josm.layers.activeLayer;
-        var ds = active_layer.data;
-        var wb = ds.wayBuilder;
-        var nb = ds.nodeBuilder;
-
-        var border = new Array();
-        var b_orig = graham_scan(ds.selection.nodes);
-        ds.selection.clearAll();
-
-        for (n in b_orig) {
-            border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
-        }
-
-        expand(border, 0.00006);
-
-        ds.selection.add(wb.withNodes(border[0], border[1]).create());
-        for (i = 2; i < border.length; i++) {
-            ds.selection.add(wb.withNodes(border[i-1], border[i]).create());
-            org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
-        }
-        ds.selection.add(wb.withNodes(border[border.length - 1], border[0]).create());
-        org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
-
-        active_layer.apply(
-                cmd.change(
-                    ds.selection.objects,
-                    {tags: {"landuse" : "residential"}}));
-
-        ds.selection.clearAll();
+        pick_rarea();
 }});
