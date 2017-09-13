@@ -446,7 +446,6 @@ function get_wimg(node, ts) {
     return wimg;
 }
 
-// click create circle building
 function click_cbuilding() {
     // for debug purposes
     //var con = require("josm/scriptingconsole");
@@ -476,16 +475,16 @@ function click_cbuilding() {
                     lnode.lon + (-IHSIZE+maximum_voted[1]+maximum_voted[3])*lnode_xy[2]).create()).create());
 
     // from `easy_buildings.js`
-    cbuilding.onExecute();
+    easy_cbuilding();
 }
 
-// general includes
+// create menu entries
 var JSAction = require("josm/ui/menu").JSAction;
 
-// create click cbuilding
+// create click circle building menu entry
 var create_click_cbuilding = new JSAction({
     name: "Click Circle Building",
     tooltip: "Create circle building by one click",
     onExecute: function() {
-        click_cbuilding()
+        click_cbuilding();
 }});
