@@ -16,3 +16,8 @@ borders needs to be specified by mouse click.
 - For four nodes, finish the way.
 - `OrthogonalizeAction` is run.
 - Selection is tagged as `building: yes`.
+
+## `easy_rarea()`
+- At least three nodes in selection needed.
+- The way is finished.
+- Selection is tagged as `landuse: residential`.
