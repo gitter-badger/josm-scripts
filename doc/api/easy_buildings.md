@@ -10,3 +10,9 @@ borders needs to be specified by mouse click.
 - Two nodes in selection needed.
 - `CreateCircleAction` is run.
 - Selection is tagged as `building: yes`.
+
+## `easy_obuilding()`
+- At least three nodes in selection needed, fourth is computed then.
+- For four nodes, finish the way.
+- `OrthogonalizeAction` is run.
+- Selection is tagged as `building: yes`.
