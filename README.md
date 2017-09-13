@@ -15,4 +15,6 @@ For short notes about history of ideas see [credits].
 - [Easy buildings](./doc/user/easy_buildings.md)
 
 # API documentation
+- [Click buildings](./doc/api/click_buildings.md)
+- [Pick residential](./doc/api/pick_residential.md)
 - [Easy buildings](./doc/api/easy_buildings.md)

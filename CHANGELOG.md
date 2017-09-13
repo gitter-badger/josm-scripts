@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Fixed
+- Missing API documentation links in readme.
 
 ## [0.1.0] - 2017-09-13
 ### Added
