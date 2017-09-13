@@ -86,7 +86,37 @@ function easy_obuilding() {
     //con.println("Orthogonal building created.");
 }
 
-// general includes
+function easy_rarea() {
+    // init
+    var cmd = require("josm/command");
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var wb =  ds.wayBuilder;
+
+    // the way is not finished?
+    if (
+            (ds.selection.ways[0].lastNode().lat != ds.selection.ways[0].firstNode().lat) &&
+            (ds.selection.ways[0].lastNode().lon != ds.selection.ways[0].firstNode().lon)
+            ) {
+        // finish it
+        last = wb.withNodes(ds.selection.ways[0].lastNode(), ds.selection.ways[0].firstNode()).create();
+        ds.selection.add(last);
+
+        org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
+    }
+
+    // tag as residential area
+    active_layer.apply(
+        cmd.change(ds.selection.objects, {tags: {"landuse" : "residential"}})
+    );
+
+    // clear selection
+    ds.selection.clearAll();
+
+    //con.println("Residential area created.");
+}
+
+// create menu entries
 var JSAction = require("josm/ui/menu").JSAction;
 
 // create easy circle building menu entry
@@ -105,36 +135,10 @@ var create_easy_obuilding = new JSAction({
         easy_obuilding();
 }});
 
-// create residential area
-var rarea = new JSAction({
+// create residential area menu entry
+var create_easy_rarea = new JSAction({
     name: "Easy Residential Area",
-    tooltip: "Create easy residential area",
+    tooltip: "Create residential area by few clicks",
     onExecute: function() {
-        // init
-        var cmd = require("josm/command");
-        var active_layer = josm.layers.activeLayer;
-        var ds = active_layer.data;
-        var wb =  ds.wayBuilder;
-
-        // the way is not finished?
-        if (
-                (ds.selection.ways[0].lastNode().lat != ds.selection.ways[0].firstNode().lat) &&
-                (ds.selection.ways[0].lastNode().lon != ds.selection.ways[0].firstNode().lon)
-                ) {
-            // finish it
-            last = wb.withNodes(ds.selection.ways[0].lastNode(), ds.selection.ways[0].firstNode()).create();
-            ds.selection.add(last);
-
-            org.openstreetmap.josm.actions.CombineWayAction().actionPerformed(null);
-        }
-
-        // tag as residential area
-        active_layer.apply(
-            cmd.change(ds.selection.objects, {tags: {"landuse" : "residential"}})
-        );
-
-        // clear selection
-        ds.selection.clearAll();
-
-        //con.println("Residential area created.");
+        easy_rarea();
 }});
