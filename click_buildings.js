@@ -16,6 +16,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+// for debug purposes
+var con = require("josm/scriptingconsole");
+con.clear();
+
 // constants
 CBUILDING_HIST = [0.00035950532067874634, 0.0014380212827149843, 0.010569456427955135, 0.0071901064135749216, 0.01754385964912281, 0.026243888409548503, 0.031205061834915115, 0.046016681046879566, 0.048605119355766405, 0.055435720448662719, 0.060828300258843747, 0.063129134311187898, 0.066939890710382421, 0.066867989646246864, 0.06600517687661768, 0.060253091745757922, 0.058311763014092688, 0.053566292781133097, 0.046160483175151062, 0.040983606557376998, 0.033793500143802273, 0.026747195858498669, 0.024518262870290446, 0.01775956284153013, 0.01553062985332181, 0.01121656600517686, 0.0085562266321541919, 0.0070463042853034126, 0.0060396893874029257, 0.0049611734253666882, 0.004601668104687969, 0.002516537244751219, 0.0013661202185792332, 0.0022289329882082352, 0.0017975266033937276, 0.0010066148979004875, 0.00086281276962898936, 7.1901064135749515e-05, 0.00028760425654299643, 0.00035950532067874558, 0.00028760425654299806, 0.00014380212827149822, 7.1901064135749108e-05, 0.00014380212827149822, 7.1901064135749515e-05, 0.00014380212827149822, 0.0, 7.1901064135749108e-05, 0.0, 0.0, 7.1901064135749108e-05, 0.0, 0.0, 0.0, 7.1901064135749108e-05]
 
@@ -447,10 +452,6 @@ function get_wimg(node, ts) {
 }
 
 function click_cbuilding() {
-    // for debug purposes
-    //var con = require("josm/scriptingconsole");
-    //con.clear();
-
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
 
@@ -478,6 +479,23 @@ function click_cbuilding() {
     easy_cbuilding();
 }
 
+function click_obuilding() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+
+    var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+    var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
+    var lnode_xy = get_node_xy(lnode, ts);
+
+    var wimg = get_wimg(lnode, ts);
+    var sobel_data = sobel_filter(wimg);
+
+
+
+    // from `easy_buildings.js`
+    //easy_obuilding();
+}
+
 // create menu entries
 var JSAction = require("josm/ui/menu").JSAction;
 
@@ -488,3 +506,6 @@ var create_click_cbuilding = new JSAction({
     onExecute: function() {
         click_cbuilding();
 }});
+
+// create click orthogonal building DEBUG
+click_obuilding();
