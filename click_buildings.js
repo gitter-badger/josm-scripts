@@ -159,6 +159,15 @@ function circle_find_max_voted(accumulator_matrix) {
     return maximum_voted;
 }
 
+function direction_feasible(x, y, direction, sobel_data) {
+    if (x + direction[0] < 0) return false;
+    if (y + direction[1] < 0) return false;
+    if (x + direction[0] >= IFSIZE) return false;
+    if (y + direction[1] >= IFSIZE) return false;
+    if (sobel_data[y*IFSIZE + x] <= EDGE_THRESHOLD) return false;
+    return true;
+}
+
 function find_corner(sobel_data) {
     var accumulator_matrix = [];
     var voted = false;
@@ -179,7 +188,27 @@ function find_corner(sobel_data) {
             var y = Math.floor(i / IFSIZE);
 
             // vote
-            // TODO
+            direction.forEach(function(dir, dir_ind, dir_ar) {
+                var max_d1 = 0;
+                var max_d2 = 0;
+                var act_x = x;
+                var act_y = y;
+                var act_dir = dir;
+                while (direction_feasible(act_x, act_y, act_dir, sobel_data)) {
+                    act_x += act_dir[0];
+                    act_y += act_dir[1];
+                    max_d1 += 1;
+                }
+                act_x = x;
+                act_y = y;
+                act_dir = dir_ar[(dir_ind + 2)%direction.length];
+                while (direction_feasible(act_x, act_y, act_dir, sobel_data)) {
+                    act_x += act_dir[0];
+                    act_y += act_dir[1];
+                    max_d2 += 1;
+                }
+                accumulator_matrix.push([x, y, dir_ind, max_d1, max_d2]);
+            });
             voted = true;
         }
     }
