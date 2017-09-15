@@ -159,6 +159,38 @@ function circle_find_max_voted(accumulator_matrix) {
     return maximum_voted;
 }
 
+function find_corner(sobel_data) {
+    var accumulator_matrix = [];
+    var voted = false;
+    var direction = [];
+
+    direction.push([1, 0]);
+    direction.push([1, 1]);
+    direction.push([0, 1]);
+    direction.push([-1, 1]);
+    direction.push([-1, 0]);
+    direction.push([-1, -1]);
+    direction.push([0, -1]);
+    direction.push([1, -1]);
+
+    for (i = 0; i < sobel_data.length; i++) {
+        if (sobel_data[i] > EDGE_THRESHOLD) {
+            var x = i % IFSIZE;
+            var y = Math.floor(i / IFSIZE);
+
+            // vote
+            // TODO
+            voted = true;
+        }
+    }
+
+    if (voted == false) {
+        accumulator_matrix.push([-10, -10, 0, 21, 21]);
+    }
+
+    return accumulator_matrix;
+}
+
 function get_node_xy(node, ts) {
     var act_tile_xy = ts.latLonToTileXY(node.lat, node.lon, 19);
     var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
