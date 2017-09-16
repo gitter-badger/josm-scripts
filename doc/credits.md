@@ -13,6 +13,11 @@ buildings by only making one node. First thought was it's too much for me.
 Some credits also to [@Piskvor] who proposed auto building rotation before
 `easy_autoresidential` script.
 
+Frustrated by not working Hough Transform for orthogonal building shape. I have
+written over 500 lines of code. Deleted twice as much. And still have terrible
+results. In that time of despair my dad came with the idea that evolved to
+implemented algorithm.
+
 ## [Easy autoresidential] - 2017-03-28, [SVĚT-HUB]
 Credits: [@Piskvor]
 
