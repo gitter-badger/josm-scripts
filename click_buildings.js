@@ -45,6 +45,17 @@ var IHSIZE = (IFSIZE - 1) / 2;
 var OFSIZE = IFSIZE + 2;
 var OHSIZE = (OFSIZE - 1) / 2;
 
+var DIRECTION = [];
+
+DIRECTION.push([1, 0]);
+DIRECTION.push([1, 1]);
+DIRECTION.push([0, 1]);
+DIRECTION.push([-1, 1]);
+DIRECTION.push([-1, 0]);
+DIRECTION.push([-1, -1]);
+DIRECTION.push([0, -1]);
+DIRECTION.push([1, -1]);
+
 // Sobel filter
 // @see https://en.wikipedia.org/wiki/Sobel_operator
 // @see https://github.com/miguelmota/sobel
@@ -159,11 +170,11 @@ function circle_find_max_voted(accumulator_matrix) {
     return maximum_voted;
 }
 
-function direction_feasible(x, y, direction, sobel_data) {
-    if (x + direction[0] < 0) return false;
-    if (y + direction[1] < 0) return false;
-    if (x + direction[0] >= IFSIZE) return false;
-    if (y + direction[1] >= IFSIZE) return false;
+function direction_feasible(x, y, dir, sobel_data) {
+    if (x + dir[0] < 0) return false;
+    if (y + dir[1] < 0) return false;
+    if (x + dir[0] >= IFSIZE) return false;
+    if (y + dir[1] >= IFSIZE) return false;
     if (sobel_data[y*IFSIZE + x] <= EDGE_THRESHOLD) return false;
     return true;
 }
@@ -171,16 +182,6 @@ function direction_feasible(x, y, direction, sobel_data) {
 function find_corner(sobel_data) {
     var accumulator_matrix = [];
     var voted = false;
-    var direction = [];
-
-    direction.push([1, 0]);
-    direction.push([1, 1]);
-    direction.push([0, 1]);
-    direction.push([-1, 1]);
-    direction.push([-1, 0]);
-    direction.push([-1, -1]);
-    direction.push([0, -1]);
-    direction.push([1, -1]);
 
     for (i = 0; i < sobel_data.length; i++) {
         if (sobel_data[i] > EDGE_THRESHOLD) {
@@ -188,7 +189,7 @@ function find_corner(sobel_data) {
             var y = Math.floor(i / IFSIZE);
 
             // vote
-            direction.forEach(function(dir, dir_ind, dir_ar) {
+            DIRECTION.forEach(function(dir, dir_ind, dir_ar) {
                 var max_d1 = 0;
                 var max_d2 = 0;
                 var act_x = x;
@@ -201,7 +202,7 @@ function find_corner(sobel_data) {
                 }
                 act_x = x;
                 act_y = y;
-                act_dir = dir_ar[(dir_ind + 2)%direction.length];
+                act_dir = dir_ar[(dir_ind + 2)%DIRECTION.length];
                 while (direction_feasible(act_x, act_y, act_dir, sobel_data)) {
                     act_x += act_dir[0];
                     act_y += act_dir[1];
