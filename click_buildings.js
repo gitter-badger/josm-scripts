@@ -602,8 +602,13 @@ function click_rarea() {
     var omv = orthogonal_find_max_voted(oam);
 
     ds.remove(lnode.id, "node");
-    var cdist = Math.sqrt(cmv[1]*cmv[1] + cmv[2]*cmv[2]);
-    var odist = Math.sqrt(omv[0]*omv[0] + omv[1]*omv[1]);
+    var cdist = Math.sqrt((cmv[1]-IHSIZE)*(cmv[1]-IHSIZE) + (cmv[2]-IHSIZE)*(cmv[2]-IHSIZE));
+    var oc_dir = (omv[2]+1)%DIRECTION.length;
+    var oc_dis = Math.sqrt(omv[3]*omv[3] + omv[4]*omv[4]) / 2;
+    var ocenter_x = omv[0] + DIRECTION[oc_dir][0]*oc_dis;
+    var ocenter_y = omv[1] + DIRECTION[oc_dir][1]*oc_dis;
+    var odist = Math.sqrt((ocenter_x-IHSIZE)*(ocenter_x-IHSIZE) + (ocenter_y-IHSIZE)*(ocenter_y-IHSIZE));
+
     if (cdist < odist) {
         // circle building has smaller euclidean distance to the middle
         ds.selection.add(
