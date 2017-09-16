@@ -590,8 +590,9 @@ function click_rarea() {
 
     var buildings = [];
 
-    while (ds.selection.nodes.length > 0) {
-        var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+    if (ds.selection.nodes.length == 1) return; // one building is not residential area
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        var lnode = nod;
         var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
         var lnode_xy = get_node_xy(lnode, ts);
 
@@ -624,7 +625,10 @@ function click_rarea() {
                     [lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3], lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]],
                     [lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3], lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]]]);
         }
-    }
+    });
+    ds.selection.ways.forEach(function(way, way_ind, way_ar) {
+        ds.remove(way.id, "way");
+    });
 
     buildings.forEach(function(bui, bui_ind, bui_ar) {
         if (bui[0] == "c") {
