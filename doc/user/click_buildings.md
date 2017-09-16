@@ -32,3 +32,12 @@ It has the following effect:
 * Nodes are tagged as `building : yes`.
 * Next mode is *Draw nodes (A)*
 
+## Click Orthogonal Building
+* The user needs to be in *Draw nodes (A)* mode.
+* Select one node in the middle of a building.
+* Run shortcut.
+
+It has the following effect:
+* Rectangle is created around the building.
+* Nodes are tagged as `building : yes`.
+* Next mode is *Draw nodes (A)*
