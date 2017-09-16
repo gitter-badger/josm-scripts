@@ -220,6 +220,18 @@ function find_corner(sobel_data) {
     return accumulator_matrix;
 }
 
+function orthogonal_find_max_voted(accumulator_matrix) {
+    var maximum_voted = [0, 0, 0, 0, 0];
+
+    accumulator_matrix.forEach(function(ite, ind, arr) {
+        if (ite[3] + ite[4] > maximum_voted[3] + maximum_voted[4]) {
+            maximum_voted = ite;
+        }
+    });
+
+    return maximum_voted;
+}
+
 function get_node_xy(node, ts) {
     var act_tile_xy = ts.latLonToTileXY(node.lat, node.lon, 19);
     var act_tile = org.openstreetmap.gui.jmapviewer.Tile(ts, act_tile_xy.x, act_tile_xy.y, 19);
@@ -551,6 +563,9 @@ function click_obuilding() {
     var wimg = get_wimg(lnode, ts);
     var sobel_data = sobel_filter(wimg);
 
+    var accumulator_matrix = find_corner(sobel_data);
+    var maximum_voted = orthogonal_find_max_voted(accumulator_matrix);
+    con.print("\n"+maximum_voted);
 
 
     // from `easy_buildings.js`
