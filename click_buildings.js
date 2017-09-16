@@ -588,56 +588,58 @@ function click_rarea() {
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
 
-    var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
-    var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
-    var lnode_xy = get_node_xy(lnode, ts);
+    while (ds.selection.nodes.length > 0) {
+        var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+        var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
+        var lnode_xy = get_node_xy(lnode, ts);
 
-    var wimg = get_wimg(lnode, ts);
-    var sobel_data = sobel_filter(wimg);
+        var wimg = get_wimg(lnode, ts);
+        var sobel_data = sobel_filter(wimg);
 
-    var cam = circle_hough_transform(sobel_data,
-        Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
-    var cmv = circle_find_max_voted(cam);
-    var oam = find_corner(sobel_data);
-    var omv = orthogonal_find_max_voted(oam);
+        var cam = circle_hough_transform(sobel_data,
+            Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
+        var cmv = circle_find_max_voted(cam);
+        var oam = find_corner(sobel_data);
+        var omv = orthogonal_find_max_voted(oam);
 
-    ds.remove(lnode.id, "node");
-    var cdist = Math.sqrt((cmv[1]-IHSIZE)*(cmv[1]-IHSIZE) + (cmv[2]-IHSIZE)*(cmv[2]-IHSIZE));
-    var oc_dir = (omv[2]+1)%DIRECTION.length;
-    var oc_dis = Math.sqrt(omv[3]*omv[3] + omv[4]*omv[4]) / 2;
-    var ocenter_x = omv[0] + DIRECTION[oc_dir][0]*oc_dis;
-    var ocenter_y = omv[1] + DIRECTION[oc_dir][1]*oc_dis;
-    var odist = Math.sqrt((ocenter_x-IHSIZE)*(ocenter_x-IHSIZE) + (ocenter_y-IHSIZE)*(ocenter_y-IHSIZE));
+        ds.remove(lnode.id, "node");
+        var cdist = Math.sqrt((cmv[1]-IHSIZE)*(cmv[1]-IHSIZE) + (cmv[2]-IHSIZE)*(cmv[2]-IHSIZE));
+        var oc_dir = (omv[2]+1)%DIRECTION.length;
+        var oc_dis = Math.sqrt(omv[3]*omv[3] + omv[4]*omv[4]) / 2;
+        var ocenter_x = omv[0] + DIRECTION[oc_dir][0]*oc_dis;
+        var ocenter_y = omv[1] + DIRECTION[oc_dir][1]*oc_dis;
+        var odist = Math.sqrt((ocenter_x-IHSIZE)*(ocenter_x-IHSIZE) + (ocenter_y-IHSIZE)*(ocenter_y-IHSIZE));
 
-    if (cdist < odist) {
-        // circle building has smaller euclidean distance to the middle
-        ds.selection.add(
-                ds.wayBuilder.withNodes(
-                    ds.nodeBuilder.withPosition(
-                        lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
-                        lnode.lon + (-IHSIZE+cmv[1]-cmv[3])*lnode_xy[2]).create(),
-                    ds.nodeBuilder.withPosition(
-                        lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
-                        lnode.lon + (-IHSIZE+cmv[1]+cmv[3])*lnode_xy[2]).create()).create());
+        if (cdist < odist) {
+            // circle building has smaller euclidean distance to the middle
+            ds.selection.add(
+                    ds.wayBuilder.withNodes(
+                        ds.nodeBuilder.withPosition(
+                            lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
+                            lnode.lon + (-IHSIZE+cmv[1]-cmv[3])*lnode_xy[2]).create(),
+                        ds.nodeBuilder.withPosition(
+                            lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
+                            lnode.lon + (-IHSIZE+cmv[1]+cmv[3])*lnode_xy[2]).create()).create());
 
-        // from `easy_buildings.js`
-        easy_cbuilding();
-    } else {
-        // orthogonal building has smaller euclidean distance to the middle
-        ds.selection.add(
-                ds.wayBuilder.withNodes(
-                    ds.nodeBuilder.withPosition(
-                        lnode.lat + (-IHSIZE+omv[1]+DIRECTION[omv[2]][1]*omv[3])*lnode_xy[3],
-                        lnode.lon + (-IHSIZE+omv[0]+DIRECTION[omv[2]][0]*omv[3])*lnode_xy[2]).create(),
-                    ds.nodeBuilder.withPosition(
-                        lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3],
-                        lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]).create(),
-                    ds.nodeBuilder.withPosition(
-                        lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3],
-                        lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]).create()).create());
+            // from `easy_buildings.js`
+            easy_cbuilding();
+        } else {
+            // orthogonal building has smaller euclidean distance to the middle
+            ds.selection.add(
+                    ds.wayBuilder.withNodes(
+                        ds.nodeBuilder.withPosition(
+                            lnode.lat + (-IHSIZE+omv[1]+DIRECTION[omv[2]][1]*omv[3])*lnode_xy[3],
+                            lnode.lon + (-IHSIZE+omv[0]+DIRECTION[omv[2]][0]*omv[3])*lnode_xy[2]).create(),
+                        ds.nodeBuilder.withPosition(
+                            lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3],
+                            lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]).create(),
+                        ds.nodeBuilder.withPosition(
+                            lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3],
+                            lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]).create()).create());
 
-        // from `easy_buildings.js`
-        easy_obuilding();
+            // from `easy_buildings.js`
+            easy_obuilding();
+        }
     }
 }
 
