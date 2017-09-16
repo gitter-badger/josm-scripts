@@ -565,12 +565,23 @@ function click_obuilding() {
     var sobel_data = sobel_filter(wimg);
 
     var accumulator_matrix = find_corner(sobel_data);
-    var maximum_voted = orthogonal_find_max_voted(accumulator_matrix);
-    con.print("\n"+maximum_voted);
+    var ob_pos = orthogonal_find_max_voted(accumulator_matrix);
 
+    ds.remove(lnode.id, "node");
+    ds.selection.add(
+            ds.wayBuilder.withNodes(
+                ds.nodeBuilder.withPosition(
+                    lnode.lat + (-IHSIZE+ob_pos[1]+DIRECTION[ob_pos[2]][1]*ob_pos[3])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0]+DIRECTION[ob_pos[2]][0]*ob_pos[3])*lnode_xy[2]).create(),
+                ds.nodeBuilder.withPosition(
+                    lnode.lat + (-IHSIZE+ob_pos[1])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0])*lnode_xy[2]).create(),
+                ds.nodeBuilder.withPosition(
+                    lnode.lat + (-IHSIZE+ob_pos[1]+DIRECTION[(ob_pos[2]+2)%DIRECTION.length][1]*ob_pos[4])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0]+DIRECTION[(ob_pos[2]+2)%DIRECTION.length][0]*ob_pos[4])*lnode_xy[2]).create()).create());
 
     // from `easy_buildings.js`
-    //easy_obuilding();
+    easy_obuilding();
 }
 
 // create menu entries
