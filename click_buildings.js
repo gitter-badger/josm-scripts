@@ -584,6 +584,18 @@ function click_obuilding() {
     easy_obuilding();
 }
 
+function click_rarea() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+
+    var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+    var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
+    var lnode_xy = get_node_xy(lnode, ts);
+
+    var wimg = get_wimg(lnode, ts);
+    var sobel_data = sobel_filter(wimg);
+}
+
 // create menu entries
 var JSAction = require("josm/ui/menu").JSAction;
 
@@ -602,3 +614,6 @@ var create_click_obuilding = new JSAction({
     onExecute: function() {
         click_obuilding();
 }});
+
+// create click residential area DEBUG
+click_rarea();
