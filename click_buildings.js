@@ -16,6 +16,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+// for debug purposes
+//var con = require("josm/scriptingconsole");
+//con.clear();
+
 // constants
 CBUILDING_HIST = [0.00035950532067874634, 0.0014380212827149843, 0.010569456427955135, 0.0071901064135749216, 0.01754385964912281, 0.026243888409548503, 0.031205061834915115, 0.046016681046879566, 0.048605119355766405, 0.055435720448662719, 0.060828300258843747, 0.063129134311187898, 0.066939890710382421, 0.066867989646246864, 0.06600517687661768, 0.060253091745757922, 0.058311763014092688, 0.053566292781133097, 0.046160483175151062, 0.040983606557376998, 0.033793500143802273, 0.026747195858498669, 0.024518262870290446, 0.01775956284153013, 0.01553062985332181, 0.01121656600517686, 0.0085562266321541919, 0.0070463042853034126, 0.0060396893874029257, 0.0049611734253666882, 0.004601668104687969, 0.002516537244751219, 0.0013661202185792332, 0.0022289329882082352, 0.0017975266033937276, 0.0010066148979004875, 0.00086281276962898936, 7.1901064135749515e-05, 0.00028760425654299643, 0.00035950532067874558, 0.00028760425654299806, 0.00014380212827149822, 7.1901064135749108e-05, 0.00014380212827149822, 7.1901064135749515e-05, 0.00014380212827149822, 0.0, 7.1901064135749108e-05, 0.0, 0.0, 7.1901064135749108e-05, 0.0, 0.0, 0.0, 7.1901064135749108e-05]
 
@@ -39,6 +44,17 @@ var IFSIZE = 55;
 var IHSIZE = (IFSIZE - 1) / 2;
 var OFSIZE = IFSIZE + 2;
 var OHSIZE = (OFSIZE - 1) / 2;
+
+var DIRECTION = [];
+
+DIRECTION.push([1, 0]);
+DIRECTION.push([1, 1]);
+DIRECTION.push([0, 1]);
+DIRECTION.push([-1, 1]);
+DIRECTION.push([-1, 0]);
+DIRECTION.push([-1, -1]);
+DIRECTION.push([0, -1]);
+DIRECTION.push([1, -1]);
 
 // Sobel filter
 // @see https://en.wikipedia.org/wiki/Sobel_operator
@@ -135,7 +151,7 @@ for (a = IHSIZE - CBUILDING_MIND; a < IHSIZE + CBUILDING_MIND; a++) {
     return accumulator_matrix;
 }
 
-function find_max_voted(accumulator_matrix) {
+function circle_find_max_voted(accumulator_matrix) {
     var maximum_voted = [0, 0, 0, 0];
 
     for (a = 0; a < IFSIZE; a++) {
@@ -150,6 +166,69 @@ function find_max_voted(accumulator_matrix) {
             }
         }
     }
+
+    return maximum_voted;
+}
+
+function direction_feasible(x, y, dir, sobel_data) {
+    if (x + dir[0] < 0) return false;
+    if (y + dir[1] < 0) return false;
+    if (x + dir[0] >= IFSIZE) return false;
+    if (y + dir[1] >= IFSIZE) return false;
+    if (sobel_data[y*IFSIZE + x] <= EDGE_THRESHOLD) return false;
+    return true;
+}
+
+function find_corner(sobel_data) {
+    var accumulator_matrix = [];
+    var voted = false;
+
+    for (i = 0; i < sobel_data.length; i++) {
+        if (sobel_data[i] > EDGE_THRESHOLD) {
+            var x = i % IFSIZE;
+            var y = Math.floor(i / IFSIZE);
+
+            // vote
+            DIRECTION.forEach(function(dir, dir_ind, dir_ar) {
+                var max_d1 = 0;
+                var max_d2 = 0;
+                var act_x = x;
+                var act_y = y;
+                var act_dir = dir;
+                while (direction_feasible(act_x, act_y, act_dir, sobel_data)) {
+                    act_x += act_dir[0];
+                    act_y += act_dir[1];
+                    max_d1 += 1;
+                }
+                act_x = x;
+                act_y = y;
+                act_dir = dir_ar[(dir_ind + 2)%DIRECTION.length];
+                while (direction_feasible(act_x, act_y, act_dir, sobel_data)) {
+                    act_x += act_dir[0];
+                    act_y += act_dir[1];
+                    max_d2 += 1;
+                }
+                accumulator_matrix.push([x, y, dir_ind, max_d1, max_d2]);
+            });
+            voted = true;
+        }
+    }
+
+    if (voted == false) {
+        accumulator_matrix.push([-10, -10, 0, 21, 21]);
+    }
+
+    return accumulator_matrix;
+}
+
+function orthogonal_find_max_voted(accumulator_matrix) {
+    var maximum_voted = [0, 0, 0, 0, 0];
+
+    accumulator_matrix.forEach(function(ite, ind, arr) {
+        if (ite[3] + ite[4] > maximum_voted[3] + maximum_voted[4]) {
+            maximum_voted = ite;
+        }
+    });
 
     return maximum_voted;
 }
@@ -447,10 +526,6 @@ function get_wimg(node, ts) {
 }
 
 function click_cbuilding() {
-    // for debug purposes
-    //var con = require("josm/scriptingconsole");
-    //con.clear();
-
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
 
@@ -462,7 +537,7 @@ function click_cbuilding() {
     var sobel_data = sobel_filter(wimg);
     var accumulator_matrix = circle_hough_transform(sobel_data,
             Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
-    var maximum_voted = find_max_voted(accumulator_matrix);
+    var maximum_voted = circle_find_max_voted(accumulator_matrix);
 
     ds.remove(lnode.id, "node");
     ds.selection.add(
@@ -478,6 +553,37 @@ function click_cbuilding() {
     easy_cbuilding();
 }
 
+function click_obuilding() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+
+    var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
+    var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
+    var lnode_xy = get_node_xy(lnode, ts);
+
+    var wimg = get_wimg(lnode, ts);
+    var sobel_data = sobel_filter(wimg);
+
+    var accumulator_matrix = find_corner(sobel_data);
+    var ob_pos = orthogonal_find_max_voted(accumulator_matrix);
+
+    ds.remove(lnode.id, "node");
+    ds.selection.add(
+            ds.wayBuilder.withNodes(
+                ds.nodeBuilder.withPosition(
+                    lnode.lat + (-IHSIZE+ob_pos[1]+DIRECTION[ob_pos[2]][1]*ob_pos[3])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0]+DIRECTION[ob_pos[2]][0]*ob_pos[3])*lnode_xy[2]).create(),
+                ds.nodeBuilder.withPosition(
+                    lnode.lat + (-IHSIZE+ob_pos[1])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0])*lnode_xy[2]).create(),
+                ds.nodeBuilder.withPosition(
+                    lnode.lat + (-IHSIZE+ob_pos[1]+DIRECTION[(ob_pos[2]+2)%DIRECTION.length][1]*ob_pos[4])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0]+DIRECTION[(ob_pos[2]+2)%DIRECTION.length][0]*ob_pos[4])*lnode_xy[2]).create()).create());
+
+    // from `easy_buildings.js`
+    easy_obuilding();
+}
+
 // create menu entries
 var JSAction = require("josm/ui/menu").JSAction;
 
@@ -487,4 +593,12 @@ var create_click_cbuilding = new JSAction({
     tooltip: "Create circle building by one click",
     onExecute: function() {
         click_cbuilding();
+}});
+
+// create click orthogonal building menu entry
+var create_click_obuilding = new JSAction({
+    name: "Click Orthogonal Building",
+    tooltip: "Create orthogonal building by one click",
+    onExecute: function() {
+        click_obuilding();
 }});
