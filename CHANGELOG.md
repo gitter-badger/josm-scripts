@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Added
+- Script for creating orthogonal building based on the click to the middle of
+  the building.
+
 ### Fixed
 - Missing API documentation links in readme.
 
@@ -35,7 +39,8 @@ Versioning].
 ### Added
 - Credits information to scripts.
 - Auxiliary python script for building dimensions histogram generation.
-- Script for creating circle building from middle node.
+- Script for creating circle building based on the click to the middle of the
+  building.
 
 ## [0.0.1] - 2017-08-09
 ### Added

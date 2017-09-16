@@ -2,7 +2,8 @@
 Some useful scripts for [JOSM Scripting Plugin]. For installation of JOSM
 Scripting Plugin see [installation].
 
-Download from the [release page]. Branch `master` is where development happens.
+Please, download from the [release page]. Branch `master` is where the
+development happens so it is not stable.
 
 [JOSM Scripting Plugin]: http://gubaer.github.io/josm-scripting-plugin/
 [installation]: https://github.com/Gubaer/josm-scripting-plugin#for-josm-users
