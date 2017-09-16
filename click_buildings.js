@@ -595,5 +595,10 @@ var create_click_cbuilding = new JSAction({
         click_cbuilding();
 }});
 
-// create click orthogonal building DEBUG
-click_obuilding();
+// create click orthogonal building menu entry
+var create_click_obuilding = new JSAction({
+    name: "Click Orthogonal Building",
+    tooltip: "Create orthogonal building by one click",
+    onExecute: function() {
+        click_obuilding();
+}});
