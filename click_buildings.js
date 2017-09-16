@@ -588,6 +588,8 @@ function click_rarea() {
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
 
+    var buildings = [];
+
     while (ds.selection.nodes.length > 0) {
         var lnode = ds.selection.nodes[ds.selection.nodes.length - 1];
         var ts = josm.layers.get(1).getTileSourceStatic(josm.layers.get(1).info);
@@ -612,35 +614,38 @@ function click_rarea() {
 
         if (cdist < odist) {
             // circle building has smaller euclidean distance to the middle
+            buildings.push(["c",
+                    [lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3], lnode.lon + (-IHSIZE+cmv[1]-cmv[3])*lnode_xy[2]],
+                    [lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3], lnode.lon + (-IHSIZE+cmv[1]+cmv[3])*lnode_xy[2]]]);
+        } else {
+            // orthogonal building has smaller euclidean distance to the middle
+            buildings.push(["o",
+                    [lnode.lat + (-IHSIZE+omv[1]+DIRECTION[omv[2]][1]*omv[3])*lnode_xy[3], lnode.lon + (-IHSIZE+omv[0]+DIRECTION[omv[2]][0]*omv[3])*lnode_xy[2]],
+                    [lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3], lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]],
+                    [lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3], lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]]]);
+        }
+    }
+
+    buildings.forEach(function(bui, bui_ind, bui_ar) {
+        if (bui[0] == "c") {
             ds.selection.add(
                     ds.wayBuilder.withNodes(
-                        ds.nodeBuilder.withPosition(
-                            lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
-                            lnode.lon + (-IHSIZE+cmv[1]-cmv[3])*lnode_xy[2]).create(),
-                        ds.nodeBuilder.withPosition(
-                            lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
-                            lnode.lon + (-IHSIZE+cmv[1]+cmv[3])*lnode_xy[2]).create()).create());
+                        ds.nodeBuilder.withPosition(bui[1][0], bui[1][1]).create(),
+                        ds.nodeBuilder.withPosition(bui[2][0], bui[2][1]).create()).create());
 
             // from `easy_buildings.js`
             easy_cbuilding();
-        } else {
-            // orthogonal building has smaller euclidean distance to the middle
+        } else if (bui[0] == "o") {
             ds.selection.add(
                     ds.wayBuilder.withNodes(
-                        ds.nodeBuilder.withPosition(
-                            lnode.lat + (-IHSIZE+omv[1]+DIRECTION[omv[2]][1]*omv[3])*lnode_xy[3],
-                            lnode.lon + (-IHSIZE+omv[0]+DIRECTION[omv[2]][0]*omv[3])*lnode_xy[2]).create(),
-                        ds.nodeBuilder.withPosition(
-                            lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3],
-                            lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]).create(),
-                        ds.nodeBuilder.withPosition(
-                            lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3],
-                            lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]).create()).create());
+                        ds.nodeBuilder.withPosition(bui[1][0], bui[1][1]).create(),
+                        ds.nodeBuilder.withPosition(bui[2][0], bui[2][1]).create(),
+                        ds.nodeBuilder.withPosition(bui[3][0], bui[3][1]).create()).create());
 
             // from `easy_buildings.js`
             easy_obuilding();
         }
-    }
+    });
 }
 
 // create menu entries
