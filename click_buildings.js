@@ -594,6 +594,46 @@ function click_rarea() {
 
     var wimg = get_wimg(lnode, ts);
     var sobel_data = sobel_filter(wimg);
+
+    var cam = circle_hough_transform(sobel_data,
+        Math.ceil(CBUILDING_HIST_EDGES[0]/lnode_xy[2]), lnode_xy[2]);
+    var cmv = circle_find_max_voted(cam);
+    var oam = find_corner(sobel_data);
+    var omv = orthogonal_find_max_voted(oam);
+
+    ds.remove(lnode.id, "node");
+    var cdist = Math.sqrt(cmv[1]*cmv[1] + cmv[2]*cmv[2]);
+    var odist = Math.sqrt(omv[0]*omv[0] + omv[1]*omv[1]);
+    if (cdist < odist) {
+        // circle building has smaller euclidean distance to the middle
+        ds.selection.add(
+                ds.wayBuilder.withNodes(
+                    ds.nodeBuilder.withPosition(
+                        lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
+                        lnode.lon + (-IHSIZE+cmv[1]-cmv[3])*lnode_xy[2]).create(),
+                    ds.nodeBuilder.withPosition(
+                        lnode.lat + (-IHSIZE+cmv[2])*lnode_xy[3],
+                        lnode.lon + (-IHSIZE+cmv[1]+cmv[3])*lnode_xy[2]).create()).create());
+
+        // from `easy_buildings.js`
+        easy_cbuilding();
+    } else {
+        // orthogonal building has smaller euclidean distance to the middle
+        ds.selection.add(
+                ds.wayBuilder.withNodes(
+                    ds.nodeBuilder.withPosition(
+                        lnode.lat + (-IHSIZE+omv[1]+DIRECTION[omv[2]][1]*omv[3])*lnode_xy[3],
+                        lnode.lon + (-IHSIZE+omv[0]+DIRECTION[omv[2]][0]*omv[3])*lnode_xy[2]).create(),
+                    ds.nodeBuilder.withPosition(
+                        lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3],
+                        lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]).create(),
+                    ds.nodeBuilder.withPosition(
+                        lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3],
+                        lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]).create()).create());
+
+        // from `easy_buildings.js`
+        easy_obuilding();
+    }
 }
 
 // create menu entries
