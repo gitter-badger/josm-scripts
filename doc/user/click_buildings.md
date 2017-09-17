@@ -20,7 +20,8 @@ shortcut as follows:
 
 Note: Recommendation is to use shortcuts accessible by no-mouse hand.  
 Note: Shortcuts assignment persist the restart of JOSM.  
-**IMPORTANT**: This script is dependent on *Easy buildings* script.  
+**IMPORTANT**: This script is dependent on *Easy Buildings* script.  
+**IMPORTANT**: This script is dependent on *Pick Residential* script.  
 
 ## Click Circle Building
 * The user needs to be in *Draw nodes (A)* mode.
@@ -40,4 +41,15 @@ It has the following effect:
 It has the following effect:
 * Rectangle is created around the building.
 * Nodes are tagged as `building : yes`.
+* Next mode is *Draw nodes (A)*
+
+## Click Residential Area
+* The user needs to be in *Draw nodes (A)* mode.
+* Select buildings of residential area by clicking to the middle. It would look
+  like bad-looking way.
+* Run shortcut.
+
+It has the following effect:
+* Buildings are created at the places of clicks.
+* Residential area around buildings is created.
 * Next mode is *Draw nodes (A)*
