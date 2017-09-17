@@ -683,5 +683,10 @@ var create_click_obuilding = new JSAction({
         click_obuilding();
 }});
 
-// create click residential area DEBUG
-click_rarea();
+// create click residential area menu entry
+var create_click_obuilding = new JSAction({
+    name: "Click Residential Area",
+    tooltip: "Create residential area with buildings clicking on buildings",
+    onExecute: function() {
+        click_rarea();
+}});
