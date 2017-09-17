@@ -202,7 +202,7 @@ function find_corner(sobel_data) {
                 }
                 act_x = x;
                 act_y = y;
-                act_dir = dir_ar[(dir_ind + 2)%DIRECTION.length];
+                act_dir = dir_ar[(dir_ind + DIRECTION.length/4)%DIRECTION.length];
                 while (direction_feasible(act_x, act_y, act_dir, sobel_data)) {
                     act_x += act_dir[0];
                     act_y += act_dir[1];
@@ -577,8 +577,8 @@ function click_obuilding() {
                     lnode.lat + (-IHSIZE+ob_pos[1])*lnode_xy[3],
                     lnode.lon + (-IHSIZE+ob_pos[0])*lnode_xy[2]).create(),
                 ds.nodeBuilder.withPosition(
-                    lnode.lat + (-IHSIZE+ob_pos[1]+DIRECTION[(ob_pos[2]+2)%DIRECTION.length][1]*ob_pos[4])*lnode_xy[3],
-                    lnode.lon + (-IHSIZE+ob_pos[0]+DIRECTION[(ob_pos[2]+2)%DIRECTION.length][0]*ob_pos[4])*lnode_xy[2]).create()).create());
+                    lnode.lat + (-IHSIZE+ob_pos[1]+DIRECTION[(ob_pos[2]+DIRECTION.length/4)%DIRECTION.length][1]*ob_pos[4])*lnode_xy[3],
+                    lnode.lon + (-IHSIZE+ob_pos[0]+DIRECTION[(ob_pos[2]+DIRECTION.length/4)%DIRECTION.length][0]*ob_pos[4])*lnode_xy[2]).create()).create());
 
     // from `easy_buildings.js`
     easy_obuilding();
@@ -608,7 +608,7 @@ function click_rarea() {
 
         ds.remove(lnode.id, "node");
         var cdist = Math.sqrt((cmv[1]-IHSIZE)*(cmv[1]-IHSIZE) + (cmv[2]-IHSIZE)*(cmv[2]-IHSIZE));
-        var oc_dir = (omv[2]+1)%DIRECTION.length;
+        var oc_dir = (omv[2]+DIRECTION.length/8)%DIRECTION.length;
         var oc_dis = Math.sqrt(omv[3]*omv[3] + omv[4]*omv[4]) / 2;
         var ocenter_x = omv[0] + DIRECTION[oc_dir][0]*oc_dis;
         var ocenter_y = omv[1] + DIRECTION[oc_dir][1]*oc_dis;
@@ -623,7 +623,7 @@ function click_rarea() {
             // orthogonal building has smaller euclidean distance to the middle
             var n1 = {"lat":lnode.lat + (-IHSIZE+omv[1]+DIRECTION[omv[2]][1]*omv[3])*lnode_xy[3], "lon":lnode.lon + (-IHSIZE+omv[0]+DIRECTION[omv[2]][0]*omv[3])*lnode_xy[2]};
             var n2 = {"lat":lnode.lat + (-IHSIZE+omv[1])*lnode_xy[3], "lon":lnode.lon + (-IHSIZE+omv[0])*lnode_xy[2]};
-            var n3 = {"lat":lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+2)%DIRECTION.length][1]*omv[4])*lnode_xy[3], "lon":lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+2)%DIRECTION.length][0]*omv[4])*lnode_xy[2]};
+            var n3 = {"lat":lnode.lat + (-IHSIZE+omv[1]+DIRECTION[(omv[2]+DIRECTION.length/4)%DIRECTION.length][1]*omv[4])*lnode_xy[3], "lon":lnode.lon + (-IHSIZE+omv[0]+DIRECTION[(omv[2]+DIRECTION.length/4)%DIRECTION.length][0]*omv[4])*lnode_xy[2]};
             buildings.push(["o", n1, n2, n3]);
         }
     });
