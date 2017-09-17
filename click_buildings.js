@@ -589,6 +589,7 @@ function click_rarea() {
     var ds = active_layer.data;
 
     var buildings = [];
+    var nodes = [];
 
     if (ds.selection.nodes.length == 1) return; // one building is not residential area
     ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
@@ -638,7 +639,10 @@ function click_rarea() {
                         ds.nodeBuilder.withPosition(bui[2]["lat"], bui[2]["lon"]).create()).create());
 
             // from `easy_buildings.js`
-            easy_cbuilding();
+            var lls = easy_cbuilding();
+            lls.forEach(function(obj, obj_ind, obj_ar) {
+                nodes.push(obj);
+            });
         } else if (bui[0] == "o") {
             ds.selection.add(
                     ds.wayBuilder.withNodes(
@@ -647,9 +651,17 @@ function click_rarea() {
                         ds.nodeBuilder.withPosition(bui[3]["lat"], bui[3]["lon"]).create()).create());
 
             // from `easy_buildings.js`
-            easy_obuilding();
+            var lls = easy_obuilding();
+            lls.forEach(function(obj, obj_ind, obj_ar) {
+                nodes.push(obj);
+            });
         }
     });
+    // from `pick_residential.js`
+    var b_orig = graham_scan(nodes);
+    ds.selection.clearAll();
+    create_border(b_orig);
+    ds.selection.clearAll();
 }
 
 // create menu entries
