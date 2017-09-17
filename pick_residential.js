@@ -122,7 +122,7 @@ function expand(coords, by)
     return 0;
 }
 
-function pick_rarea() {
+function create_border(b_orig) {
     var cmd = require("josm/command");
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
@@ -130,8 +130,6 @@ function pick_rarea() {
     var nb = ds.nodeBuilder;
 
     var border = new Array();
-    var b_orig = graham_scan(ds.selection.nodes);
-    ds.selection.clearAll();
 
     for (n in b_orig) {
         border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
@@ -151,7 +149,14 @@ function pick_rarea() {
             cmd.change(
                 ds.selection.objects,
                 {tags: {"landuse" : "residential"}}));
+}
 
+function pick_rarea() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var b_orig = graham_scan(ds.selection.nodes);
+    ds.selection.clearAll();
+    create_border(b_orig);
     ds.selection.clearAll();
 }
 

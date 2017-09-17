@@ -3,7 +3,7 @@ Go back to [README](../../README.md).
 
 This file contains documentation for `click_buildings.js` scripts. The goal is
 to create building by one mouse click to the middle of a building. This script
-is dependent on *Easy buildings* script.
+is dependent on *Easy Buildings* and *Pick Residential* scripts.
 
 ## `click_cbuilding()`
 - Click to the middle of the building needed.
@@ -20,6 +20,16 @@ is dependent on *Easy buildings* script.
   function.
 - Evaluate corner parameters by `find_corner` function and find the most
   suitable corner point by `orthogonal_find_max_voted` function.
+
+## `click_rarea()`
+- Run if more than one building selected by click.
+- Run `click_cbuilding` and `click_obuilding` functions and compare their
+  Euclidean distance from the click position. Use building that is closer.
+- Do the previous for all clicks/buildings. Store the output of the building
+  creation functions `easy_cbuilding`, `easy_obuilding`. The output contain
+  array of nodes coordinations of building (lat, lon). The output is stored in
+  `nodes` array.
+- Use the `nodes` array for creating the residential area around buildings.
 
 ## `get_wimg(node, ts)`
 - `node` -- Coordinates of clicked node.
