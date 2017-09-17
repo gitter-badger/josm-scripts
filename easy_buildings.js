@@ -27,6 +27,8 @@ function easy_cbuilding() {
     var ds = active_layer.data;
     var wb =  ds.wayBuilder;
 
+    var ret = [];
+
     // create circle
     org.openstreetmap.josm.actions.CreateCircleAction().actionPerformed(null);
 
@@ -35,10 +37,15 @@ function easy_cbuilding() {
         cmd.change(ds.selection.objects, {tags: {"building" : "yes"}})
     );
 
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ret.push({"lat":nod.lat, "lon":nod.lon});
+    });
+
     // finish way, nothing selected
     ds.selection.clearAll();
 
     //con.println("Circle building created.");
+    return ret;
 }
 
 function easy_obuilding() {
@@ -51,6 +58,8 @@ function easy_obuilding() {
 
     var b = ds.selection.ways[0].firstNode();
     var e = ds.selection.ways[0].lastNode();
+
+    var ret = [];
 
     if ((b.lat == e.lat) && (e.lon == b.lon)) {  // the way is finished
         // just orthogonalize
@@ -80,10 +89,15 @@ function easy_obuilding() {
         cmd.change(ds.selection.objects, {tags: {"building" : "yes"}})
     );
 
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ret.push({"lat":nod.lat, "lon":nod.lon});
+    });
+
     // clear selection
     ds.selection.clearAll();
 
     //con.println("Orthogonal building created.");
+    return ret;
 }
 
 function easy_rarea() {
