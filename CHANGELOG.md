@@ -8,6 +8,8 @@ Versioning].
 ### Added
 - Script for creating orthogonal building based on the click to the middle of
   the building.
+- Script for creating residential area and buildings inside it by clicking to
+  the middle of the buildings.
 
 ### Fixed
 - Missing API documentation links in readme.
