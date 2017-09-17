@@ -11,4 +11,9 @@ to automatically make residential area around selected buildings.
 ## `graham_scan()`
 - For more information about Graham scan see [1].
 
+## `create_border(b_orig)`
+- `b_orig` -- Original border nodes array.
+
+- Expand borders and create residential area of them.
+
 [1]: https://en.wikipedia.org/wiki/Graham_scan
