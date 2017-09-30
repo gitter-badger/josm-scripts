@@ -34,11 +34,12 @@ It has the following effect:
 ## Easy Orthogonal Building
 * The user needs to be in *Draw nodes (A)* mode.
 * Select three (four) nodes on building corners.
+* If three nodes used, another three nodes at multiple buildings corners can be
+  selected.
 * Run shortcut.
 
 It has the following effect:
-* Orthogonal way is created and closed.
-* Nodes are tagged as `building : yes`.
+* Orthogonal buildings are created with selected nodes positions.
 * Next mode is *Draw nodes (A)*
 
 ## Easy Residential Area

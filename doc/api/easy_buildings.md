@@ -23,6 +23,12 @@ borders needs to be specified by mouse click.
 - `OrthogonalizeAction` is run.
 - Selection is tagged as `building: yes`.
 
+## `batch_obuilding()`
+- All nodes from selection are stored in `buildings` array by triples.
+- All nodes and ways are cleared.
+- For each triple in `buildings` array add nodes to selection and run
+  `easy_obuilding` function.
+
 ## `easy_rarea()`
 - At least three nodes in selection needed.
 - The way is finished.

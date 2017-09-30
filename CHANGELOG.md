@@ -7,9 +7,12 @@ Versioning].
 ## [Unreleased]
 ### Added
 - Batch circle building function.
+- Batch orthogonal building function.
 
 ### Changed
 - *Easy Circle Building* shortcut now implements batch circle building
+  creation. It is backward compatible.
+- *Easy Orthogonal Building* shortcut now implements batch orthogonal building
   creation. It is backward compatible.
 
 ## [0.2.0] - 2017-09-17
