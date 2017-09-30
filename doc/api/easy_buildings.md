@@ -11,6 +11,12 @@ borders needs to be specified by mouse click.
 - `CreateCircleAction` is run.
 - Selection is tagged as `building: yes`.
 
+## `batch_cbuilding()`
+- All nodes from selection are stored in `buildings` array by pairs.
+- All nodes and ways are cleared.
+- For each pair in `buildings` array two nodes are added to selection and
+  `easy_cbuilding` function is run.
+
 ## `easy_obuilding()`
 - At least three nodes in selection needed, fourth is computed then.
 - For four nodes, finish the way.

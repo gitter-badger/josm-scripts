@@ -24,11 +24,11 @@ Note: Shortcuts assignment persist the restart of JOSM.
 ## Easy Circle Building
 * The user needs to be in *Draw nodes (A)* mode.
 * Select two nodes on a building diameter.
+* Another two nodes at multiple buildings diameters can be selected.
 * Run shortcut.
 
 It has the following effect:
-* Circle is created, way is closed.
-* Nodes are tagged as `building : yes`.
+* Circle buildings are created with selected nodes positions.
 * Next mode is *Draw nodes (A)*
 
 ## Easy Orthogonal Building

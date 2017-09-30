@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Added
+- Batch circle building function.
+
+### Changed
+- *Easy Circle Building* shortcut now implements batch circle building
+  creation. It is backward compatible.
 
 ## [0.2.0] - 2017-09-17
 ### Added
