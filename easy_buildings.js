@@ -52,7 +52,6 @@ function batch_cbuilding() {
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
     var buildings = [];
-    if (ds.selection.ways[0].nodes.length %2 != 0) return; // check if node pairs
     for (i = 0; i < ds.selection.ways[0].nodes.length - 1; i+=2) {
         var n1 = ds.selection.ways[0].nodes[i];
         var n2 = ds.selection.ways[0].nodes[i+1];
@@ -60,6 +59,9 @@ function batch_cbuilding() {
         ds.remove(n1.id, "node");
         ds.remove(n2.id, "node");
     }
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ds.remove(nod.id, "node");
+    });
     ds.selection.ways.forEach(function(way, way_ind, way_ar) {
         ds.remove(way.id, "way");
     });
@@ -129,12 +131,11 @@ function batch_obuilding() {
     var ds = active_layer.data;
     var buildings = [];
     var one_building = false;
-    if (ds.selection.ways[0].nodes.length == 4) {
+    if (ds.selection.ways[0].nodes.length <= 4) {
         easy_obuilding();
         one_building = true;
     }
     if (one_building) return;
-    if (ds.selection.ways[0].nodes.length %3 != 0) return; // check if node triples
     for (i = 0; i < ds.selection.ways[0].nodes.length - 2; i+=3) {
         var n1 = ds.selection.ways[0].nodes[i];
         var n2 = ds.selection.ways[0].nodes[i+1];
@@ -147,6 +148,9 @@ function batch_obuilding() {
         ds.remove(n2.id, "node");
         ds.remove(n3.id, "node");
     }
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ds.remove(nod.id, "node");
+    });
     ds.selection.ways.forEach(function(way, way_ind, way_ar) {
         ds.remove(way.id, "way");
     });
