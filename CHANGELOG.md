@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+## [0.3.0] - 2017-10-01
 ### Added
 - Batch circle building function.
 - Batch orthogonal building function.
@@ -14,6 +15,9 @@ Versioning].
   creation. It is backward compatible.
 - *Easy Orthogonal Building* shortcut now implements batch orthogonal building
   creation. It is backward compatible.
+
+### Fixed
+- Batch buildings creation, [issue #11].
 
 ## [0.2.0] - 2017-09-17
 ### Added
@@ -65,7 +69,8 @@ Versioning].
 ### Changed
 - Reformat readme file to correspond to changelog file.
 
-[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/qeef/josm-scripts/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/qeef/josm-scripts/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/qeef/josm-scripts/compare/v0.0.3...v0.1.0
 [0.0.3]: https://github.com/qeef/josm-scripts/compare/v0.0.2...v0.0.3
@@ -73,6 +78,7 @@ Versioning].
 [0.0.1]: https://github.com/qeef/josm-scripts/compare/d72f585...v0.0.1
 
 [issue #1]: https://github.com/qeef/josm-scripts/issues/1
+[issue #11]: https://github.com/qeef/josm-scripts/issues/11
 
 [Semantic Versioning]: http://semver.org/
 [Keep a Changelog]: http://keepachangelog.com/
