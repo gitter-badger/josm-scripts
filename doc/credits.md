@@ -3,6 +3,17 @@ Short notes about the history of ideas that drive the development.
 
 Go back to [README](../README.md).
 
+## [Batch buildings] - 2017-09-26
+Credits: [@marxin]
+
+This feature fits to @marxin's workflow - just click as many buildings of same
+kind as possible. It works for batch of circle buildings and for batch of
+orthogonal buildings. Backward compatibility ensured and it was not such big
+pain.
+
+What is new with this feature is that collaboration on github slowly
+establishes.
+
 ## [Click buildings] - 2017-07-25, [MSF Prague office]
 Credits: [@janbohm] and others in pub after Jul 2017 #Prague #Mapathon
 
@@ -35,6 +46,8 @@ clicks and one shortcut keypress is no way. BuildingsTools make the job
 for square buildings but not for circle (and I do not copy + resize them
 because for me it's too heavy too) nor for residential areas.
 
+[Batch buildings]: https://github.com/qeef/josm-scripts/issues/11
+[@marxin]: https://github.com/marxin
 [Click buildings]: ./user/click_buildings.md
 [MSF Prague office]: http://www.lekari-bez-hranic.cz/en
 [@janbohm]: https://twitter.com/janbohm
