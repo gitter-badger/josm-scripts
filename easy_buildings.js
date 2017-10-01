@@ -48,6 +48,32 @@ function easy_cbuilding() {
     return ret;
 }
 
+function batch_cbuilding() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var buildings = [];
+    for (i = 0; i < ds.selection.ways[0].nodes.length - 1; i+=2) {
+        var n1 = ds.selection.ways[0].nodes[i];
+        var n2 = ds.selection.ways[0].nodes[i+1];
+        buildings.push([{"lat": n1.lat, "lon": n1.lon}, {"lat": n2.lat, "lon": n2.lon}]);
+        ds.remove(n1.id, "node");
+        ds.remove(n2.id, "node");
+    }
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ds.remove(nod.id, "node");
+    });
+    ds.selection.ways.forEach(function(way, way_ind, way_ar) {
+        ds.remove(way.id, "way");
+    });
+    for (i = 0; i < buildings.length; i++) {
+        ds.selection.add(
+                ds.wayBuilder.withNodes(
+                    ds.nodeBuilder.withPosition(buildings[i][0].lat, buildings[i][0].lon).create(),
+                    ds.nodeBuilder.withPosition(buildings[i][1].lat, buildings[i][1].lon).create()).create());
+        easy_cbuilding();
+    }
+}
+
 function easy_obuilding() {
     // init
     var cmd = require("josm/command");
@@ -100,6 +126,44 @@ function easy_obuilding() {
     return ret;
 }
 
+function batch_obuilding() {
+    var active_layer = josm.layers.activeLayer;
+    var ds = active_layer.data;
+    var buildings = [];
+    var one_building = false;
+    if (ds.selection.ways[0].nodes.length <= 4) {
+        easy_obuilding();
+        one_building = true;
+    }
+    if (one_building) return;
+    for (i = 0; i < ds.selection.ways[0].nodes.length - 2; i+=3) {
+        var n1 = ds.selection.ways[0].nodes[i];
+        var n2 = ds.selection.ways[0].nodes[i+1];
+        var n3 = ds.selection.ways[0].nodes[i+2];
+        buildings.push([
+                {"lat": n1.lat, "lon": n1.lon},
+                {"lat": n2.lat, "lon": n2.lon},
+                {"lat": n3.lat, "lon": n3.lon}]);
+        ds.remove(n1.id, "node");
+        ds.remove(n2.id, "node");
+        ds.remove(n3.id, "node");
+    }
+    ds.selection.ways[0].nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ds.remove(nod.id, "node");
+    });
+    ds.selection.ways.forEach(function(way, way_ind, way_ar) {
+        ds.remove(way.id, "way");
+    });
+    for (i = 0; i < buildings.length; i++) {
+        ds.selection.add(
+                ds.wayBuilder.withNodes(
+                    ds.nodeBuilder.withPosition(buildings[i][0].lat, buildings[i][0].lon).create(),
+                    ds.nodeBuilder.withPosition(buildings[i][1].lat, buildings[i][1].lon).create(),
+                    ds.nodeBuilder.withPosition(buildings[i][2].lat, buildings[i][2].lon).create()).create());
+        easy_obuilding();
+    }
+}
+
 function easy_rarea() {
     // init
     var cmd = require("josm/command");
@@ -138,7 +202,7 @@ var create_easy_cbuilding = new JSAction({
     name: "Easy Circle Building",
     tooltip: "Create circle building by two clicks",
     onExecute: function() {
-        easy_cbuilding();
+        batch_cbuilding();
 }});
 
 // create easy orthogonal building menu entry
@@ -146,7 +210,7 @@ var create_easy_obuilding = new JSAction({
     name: "Easy Orthogonal Building",
     tooltip: "Create orthogonal building by three clicks",
     onExecute: function() {
-        easy_obuilding();
+        batch_obuilding();
 }});
 
 // create residential area menu entry
