@@ -128,12 +128,11 @@ function create_border(b_orig) {
     var ds = active_layer.data;
     var wb = ds.wayBuilder;
     var nb = ds.nodeBuilder;
+    var border = [];
 
-    var border = new Array();
-
-    for (n in b_orig) {
-        border.push(nb.withPosition(b_orig[n]["lat"], b_orig[n]["lon"]).create());
-    }
+    b_orig.forEach(function(nod, nod_ind, nod_ar) {
+        border.push(nb.withPosition(nod["lat"], nod["lon"]).create());
+    });
 
     expand(border, 0.00006);
 
