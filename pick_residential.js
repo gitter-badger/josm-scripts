@@ -169,7 +169,20 @@ function find_ltrb(nodes) {
 function pick_rarea() {
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
-    var b_orig = graham_scan(ds.selection.nodes);
+    var nb = ds.nodeBuilder;
+    var b_nodes = [];
+    var coords = [];
+    ds.selection.ways.forEach(function(way, way_ind, way_ar) {
+        coords = find_ltrb(way.nodes);
+        b_nodes.push(nb.withPosition(coords[1], coords[0]).create());
+        b_nodes.push(nb.withPosition(coords[3], coords[2]).create());
+        b_nodes.push(nb.withPosition(coords[1], coords[2]).create());
+        b_nodes.push(nb.withPosition(coords[3], coords[0]).create());
+    });
+    var b_orig = graham_scan(b_nodes);
+    b_nodes.forEach(function(nod, nod_ind, nod_ar) {
+        ds.remove(nod.id, "node");
+    });
     ds.selection.clearAll();
     create_border(b_orig);
     ds.selection.clearAll();
