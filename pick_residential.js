@@ -151,6 +151,22 @@ function create_border(b_orig) {
                 {tags: {"landuse" : "residential"}}));
 }
 
+function find_ltrb(nodes) {
+    var max = [];
+    max.push(nodes[0]["lon"]);
+    max.push(nodes[0]["lat"]);
+    max.push(nodes[0]["lon"]);
+    max.push(nodes[0]["lat"]);
+
+    nodes.forEach(function(nod, nod_ind, nod_ar) {
+        if (nod["lon"] < max[0]) max[0] = nod["lon"];
+        if (nod["lat"] < max[1]) max[1] = nod["lat"];
+        if (nod["lon"] > max[2]) max[2] = nod["lon"];
+        if (nod["lat"] > max[3]) max[3] = nod["lat"];
+    });
+    return max;
+}
+
 function pick_rarea() {
     var active_layer = josm.layers.activeLayer;
     var ds = active_layer.data;
