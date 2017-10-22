@@ -7,6 +7,7 @@ Versioning].
 ## [Unreleased]
 ### Added
 - Contributing information.
+- Video tutorial.
 
 ## [0.3.0] - 2017-10-01
 ### Added
