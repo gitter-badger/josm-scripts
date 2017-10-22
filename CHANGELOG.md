@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Added
+- Contributing information.
+
 ## [0.3.0] - 2017-10-01
 ### Added
 - Batch circle building function.

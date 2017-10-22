@@ -13,6 +13,18 @@ For short notes about history of ideas see [credits].
 
 [credits]: ./doc/credits.md
 
+# Contributing
+Please, use the [issues] for any reports. All the feedback is greatly
+appreticiated! All the discussion should be under the proper issue!
+
+For bugs, misbehaviour, malfunction and all other defects use [Bug] label.
+
+For new features, enhancements and proposals use [Feature] label.
+
+[issues]: https://github.com/qeef/josm-scripts/issues
+[Bug]: https://github.com/qeef/josm-scripts/labels/Bug
+[Feature]: https://github.com/qeef/josm-scripts/labels/Feature
+
 # User documentation
 - [Click buildings](./doc/user/click_buildings.md)
 - [Pick residential](./doc/user/pick_residential.md)
