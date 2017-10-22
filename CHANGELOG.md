@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Changed
+- More human-like residential areas.
+
 ## [0.3.0] - 2017-10-01
 ### Added
 - Batch circle building function.
