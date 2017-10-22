@@ -79,49 +79,6 @@ function graham_scan(coords)
     return coords.slice(0, m+1);
 }
 
-function expand(coords, by)
-{
-    var lat_min = 0;
-    var lat_max = 0;
-    var lon_min = 0;
-    var lon_max = 0;
-
-    var lat_middle;
-    var lon_middle;
-
-    var n;
-    var r, phi;
-
-    for (n in coords) {
-        if (coords[n]["lat"] < coords[lat_min]["lat"]) lat_min = n;
-        if (coords[n]["lat"] > coords[lat_max]["lat"]) lat_max = n;
-        if (coords[n]["lon"] < coords[lon_min]["lon"]) lon_min = n;
-        if (coords[n]["lon"] > coords[lon_max]["lon"]) lon_max = n;
-    }
-
-    lat_middle = (coords[lat_max]["lat"] + coords[lat_min]["lat"])/2;
-    lon_middle = (coords[lon_max]["lon"] + coords[lon_min]["lon"])/2;
-
-    for (n in coords) {
-        // @see https://en.wikipedia.org/wiki/Polar_coordinate_system
-        var r = Math.sqrt(
-                (coords[n]["lat"] - lat_middle) *
-                (coords[n]["lat"] - lat_middle) +
-                (coords[n]["lon"] - lon_middle) *
-                (coords[n]["lon"] - lon_middle));
-        var phi = Math.atan2(
-                (coords[n]["lat"] - lat_middle),
-                (coords[n]["lon"] - lon_middle));
-
-        r += by;
-        coords[n].pos = {
-            lat: r * Math.sin(phi) + lat_middle,
-            lon: r * Math.cos(phi) + lon_middle};
-    }
-
-    return 0;
-}
-
 function create_border(b_orig) {
     var cmd = require("josm/command");
     var active_layer = josm.layers.activeLayer;
@@ -133,8 +90,6 @@ function create_border(b_orig) {
     b_orig.forEach(function(nod, nod_ind, nod_ar) {
         border.push(nb.withPosition(nod["lat"], nod["lon"]).create());
     });
-
-    expand(border, 0.00006);
 
     ds.selection.add(wb.withNodes(border[0], border[1]).create());
     for (i = 2; i < border.length; i++) {
@@ -174,10 +129,10 @@ function pick_rarea() {
     var coords = [];
     ds.selection.ways.forEach(function(way, way_ind, way_ar) {
         coords = find_ltrb(way.nodes);
-        b_nodes.push(nb.withPosition(coords[1], coords[0]).create());
-        b_nodes.push(nb.withPosition(coords[3], coords[2]).create());
-        b_nodes.push(nb.withPosition(coords[1], coords[2]).create());
-        b_nodes.push(nb.withPosition(coords[3], coords[0]).create());
+        b_nodes.push(nb.withPosition(coords[1]-0.00006, coords[0]-0.00006).create());
+        b_nodes.push(nb.withPosition(coords[3]+0.00006, coords[2]+0.00006).create());
+        b_nodes.push(nb.withPosition(coords[1]-0.00006, coords[2]+0.00006).create());
+        b_nodes.push(nb.withPosition(coords[3]+0.00006, coords[0]-0.00006).create());
     });
     var b_orig = graham_scan(b_nodes);
     b_nodes.forEach(function(nod, nod_ind, nod_ar) {
