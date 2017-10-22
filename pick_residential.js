@@ -106,19 +106,19 @@ function create_border(b_orig) {
 }
 
 function find_ltrb(nodes) {
-    var max = [];
-    max.push(nodes[0]["lon"]);
-    max.push(nodes[0]["lat"]);
-    max.push(nodes[0]["lon"]);
-    max.push(nodes[0]["lat"]);
+    var ltrb = [];
+    ltrb.push(nodes[0]["lon"]);
+    ltrb.push(nodes[0]["lat"]);
+    ltrb.push(nodes[0]["lon"]);
+    ltrb.push(nodes[0]["lat"]);
 
     nodes.forEach(function(nod, nod_ind, nod_ar) {
-        if (nod["lon"] < max[0]) max[0] = nod["lon"];
-        if (nod["lat"] < max[1]) max[1] = nod["lat"];
-        if (nod["lon"] > max[2]) max[2] = nod["lon"];
-        if (nod["lat"] > max[3]) max[3] = nod["lat"];
+        if (nod["lon"] < ltrb[0]) ltrb[0] = nod["lon"];
+        if (nod["lat"] < ltrb[1]) ltrb[1] = nod["lat"];
+        if (nod["lon"] > ltrb[2]) ltrb[2] = nod["lon"];
+        if (nod["lat"] > ltrb[3]) ltrb[3] = nod["lat"];
     });
-    return max;
+    return ltrb;
 }
 
 function pick_rarea() {
