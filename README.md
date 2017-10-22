@@ -18,13 +18,28 @@ For short notes about history of ideas see [credits].
 Please, use the [issues] for any reports. All the feedback is greatly
 appreticiated! All the discussion should be under the proper issue!
 
+## Bugs
 For bugs, misbehaviour, malfunction and all other defects use [Bug] label.
 
+## Features
 For new features, enhancements and proposals use [Feature] label.
+
+## Contributing to source code
+If you are interested in contributing to source code feel free to join the
+discussion in [issues]. For quick orientation in project you may see the
+[changelog]. The project is developed under [GNU GPLv3 license].
+
+Please, think about [The seven rules of a great Git commit message] when making
+commit. The project use [OneFlow] branching model with the `master` branch as
+the branch where the development happens.
 
 [issues]: https://github.com/qeef/josm-scripts/issues
 [Bug]: https://github.com/qeef/josm-scripts/labels/Bug
 [Feature]: https://github.com/qeef/josm-scripts/labels/Feature
+[GNU GPLv3 license]: ./LICENSE
+[changelog]: ./CHANGELOG.md
+[The seven rules of a great Git commit message]: https://chris.beams.io/posts/git-commit/
+[OneFlow]: http://endoflineblog.com/oneflow-a-git-branching-model-and-workflow
 
 # User documentation
 - [Click buildings](./doc/user/click_buildings.md)
