@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+
+## [0.3.1] - 2017-11-06
 ### Changed
 - More human-like residential areas.
 
@@ -72,7 +74,8 @@ Versioning].
 ### Changed
 - Reformat readme file to correspond to changelog file.
 
-[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/qeef/josm-scripts/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/qeef/josm-scripts/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/qeef/josm-scripts/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/qeef/josm-scripts/compare/v0.0.3...v0.1.0
