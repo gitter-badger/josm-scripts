@@ -38,7 +38,7 @@ because for me it's too heavy too) nor for residential areas.
 [Click buildings]: ./user/click_buildings.md
 [MSF Prague office]: http://www.lekari-bez-hranic.cz/en
 [@janbohm]: https://twitter.com/janbohm
-[Pick residential]: ./user/easy_autoresidential.md
+[Pick residential]: ./user/pick_residential.md
 [SVĚT-HUB]: http://www.svet-hub.cz/
 [@Piskvor]: https://github.com/piskvor
 [Easy buildings]: ./user/easy_buildings.md

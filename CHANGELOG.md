@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Fixed
+- Fix link in credits.
 
 ## [0.3.2] - 2018-03-27
 ### Changed
