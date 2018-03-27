@@ -7,7 +7,7 @@ Versioning].
 ## [Unreleased]
 ### Changed
 - Rename *Pick residential* in credits.
-- Reorder scripts in README.
+- Reorder scripts in [README].
 
 ## [0.3.1] - 2017-11-06
 ### Changed
@@ -35,7 +35,7 @@ Versioning].
   the middle of the buildings.
 
 ### Fixed
-- Missing API documentation links in readme.
+- Missing API documentation links in [README].
 
 ## [0.1.0] - 2017-09-13
 ### Added
@@ -75,7 +75,7 @@ Versioning].
 - Script for automatically creating residential area around selected buildings.
 
 ### Changed
-- Reformat readme file to correspond to changelog file.
+- Reformat [README] file to correspond to changelog file.
 
 [Unreleased]: https://github.com/qeef/josm-scripts/compare/v0.3.1...HEAD
 [0.3.1]: https://github.com/qeef/josm-scripts/compare/v0.3.0...v0.3.1
@@ -91,3 +91,5 @@ Versioning].
 
 [Semantic Versioning]: http://semver.org/
 [Keep a Changelog]: http://keepachangelog.com/
+
+[README]: README.md
