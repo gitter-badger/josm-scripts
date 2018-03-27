@@ -42,11 +42,11 @@ the branch where the development happens.
 [OneFlow]: http://endoflineblog.com/oneflow-a-git-branching-model-and-workflow
 
 # User documentation
-- [Click buildings](./doc/user/click_buildings.md)
-- [Pick residential](./doc/user/pick_residential.md)
 - [Easy buildings](./doc/user/easy_buildings.md)
+- [Pick residential](./doc/user/pick_residential.md)
+- [Click buildings (experimental)](./doc/user/click_buildings.md)
 
 # API documentation
-- [Click buildings](./doc/api/click_buildings.md)
-- [Pick residential](./doc/api/pick_residential.md)
 - [Easy buildings](./doc/api/easy_buildings.md)
+- [Pick residential](./doc/api/pick_residential.md)
+- [Click buildings (experimental)](./doc/api/click_buildings.md)

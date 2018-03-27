@@ -29,7 +29,7 @@ written over 500 lines of code. Deleted twice as much. And still have terrible
 results. In that time of despair my dad came with the idea that evolved to
 implemented algorithm.
 
-## [Easy autoresidential] - 2017-03-28, [SVĚT-HUB]
+## [Pick residential] - 2017-03-28, [SVĚT-HUB]
 Credits: [@Piskvor]
 
 We discussed `easy_buildings` that was not usable for @Piskvor because it
@@ -51,7 +51,7 @@ because for me it's too heavy too) nor for residential areas.
 [Click buildings]: ./user/click_buildings.md
 [MSF Prague office]: http://www.lekari-bez-hranic.cz/en
 [@janbohm]: https://twitter.com/janbohm
-[Easy autoresidential]: ./user/easy_autoresidential.md
+[Pick residential]: ./user/easy_autoresidential.md
 [SVĚT-HUB]: http://www.svet-hub.cz/
 [@Piskvor]: https://github.com/piskvor
 [Easy buildings]: ./user/easy_buildings.md
