@@ -7,6 +7,7 @@ Versioning].
 ## [Unreleased]
 ### Changed
 - Rename *Pick residential* in credits.
+- Reorder scripts in README.
 
 ## [0.3.1] - 2017-11-06
 ### Changed
