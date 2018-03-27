@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog] and this project adheres to [Semantic
 Versioning].
 
 ## [Unreleased]
+### Changed
+- Rename *Pick residential* in credits.
 
 ## [0.3.1] - 2017-11-06
 ### Changed
