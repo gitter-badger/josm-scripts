@@ -9,6 +9,11 @@ Versioning].
 - Contributing information.
 - Video tutorial.
 
+### Changed
+- Project became testing platform after [Mapathoner JOSM plugin] release.
+
+[Mapathoner JOSM plugin]: https://github.com/qeef/mapathoner
+
 ## [0.3.3] - 2018-03-27
 ### Fixed
 - Fix link in credits.
