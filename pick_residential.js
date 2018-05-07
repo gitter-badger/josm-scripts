@@ -33,7 +33,6 @@ function graham_scan(coords)
 {
     n_min = coords[0], n_min_i=0;
     m = 0;
-    border = new Array();
 
     for (n in coords) {
         if (coords[n]["lat"] < n_min["lat"]) {
