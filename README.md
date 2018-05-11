@@ -1,4 +1,7 @@
 # JOSM scripts
+
+[![Join the chat at https://gitter.im/josm-scripts/Lobby](https://badges.gitter.im/josm-scripts/Lobby.svg)](https://gitter.im/josm-scripts/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This project became testing platform for ideas that could be included to
 [Mapathoner JOSM plugin].
 
